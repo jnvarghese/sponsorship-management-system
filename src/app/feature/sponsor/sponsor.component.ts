@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { sponsor } from '../model/sponsor';
-import { sponsorService } from '../shared/service/sponsor.service';
+import { Sponsor } from '../model/sponsor';
+import { SponsorService } from '../shared/service/sponsor.service';
 
 @Component({
   selector: 'app-sponsor',
   templateUrl: './sponsor.component.html',
   styleUrls: ['./sponsor.component.css']
 })
-export class sponsorComponent implements OnInit {
+export class SponsorComponent implements OnInit {
 
-  private sponsors: sponsor[];
+  private sponsors: Sponsor[];
 
-  constructor(private sponsorService: sponsorService) { }
+  constructor(private sponsorService: SponsorService) { }
 
   ngOnInit() {
    this.sponsorService.getsponsor().subscribe(data => {

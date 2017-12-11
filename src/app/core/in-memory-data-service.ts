@@ -1,9 +1,9 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
-import { Student, sponsor } from '../feature/model/index';
+import { Student, Sponsor } from '../feature/model/index';
 
 export class InMemoryDataService implements InMemoryDbService {
  createDb() {
-   const sponsors:sponsor[] = [
+   const sponsors:Sponsor[] = [
      { id: 1, name: 'Windstorm', active:true},
      { id: 2, name: 'Bombasto', active:true },
      { id: 3, name: 'Magneta', active:false },

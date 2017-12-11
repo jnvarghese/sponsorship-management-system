@@ -9,11 +9,11 @@ import { appRoutes } from './routes';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import {
-  sponsorComponent,
-  sponsorDetailComponent,
+  SponsorComponent,
+  SponsorDetailComponent,
   StudentDetailComponent,
   StudentService,
-  sponsorService,
+  SponsorService,
   DashboardComponent,
   PageNotFoundComponent,
   HeaderComponent,
@@ -51,7 +51,7 @@ declare let jQuery: Object;
   ],
   providers: [
     StudentService, 
-    sponsorService,
+    SponsorService,
     JQUERY_PROVIDER
   ],
   bootstrap: [AppComponent]

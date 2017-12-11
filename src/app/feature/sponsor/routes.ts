@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { sponsorComponent } from './sponsor.component';
-import { sponsorDetailComponent } from './sponsor-detail/sponsor-detail.component'
+import { SponsorComponent } from './sponsor.component';
+import { SponsorDetailComponent } from './sponsor-detail/sponsor-detail.component'
 
 export const sponsorRoutes: Routes = [
-    { path: 'sponsors', component: sponsorComponent },
-    { path: 'createsponsor', component: sponsorDetailComponent },
-    { path: 'studentdetail/:id', component: sponsorDetailComponent }    
+    { path: 'sponsors', component: SponsorComponent },
+    { path: 'createsponsor', component: SponsorDetailComponent },
+    { path: 'studentdetail/:id', component: SponsorDetailComponent }    
   ];
 
-export const sponsorRoutingComponents = [sponsorComponent, sponsorDetailComponent];
+export const sponsorRoutingComponents = [SponsorComponent, SponsorDetailComponent];

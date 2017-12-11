@@ -6,7 +6,9 @@ import {
   studentRoutes,
   sponsorRoutes,
   sponsorRoutingComponents,
-  studentRoutingComponents
+  studentRoutingComponents,
+  manageSponsorRoutes,
+  manageSponsorRoutingComponents,
 } from './feature/index';
 import { EnrollmentComponent } from "./feature/enrollment/enrollment.component";
 
@@ -14,8 +16,10 @@ export const appRoutes: Routes = [
     { path: '', redirectTo: '/dashboard', pathMatch: 'full'},
     { path: 'dashboard', component: DashboardComponent },      
     { path: 'enroll', component: EnrollmentComponent },
+   
     ...studentRoutes,
     ...sponsorRoutes,
+    ...manageSponsorRoutes,
     { path: '**', component: PageNotFoundComponent }
   ];
 @NgModule({
@@ -28,5 +32,6 @@ export const appRoutingComponents = [
   EnrollmentComponent,
   PageNotFoundComponent,
   studentRoutingComponents,
-  sponsorRoutingComponents
+  sponsorRoutingComponents,
+  manageSponsorRoutingComponents
 ];
