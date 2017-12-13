@@ -20,7 +20,7 @@ import {
   FooterComponent,
   JQUERY_PROVIDER} from './feature/index';
 import { appRoutingComponents, AppRoutingModule } from './index';
-import { EnrollmentComponent } from "./feature/enrollment/enrollment.component";
+import { EnrollmentComponent } from './feature/enrollment/enrollment.component';
 
 declare let jQuery: Object;
 
@@ -50,7 +50,7 @@ declare let jQuery: Object;
     ) // https://angular.io/tutorial/toh-pt6
   ],
   providers: [
-    StudentService, 
+    StudentService,
     SponsorService,
     JQUERY_PROVIDER
   ],

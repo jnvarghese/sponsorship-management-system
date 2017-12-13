@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-student-detail',
@@ -9,13 +9,15 @@ import { FormControl, FormGroup, Validators } from '@angular/forms'
 })
 export class StudentDetailComponent implements OnInit {
 
+  isStudentSaved: boolean;
   constructor(private router: Router) { }
   addStudentForm: FormGroup;
   firstName = new FormControl('', Validators.required);
   lastName = new FormControl('', Validators.required);
   dateOfBirth = new FormControl('', Validators.required);
   address = new FormControl('', Validators.required);
-  //gender = new FormControl(Validators.required);
+  // gender = new FormControl(Validators.required);
+
   ngOnInit() {
     this.addStudentForm = new FormGroup({
       firstName: this.firstName,
@@ -25,10 +27,13 @@ export class StudentDetailComponent implements OnInit {
       // gender: this.gender
     });
   }
+
   saveStudentDetails(studentFormvalue) {
-    console.log(' save called');
-    this.router.navigate(['/students']);
+    if (this.addStudentForm.valid) {
+      this.isStudentSaved = true;
+    }
   }
+
   cancel() {
     this.router.navigate(['/students']);
   }

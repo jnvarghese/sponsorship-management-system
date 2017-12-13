@@ -10,9 +10,9 @@ import { Router } from '@angular/router';
 })
 export class StudentComponent implements OnInit {
 
-  private students: Student[];
+  public students: Student[];
 
-  constructor(private router: Router,private studentService: StudentService) { }
+  constructor(private router: Router, private studentService: StudentService) { }
 
   ngOnInit() {
    this.studentService.getStudents().subscribe(data => {
@@ -21,9 +21,8 @@ export class StudentComponent implements OnInit {
     });
   }
 
-  createNewStudent(){
+  createNewStudent() {
     this.router.navigate(['./createStudent']);
-    
   }
 
 }

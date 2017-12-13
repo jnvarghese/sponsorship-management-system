@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { Sponsor } from '../../model/index';
+import { Subject } from 'rxjs/Subject';
+import { SponsorService } from '../../shared/service/sponsor.service';
 
 @Component({
   selector: 'app-sponsor-list',
@@ -7,15 +11,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SponsorListComponent implements OnInit {
 
-  constructor() { }
-  SEARCH_RESULTS= [
-    {id:1, name:'Sponsor One'},
-    {id:2, name:'Sponson Two'},
-    {id:3, name:'Sponsor Three'},
-    {id:4, name:'Sponsor Four'},
-    {id:5, name:'Sponsor Five'}
-  ]
-  ngOnInit() {
-  }
+  sponsers: Observable<Sponsor[]>;
 
+  private searchTerms = new Subject<string>();
+
+  constructor(private sponsorService: SponsorService) {}
+
+  ngOnInit() {
+    this.sponsers = this.searchTerms
+    .debounceTime(300)        // wait for 300ms pause in events
+    .distinctUntilChanged()   // ignore if next search term is same as previous
+    .switchMap(term => term   // switch to new observable each time
+      // return the http search observable
+      ? this.sponsorService.search(term)
+      // or the observable of empty sponsor if no search term
+      : Observable.of<Sponsor[]>([]))
+    .catch(error => {
+      // TODO: real error handling
+      console.log(`Error in component ... ${error}`);
+      return Observable.of<Sponsor[]>([]);
+    });
+  }
+  searchSponsor(term: string): void {
+    // Push a search term into the observable stream.
+    this.searchTerms.next(term);
+  }
 }

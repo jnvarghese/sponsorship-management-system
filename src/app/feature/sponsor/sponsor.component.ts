@@ -9,12 +9,12 @@ import { SponsorService } from '../shared/service/sponsor.service';
 })
 export class SponsorComponent implements OnInit {
 
-  private sponsors: Sponsor[];
+  public sponsors: Sponsor[];
 
   constructor(private sponsorService: SponsorService) { }
 
   ngOnInit() {
-   this.sponsorService.getsponsor().subscribe(data => {
+   this.sponsorService.getSponsor().subscribe(data => {
       // Read the result field from the JSON response.
       this.sponsors = data;
     });

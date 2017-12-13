@@ -1,7 +1,13 @@
+import { Contribution } from './contribution';
+
 export class Student {
-  id: number;
-  name: string;
-  gender: string;
-  issponsored: boolean;
+
+  constructor(
+    public id: number,
+    public name: string,
+    public gender: string,
+    public isSponsored: boolean,
+    public contributions?: Contribution[]
+  ) { }
 }
 

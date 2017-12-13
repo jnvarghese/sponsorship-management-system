@@ -10,20 +10,21 @@ import {
   manageSponsorRoutes,
   manageSponsorRoutingComponents,
 } from './feature/index';
-import { EnrollmentComponent } from "./feature/enrollment/enrollment.component";
+
+import { EnrollmentComponent } from './feature/enrollment/enrollment.component';
 
 export const appRoutes: Routes = [
     { path: '', redirectTo: '/dashboard', pathMatch: 'full'},
-    { path: 'dashboard', component: DashboardComponent },      
+    { path: 'dashboard', component: DashboardComponent },
     { path: 'enroll', component: EnrollmentComponent },
-   
     ...studentRoutes,
     ...sponsorRoutes,
     ...manageSponsorRoutes,
     { path: '**', component: PageNotFoundComponent }
   ];
+
 @NgModule({
-    imports: [RouterModule.forRoot(appRoutes)], //, { enableTracing: true }
+    imports: [RouterModule.forRoot(appRoutes)], // ,{ enableTracing: true }
     exports: [RouterModule],
 })
 export class AppRoutingModule { }

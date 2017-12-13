@@ -1,3 +1,58 @@
-<p>
-  sponsor-detail works!
-</p>
+<form class="form-horizontal" [formGroup]="addSponsorForm" (ngSubmit)="saveSponsorDetails(addSponsorForm.value)" style="margin-top:90px">
+    <div class="alert alert-success"  *ngIf = "isSponsorSaved" >
+          <strong>Success!</strong> Added a new Sponsor
+        </div>
+  <h2>Add new Sponsor Details</h2>
+  <p>Please enter following details to successfuly add a sponsor.</p>
+  <div class="form-group" [ngClass]="{'error': firstName?.invalid && firstName?.touched}">
+    <label for="firstName" class="col-sm-2 control-label">First Name</label>
+    <div class="col-sm-10">
+      <input formControlName="firstName" id="firstName" class="form-control" type="text" placeholder="First Name" />
+      <em *ngIf="firstName?.invalid && firstName?.touched">Required</em>
+    </div>
+  </div>
+  <div class="form-group" [ngClass]="{'error': lastName?.invalid && lastName?.touched}">
+    <label for="lastName" class="col-sm-2 control-label">Last Name</label>
+    <div class="col-sm-10">
+      <input formControlName="lastName" id="lastName" class="form-control" type="text" placeholder="Last Name" />
+      <em *ngIf="lastName?.invalid && lastName?.touched">Required</em>
+    </div>
+  </div>
+  <div class="form-group" [ngClass]="{'error': dateOfBirth?.invalid && dateOfBirth?.touched}">
+    <label for="dateOfBirth" class="col-sm-2 control-label">Date of Birth</label>
+    <div class="col-sm-10">
+      <input formControlName="dateOfBirth" id="dateOfBirth" class="form-control" type="text" placeholder="Date of Birth" />
+      <em *ngIf="dateOfBirth?.invalid && dateOfBirth?.touched">Required</em>
+    </div>
+  </div>
+  <div class="form-group"  [ngClass]="{'error': address?.invalid && address?.touched}">
+    <label for="address" class="col-sm-2 control-label">Address</label>
+    <div class="col-sm-10">
+      <input formControlName="address" id="address" class="form-control" type="text" placeholder="Address" />
+      <em *ngIf="address?.invalid && address?.touched">Required</em>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="gender" class="col-sm-2 control-label">Gender</label>
+    <div class="col-sm-10">
+      <div class="btn-group btn-group-sm" data-toggle="buttons">
+
+        <label class="btn btn-success">
+          <input type="radio" id="male">Male
+        </label>
+        <label class="btn btn-success">
+          <input type="radio" id="female">Female
+        </label>
+        <label class="btn btn-success">
+          <input type="radio" id="other">Other
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit"  class="btn btn-primary btn-sm" [disabled]="addSponsorForm.invalid">Submit</button>
+      <button type="button" (click)="cancel()" class="btn btn-primary btn-sm">Cancel</button>
+    </div>
+  </div>
+</form>

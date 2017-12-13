@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { SponsorService } from '../../shared/service/sponsor.service';
+import { SponsorshipInfo } from '../../model/index';
 
 @Component({
   selector: 'app-sponsor-action',
@@ -7,15 +9,17 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./sponsor-action.component.css']
 })
 export class SponsorActionComponent implements OnInit {
-  selectedChild: any;
-  constructor(private route: ActivatedRoute) { }
+
+  info: SponsorshipInfo;
+
+  constructor(private route: ActivatedRoute, private sponsorService: SponsorService) { }
 
   ngOnInit() {
     this.route.params.subscribe((params: { id: string }) => {
-      //this.childrenService.findChild(+params.id).subscribe((c) => {
-          this.selectedChild = params.id
-      //});
-  });
+      this.sponsorService.getSponsorShipInfo(+params.id).subscribe((info) => {
+        this.info = info[0];
+      });
+    });
   }
 
 }

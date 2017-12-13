@@ -1,0 +1,6 @@
+.form-horizontal .control-label{
+    text-align:left;
+
+}
+em {color:#E05C65; padding-left:10px;}
+.error input {background-color:#E3C3C5;}
