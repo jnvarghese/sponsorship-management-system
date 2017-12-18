@@ -13,19 +13,19 @@ const httpOptions = {
 };
 
 @Injectable()
-export class SponsorService {
+export class SponsorService<T> {
 
   private sponsorUrl = 'api/sponsors';  // URL to web api
 
   constructor(private http: HttpClient) { }
 
   /** GET heroes from the server */
-  getSponsor(): Observable<Sponsor[]> {
-    return this.http.get<Sponsor[]>(this.sponsorUrl);
+  getSponsor(): Observable<T[]> {
+    return this.http.get<T[]>(this.sponsorUrl);
   }
 
-  search(term: string): Observable<Sponsor[]> {
-    return this.http.get<Sponsor[]>(`${this.sponsorUrl}/?name=${term}`)
+  search(term: string): Observable<T[]> {
+    return this.http.get<T[]>(`${this.sponsorUrl}/?name=${term}`)
       .catch((error: any) => {
           console.error('An friendly error occurred', error);
           return Observable.throw(error.message || error);

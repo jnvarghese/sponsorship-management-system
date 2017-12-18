@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
-import { JQ_TOKEN, SponsorService } from '../index';
-import { Sponsor } from '../model/index';
+import { JQ_TOKEN, SponsorService, StudentService } from '../index';
+import { Sponsor, Student } from '../model/index';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 
@@ -18,13 +18,17 @@ import 'rxjs/add/operator/switchMap';
 export class EnrollmentComponent implements OnInit {
 
   sponsers: Observable<Sponsor[]>;
-  private searchTerms = new Subject<string>();
+  students: Observable<Student[]>;
+  private sponsorSearchTerms = new Subject<string>();
+  private studentSearchTerms = new Subject<string>();
 
-  constructor(private sponsorService: SponsorService, @Inject(JQ_TOKEN) private $: any) { }
+  constructor(private sponsorService: SponsorService<Sponsor>,
+    private studentService: StudentService,
+     @Inject(JQ_TOKEN) private $: any) { }
   @ViewChild('modalcontainer') containerEl: ElementRef;
 
   ngOnInit() {
-    this.sponsers = this.searchTerms
+    this.sponsers = this.sponsorSearchTerms
       .debounceTime(300)        // wait for 300ms pause in events
       .distinctUntilChanged()   // ignore if next search term is same as previous
       .switchMap(term => term   // switch to new observable each time
@@ -36,6 +40,20 @@ export class EnrollmentComponent implements OnInit {
         // TODO: real error handling
         console.log(`Error in component ... ${error}`);
         return Observable.of<Sponsor[]>([]);
+      });
+
+     this.students = this.studentSearchTerms
+      .debounceTime(300)        // wait for 300ms pause in events
+      .distinctUntilChanged()   // ignore if next search term is same as previous
+      .switchMap(term => term   // switch to new observable each time
+        // return the http search observable
+        ? this.studentService.search(term)
+        // or the observable of empty sponsor if no search term
+        : Observable.of<Student[]>([]))
+      .catch(error => {
+        // TODO: real error handling
+        console.log(`Error in component ... ${error}`);
+        return Observable.of<Student[]>([]);
       });
 
       let jQ = this.$;
@@ -77,7 +95,11 @@ export class EnrollmentComponent implements OnInit {
 
   searchSponsor(term: string): void {
     // Push a search term into the observable stream.
-    this.searchTerms.next(term);
+    this.sponsorSearchTerms.next(term);
   }
 
+  searchStudent(term: string): void {
+    // Push a search term into the observable stream.
+    this.studentSearchTerms.next(term);
+  }
 }

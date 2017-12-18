@@ -7,3 +7,9 @@
     line-height: 1.428571429;
     border-radius: 25px;    
 }
+.list-group {
+    margin-bottom: 5px;
+}
+.list-group-item {
+    padding: 5px 10px;
+}

@@ -15,7 +15,7 @@ export class SponsorListComponent implements OnInit {
 
   private searchTerms = new Subject<string>();
 
-  constructor(private sponsorService: SponsorService) {}
+  constructor(private sponsorService: SponsorService<Sponsor>) {}
 
   ngOnInit() {
     this.sponsers = this.searchTerms
