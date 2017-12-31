@@ -46,7 +46,7 @@
           </div>
         </div>
         <ul class="list-group" *ngFor="let sponsor of sponsers | async">
-          <li class="list-group-item">{{sponsor.name}}</li>
+          <li class="list-group-item" (click)="selectSponsor(sponsor)">{{sponsor.name}}</li>
         </ul>
         <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
       </div>
@@ -63,7 +63,7 @@
           </div>
         </div>
         <ul class="list-group " *ngFor="let student of students | async">
-          <li class="list-group-item">{{student.name}}</li>
+          <li class="list-group-item" (click)="selectStudent(student)">{{student.name}}</li>
         </ul>
         <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
       </div>

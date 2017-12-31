@@ -1,28 +1,54 @@
-<div class="row">
-    <div class="col-sm-6">
-        <p>{{info?.name}}</p>
-    </div>
-    <div class="col-sm-6">
-        <p>{{info?.isActive}}</p>
-    </div>
-    <div class="row" *ngFor="let student of info?.students">
-        <div class="col-sm-1">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-6">
+            <p>{{info?.name}}</p>
         </div>
-        <div class="col-sm-11">
-            <p>{{student.name}}</p>
+        <div class="col-sm-6">
+            <p>{{info?.isActive}}</p>
         </div>
-        <div class="row" *ngFor="let contributions of student.contributions">
-            <div class="col-sm-3">
+    </div>
+    <div class="panel-group" id="accordion">
+        <div class="panel panel-default" *ngFor="let student of info?.students; let i = index">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#student{{student.id}}">
+                            {{student.name}}
+                    </a>
+                </h4>
             </div>
-            <div class="col-sm-3">
-                <p>{{contributions?.dateReceived}}</p>
-            </div>
-            <div class="col-sm-3">
-                <p>{{contributions?.amount}}</p>
-            </div>
-            <div class="col-sm-3">
-                <p>{{contributions?.status}}</p>
+            <div id="student{{student.id}}" class="panel-collapse collapse">          
+                <div class="panel-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th class="col-sm-offset-1 col-sm-4">
+                                    <p>Date Received</p>
+                                </th>
+                                <th class="col-sm-4">
+                                    <p>Amount</p>
+                                </th>
+                                <th class="col-sm-3">
+                                    <p>Status</p>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let contributions of student.contributions">
+                                <td class="col-sm-offset-1 col-sm-4">
+                                    <p>{{contributions?.dateReceived}}</p>
+                                </td>
+                                <td class="col-sm-4">
+                                    <p>{{contributions?.amount}}</p>
+                                </td>
+                                <td class="col-sm-3">
+                                    <p>{{contributions?.status}}</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 </div>
+<!-- end container -->

@@ -42,7 +42,7 @@ export class InMemoryDataService implements InMemoryDbService {
               isSponsored: true,
               contributions: [
                 { id: 1, dateReceived: '09/09/2013', amount: '50.00', status: 'Completed' },
-                { id: 2, dateReceived: '09/09/2014', amount: '60.00', status: 'Completed' }, ,
+                { id: 2, dateReceived: '09/09/2014', amount: '60.00', status: 'Completed' },
                 { id: 3, dateReceived: '09/09/2015', amount: '70.00', status: 'Completed' },
               ]
             }

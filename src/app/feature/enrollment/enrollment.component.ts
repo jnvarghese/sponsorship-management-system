@@ -17,6 +17,8 @@ import 'rxjs/add/operator/switchMap';
 })
 export class EnrollmentComponent implements OnInit {
 
+  selectedSponsor: Sponsor;
+  selectedStudent: Student;
   sponsers: Observable<Sponsor[]>;
   students: Observable<Student[]>;
   private sponsorSearchTerms = new Subject<string>();
@@ -102,4 +104,13 @@ export class EnrollmentComponent implements OnInit {
     // Push a search term into the observable stream.
     this.studentSearchTerms.next(term);
   }
+
+  selectSponsor(sponsor: Sponsor){
+    console.log(sponsor);
+  }
+
+  selectStudent(student: Student){
+    console.log(student);
+  }
+
 }
