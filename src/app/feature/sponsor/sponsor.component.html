@@ -1,16 +1,33 @@
 <div class="container" style="margin-top:70px">
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let sponsor of sponsors">
-        <td>{{ sponsor.name }}</td>
-        <td>{{ sponsor.active }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <h2>Sponser List</h2>
+  <p>This list displays the sponser list</p>
+  <div class="row">
+    <div class="col-sm-12">
+      <button type="submit" (click)="addSponser()" class="btn btn-primary btn-xs">Add Sponser</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Parish</th>
+            <th>Co-Sponser</th>
+            <th>Sponsership Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let sponsor of sponsors">
+            <td>{{ sponsor.firstName }}</td>
+            <td>{{ sponsor.lastName }}</td>
+            <td>{{ sponsor?.parish.name }}</td>
+            <td>{{ sponsor.hasAnyCoSponser === true ? 'Yes' : 'No' }}</td>
+            <td>{{ sponsor.IsActive === true ? 'Active' : 'Not Active' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>

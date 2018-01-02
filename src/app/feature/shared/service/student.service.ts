@@ -1,23 +1,35 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Headers, Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 // import { of } from 'rxjs/observable/of';
 // import { catchError, map, tap } from 'rxjs/operators';
 import { Student } from '../../model/student';
 
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
+
 @Injectable()
 export class StudentService {
 
   private studentsUrl = 'api/students';  // URL to web api
 
-  constructor( private http: HttpClient) { }
+  constructor(private http: Http) { }
 
   /** GET Studentes from the server */
-  getStudents (): Observable<Student[]> {
-    return this.http.get<Student[]>(this.studentsUrl);
+  getStudents(): Promise<Array<Student>> {
+    return this.http.get(this.studentsUrl).toPromise()
+      .then((response) => {
+        return response.json().data as Student[];
+      })
+      .catch(this.handleError);
+  }
+
+  /** GET Studentes from the server */
+  getStudent(id: number): Promise<Student> {
+    return this.http.get(`${this.studentsUrl}/?id=${id}`).toPromise()
+    .then((response) => {
+      return response.json().data as Student;
+    })
+    .catch(this.handleError);
+  
   }
 
   save(student: Student): Promise<Student> {
@@ -30,8 +42,11 @@ export class StudentService {
 
   // Add new Student
   private post(student: Student): Promise<Student> {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
     return this.http
-      .post(this.studentsUrl, JSON.stringify(student), httpOptions)
+      .post(this.studentsUrl, JSON.stringify(student), { headers: headers })
       .toPromise()
       .then(() => student)
       .catch(this.handleError);
@@ -41,9 +56,11 @@ export class StudentService {
   private put(student: Student): Promise<Student> {
 
     const url = `${this.studentsUrl}/${student.id}`;
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
 
     return this.http
-      .put(url, JSON.stringify(student), httpOptions)
+      .put(url, JSON.stringify(student), { headers: headers })
       .toPromise()
       .then(() => student)
       .catch(this.handleError);
@@ -54,11 +71,11 @@ export class StudentService {
     return Promise.reject(error.message || error);
   }
 
-  search(term: string): Observable<Student[]> {
-    return this.http.get<Student[]>(`${this.studentsUrl}/?name=${term}`)
+  search(term: string): Observable<any> {
+    return this.http.get(`${this.studentsUrl}/?name=${term}`)
       .catch((error: any) => {
-          console.error('An friendly error occurred', error);
-          return Observable.throw(error.message || error);
+        console.error('An friendly error occurred', error);
+        return Observable.throw(error.message || error);
       });
   }
 }

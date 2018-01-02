@@ -1,13 +1,19 @@
-import { Contribution } from './contribution';
+import { Project, Contribution } from "./index";
 
 export class Student {
-
-  constructor(
-    public id: number,
-    public name: string,
-    public gender: string,
-    public isSponsored: boolean,
-    public contributions?: Contribution[]
-  ) { }
+  id: number;
+  firstName: string;
+  lastName: string;
+  gender: string;
+  dateOfBirth: string;
+  address: string;
+  isSponsored: boolean;
+  project: Project;
+  hobbies?: string;
+  talent?: string;
+  recentAchivements?: string[];
+  middleName?: string;
+  profilePicture?: string;
+  contributions?: Contribution[]
 }
 

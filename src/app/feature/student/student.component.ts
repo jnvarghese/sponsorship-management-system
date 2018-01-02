@@ -10,18 +10,17 @@ import { Router } from '@angular/router';
 })
 export class StudentComponent implements OnInit {
 
-  public students: Student[];
+  public students: Array<Student>;
 
   constructor(private router: Router, private studentService: StudentService) { }
 
   ngOnInit() {
-   this.studentService.getStudents().subscribe(data => {
-      // Read the result field from the JSON response.
+   this.studentService.getStudents().then(data => {
       this.students = data;
     });
   }
 
-  createNewStudent() {
+  addStudent() {
     this.router.navigate(['./createStudent']);
   }
 

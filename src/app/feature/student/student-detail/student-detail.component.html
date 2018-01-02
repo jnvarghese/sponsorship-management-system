@@ -1,58 +1,113 @@
-<form class="form-horizontal" [formGroup]="addStudentForm" (ngSubmit)="saveStudentDetails(addStudentForm.value)" style="margin-top:90px">
-    <div class="alert alert-success"  *ngIf = "(isStudentSaved) && (addStudentForm.valid)" >
-          <strong>Success!</strong> Added new student
-        </div>
+<div class="form-horizontal" style="margin-top:90px">
+  <div class="alert alert-success" *ngIf="(isStudentSaved)">
+    <strong>Success!</strong> Added new student
+  </div>
   <h2>Create new Student</h2>
   <p>Please enter following details to successfuly create a student.</p>
-  <div class="form-group" [ngClass]="{'error': firstName?.invalid && firstName?.touched}">
-    <label for="firstName" class="col-sm-2 control-label">First Name</label>
-    <div class="col-sm-10">
-      <input formControlName="firstName" id="firstName" class="form-control" type="text" placeholder="First Name" />
-      <em *ngIf="firstName?.invalid && firstName?.touched">Required</em>
-    </div>
-  </div>
-  <div class="form-group" [ngClass]="{'error': lastName?.invalid && lastName?.touched}">
-    <label for="lastName" class="col-sm-2 control-label">Last Name</label>
-    <div class="col-sm-10">
-      <input formControlName="lastName" id="lastName" class="form-control" type="text" placeholder="Last Name" />
-      <em *ngIf="lastName?.invalid && lastName?.touched">Required</em>
-    </div>
-  </div>
-  <div class="form-group" [ngClass]="{'error': dateOfBirth?.invalid && dateOfBirth?.touched}">
-    <label for="dateOfBirth" class="col-sm-2 control-label">Date of Birth</label>
-    <div class="col-sm-10">
-      <input formControlName="dateOfBirth" id="dateOfBirth" class="form-control" type="text" placeholder="Date of Birth" />
-      <em *ngIf="dateOfBirth?.invalid && dateOfBirth?.touched">Required</em>
-    </div>
-  </div>
-  <div class="form-group"  [ngClass]="{'error': address?.invalid && address?.touched}">
-    <label for="address" class="col-sm-2 control-label">Address</label>
-    <div class="col-sm-10">
-      <input formControlName="address" id="address" class="form-control" type="text" placeholder="Address" />
-      <em *ngIf="address?.invalid && address?.touched">Required</em>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="gender" class="col-sm-2 control-label">Gender</label>
-    <div class="col-sm-10">
-      <div class="btn-group btn-group-sm" data-toggle="buttons">
-
-        <label class="btn btn-success">
-          <input type="radio" id="male">Male
-        </label>
-        <label class="btn btn-success">
-          <input type="radio" id="female">Female
-        </label>
-        <label class="btn btn-success">
-          <input type="radio" id="other">Other
-        </label>
+  <div>
+    <label>id: </label>{{student.id}}</div>
+  <div>
+    <div class="form-group">
+      <label for="firstName" class="col-sm-2 control-label">First Name</label>
+      <div class="col-sm-10">
+        <input id="firstName" 
+        class="form-control" [(ngModel)]="student.firstName" placeholder="First Name" />
       </div>
     </div>
-  </div>
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit"  class="btn btn-primary btn-sm" [disabled]="addStudentForm.invalid">Submit</button>
-      <button type="button" (click)="cancel()" class="btn btn-primary btn-sm">Cancel</button>
+    <div class="form-group">
+      <label for="middleName" class="col-sm-2 control-label">Middle Name</label>
+      <div class="col-sm-10">
+        <input id="middleName" class="form-control" [(ngModel)]="student.middleName" placeholder="Middle Name" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="lastName" class="col-sm-2 control-label">Last Name</label>
+      <div class="col-sm-10">
+        <input id="lastName" class="form-control" [(ngModel)]="student.lastName" placeholder="Last Name" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="dateOfBirth" class="col-sm-2 control-label">Date of Birth</label>
+      <div class="col-sm-10">
+        <input id="dateOfBirth" class="form-control" [(ngModel)]="student.dateOfBirth" placeholder="Date of Birth" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="gender" class="col-sm-2 control-label">Gender</label>
+      <div class="col-sm-10">
+        <div class="btn-group btn-group-sm" data-toggle="buttons">
+
+          <label class="btn btn-success">
+            <input type="radio" id="male">Male
+          </label>
+          <label class="btn btn-success">
+            <input type="radio" id="female">Female
+          </label>
+          <label class="btn btn-success">
+            <input type="radio" id="other">Other
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="address" class="col-sm-2 control-label">Address</label>
+      <div class="col-sm-10">
+        <input id="address" class="form-control" [(ngModel)]="student.address" placeholder="Address" />
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="btn btn-success" id="projectPicker">Pick a project...</button>
+      <button class="btn btn-success" data-toggle="dropdown">
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" id="projectDropdown">
+        <li>
+          <a href="#" tabindex="-1">HTML</a>
+        </li>
+        <li>
+          <a href="#" tabindex="-1">CSS</a>
+        </li>
+        <li>
+          <a href="#" tabindex="-1">JavaScript</a>
+        </li>
+      </ul>
+    </div>
+    <div class="form-group">
+      <label for="hobbies" class="col-sm-2 control-label">Hobby</label>
+      <div class="col-sm-10">
+        <textarea id="hobby" rows="2" [(ngModel)]="student.hobbies" class="form-control">
+      </textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="talent" class="col-sm-2 control-label">Talent</label>
+      <div class="col-sm-10">
+        <textarea id="talent" rows="2" [(ngModel)]="student.talent" class="form-control">
+        </textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="recentAchivements" class="col-sm-2 control-label">Recent Acheviments</label>
+      <div class="col-sm-10">
+        <textarea id="recentAchivements" rows="2" [(ngModel)]="student.recentAchivements" class="form-control">
+          </textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" (click)="saveStudent()" class="btn btn-primary btn-sm">Submit</button>
+        <button type="button" (click)="cancel()" class="btn btn-primary btn-sm">Cancel</button>
+      </div>
+    </div>
     </div>
   </div>
-</form>
+<script>
+  (function () {
+    "use strict";
+    var $project = $("#projectPicker");
+    $("#projectDropdown li a").on("click", function () {
+      var reason = $(this).text();
+      $project.text(reason);
+    });
+  })();
+</script>

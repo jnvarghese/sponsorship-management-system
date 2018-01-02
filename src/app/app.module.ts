@@ -1,8 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { AppComponent } from './app.component';
 import { InMemoryDataService } from './core/in-memory-data-service';
 import { appRoutes } from './routes';
@@ -38,15 +38,15 @@ declare let jQuery: Object;
   ],
   imports: [
     BrowserModule,
-    HttpClientModule,
+    HttpModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     // The HttpClientInMe,moryWebApiModule module intercepts HTTP requests
     // and returns simulated server responses.
     // Remove it when a real server is ready to receive requests.
-    HttpClientInMemoryWebApiModule.forRoot(
-      InMemoryDataService, { dataEncapsulation: false }
+    InMemoryWebApiModule.forRoot(
+      InMemoryDataService, { delay: 600  }
     ) // https://angular.io/tutorial/toh-pt6
   ],
   providers: [

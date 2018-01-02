@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { StudentService } from '../../shared/service/student.service';
 import { Student } from '../../model/index';
@@ -11,41 +11,60 @@ import { Student } from '../../model/index';
 })
 export class StudentDetailComponent implements OnInit {
 
-  isStudentSaved: boolean;
+  @Input() student: Student;
+  //@Output() close = new EventEmitter();
   error: any;
-  constructor(private router: Router, private studentService: StudentService) { }
+  navigated = false; // true if navigated here
 
-  addStudentForm: FormGroup;
-  firstName = new FormControl('', Validators.required);
-  lastName = new FormControl('', Validators.required);
-  dateOfBirth = new FormControl('', Validators.required);
-  address = new FormControl('', Validators.required);
+  isStudentSaved: boolean;
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private studentService: StudentService) { }
+
+  /* addStudentForm: FormGroup;
+   firstName = new FormControl('', Validators.required);
+   lastName = new FormControl('', Validators.required);
+   dateOfBirth = new FormControl('', Validators.required);
+   address = new FormControl('', Validators.required);*/
   // gender = new FormControl(Validators.required);
 
   ngOnInit() {
-    this.addStudentForm = new FormGroup({
-      firstName: this.firstName,
-      lastName: this.lastName,
-      dateOfBirth: this.dateOfBirth,
-      address: this.address,
-      // gender: this.gender
+    this.route.params.subscribe(params => {
+      if (params['id'] !== undefined) {
+        const id = +params['id'];
+        this.navigated = true;
+        this.studentService.getStudent(id)
+          .then(student => this.student = student[0] );
+      } else {
+        this.navigated = false;
+        this.student = new Student();
+      }
+      // In a real app: dispatch action to load the details here.
     });
+
+    /* this.addStudentForm = new FormGroup({
+       firstName: this.firstName,
+       lastName: this.lastName,
+       dateOfBirth: this.dateOfBirth,
+       address: this.address,
+       // gender: this.gender
+     });*/
   }
 
-  saveStudentDetails(studentFormvalue) {
-    if (this.addStudentForm.valid) {
-     /*this.studentService
-      .save(studentFormvalue)
-      .then(hero => {
+  saveStudent():void {
+    //  if (this.addStudentForm.valid) {
+    this.studentService
+      .save(this.student)
+      .then(response => {
+        console.log(response);
       })
-      .catch(error => this.error = error); // TODO: Display error message
-  */
-      this.isStudentSaved = true;
-    }
-
+      .catch(error => this.error = error); // TODO: Display error message  
+    this.isStudentSaved = true;
   }
 
-  cancel() {
+ cancel() {
     this.router.navigate(['/students']);
   }
 }

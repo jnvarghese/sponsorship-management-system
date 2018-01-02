@@ -1,12 +1,11 @@
-import { Student } from './index';
+import { Sponsor, Student } from "./index";
 
 export class SponsorshipInfo {
 
-  constructor(
-    public id: number,
-    public name: string,
+  constructor(   
+    public sponser: Sponsor,
     public isActive: boolean,
-    public students?: Student[]
+    public students: Student[]
   ) { }
 }
 

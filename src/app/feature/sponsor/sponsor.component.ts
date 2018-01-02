@@ -20,4 +20,7 @@ export class SponsorComponent implements OnInit {
     });
   }
 
+  addSponser(): void{
+    
+  }
 }
