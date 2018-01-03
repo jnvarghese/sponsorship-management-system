@@ -19,7 +19,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let sponsor of sponsors">
+          <tr *ngFor="let sponsor of sponsors" [routerLink]="['/sponsordetail',  sponsor.id]">
             <td>{{ sponsor.firstName }}</td>
             <td>{{ sponsor.lastName }}</td>
             <td>{{ sponsor?.parish.name }}</td>

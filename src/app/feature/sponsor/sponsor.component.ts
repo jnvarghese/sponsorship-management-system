@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Sponsor } from '../model/sponsor';
 import { SponsorService } from '../shared/service/sponsor.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sponsor',
@@ -9,18 +10,17 @@ import { SponsorService } from '../shared/service/sponsor.service';
 })
 export class SponsorComponent implements OnInit {
 
-  public sponsors: Sponsor[];
+  public sponsors: Array<Sponsor>;
 
-  constructor(private sponsorService: SponsorService<Sponsor>) { }
+  constructor(private router: Router, private sponsorService: SponsorService<Sponsor>) { }
 
   ngOnInit() {
-   this.sponsorService.getSponsor().subscribe(data => {
-      // Read the result field from the JSON response.
+   this.sponsorService.getSponsors().then(data => {
       this.sponsors = data;
     });
   }
 
   addSponser(): void{
-    
+    this.router.navigate(['./createsponsor']);
   }
 }

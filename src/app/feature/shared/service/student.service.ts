@@ -23,7 +23,7 @@ export class StudentService {
   }
 
   /** GET Studentes from the server */
-  getStudent(id: number): Promise<Student> {
+  findStudent(id: number): Promise<Student> {
     return this.http.get(`${this.studentsUrl}/?id=${id}`).toPromise()
     .then((response) => {
       return response.json().data as Student;

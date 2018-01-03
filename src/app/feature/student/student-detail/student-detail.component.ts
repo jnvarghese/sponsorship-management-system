@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { StudentService } from '../../shared/service/student.service';
@@ -35,7 +35,7 @@ export class StudentDetailComponent implements OnInit {
       if (params['id'] !== undefined) {
         const id = +params['id'];
         this.navigated = true;
-        this.studentService.getStudent(id)
+        this.studentService.findStudent(id)
           .then(student => this.student = student[0] );
       } else {
         this.navigated = false;
