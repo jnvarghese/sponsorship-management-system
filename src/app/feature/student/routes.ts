@@ -4,9 +4,9 @@ import { StudentComponent } from './student.component';
 import { StudentDetailComponent } from './student-detail/student-detail.component';
 
 export const studentRoutes: Routes = [
-    { path: 'students', component: StudentComponent },
-    { path: 'studentdetail/:id', component: StudentDetailComponent },
-    { path: 'createStudent', component: StudentDetailComponent }
+    { path: 'student/list', component: StudentComponent },
+    { path: 'student/modify/:id', component: StudentDetailComponent },
+    { path: 'student/add', component: StudentDetailComponent }
   ];
 
 export const studentRoutingComponents = [StudentComponent, StudentDetailComponent];

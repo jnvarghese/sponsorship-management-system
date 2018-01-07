@@ -25,11 +25,11 @@ export class StudentService {
   /** GET Studentes from the server */
   findStudent(id: number): Promise<Student> {
     return this.http.get(`${this.studentsUrl}/?id=${id}`).toPromise()
-    .then((response) => {
-      return response.json().data as Student;
-    })
-    .catch(this.handleError);
-  
+      .then((response) => {
+        return response.json().data as Student;
+      })
+      .catch(this.handleError);
+
   }
 
   save(student: Student): Promise<Student> {
@@ -71,11 +71,12 @@ export class StudentService {
     return Promise.reject(error.message || error);
   }
 
-  search(term: string): Observable<any> {
-    return this.http.get(`${this.studentsUrl}/?name=${term}`)
-      .catch((error: any) => {
-        console.error('An friendly error occurred', error);
-        return Observable.throw(error.message || error);
-      });
+  search(term: string): Promise<Array<Student>> {
+    return this.http.get(`${this.studentsUrl}/?firstName=${term}`)
+      .toPromise()
+      .then((response) => {
+        return response.json().data as Array<Student>;
+      })
+      .catch(this.handleError);
   }
 }

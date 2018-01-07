@@ -21,7 +21,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let student of students" [routerLink]="['/studentdetail',  student.id]">
+                <tr *ngFor="let student of students" [routerLink]="['/student/modify',  student.id]">
                   <td>{{ student.firstName }}</td>
                   <td>{{ student.lastName }}</td>
                   <td>{{ student.gender }}</td>

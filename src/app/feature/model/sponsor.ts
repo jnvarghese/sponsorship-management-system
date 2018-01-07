@@ -16,8 +16,12 @@ export class Sponsor {
     postalCode: number;
     hasAnyCoSponser: boolean;
     parish: Parish;
+    coSponserName: string;
     coSponserFirstName: string;
     coSponserLastName: string;
     coSponserRelationShip: string;
+    paymentDate: string;
+    contributionAmount: number;
+    effectiveDate: string;
 }
 

@@ -1,101 +1,137 @@
 <form class="form-horizontal" [formGroup]="addSponsorForm" (ngSubmit)="saveSponsorDetails(addSponsorForm.value)" style="margin-top:90px">
-    <div class="alert alert-success"  *ngIf = "isSponsorSaved" >
-          <strong>Success!</strong> Added a new Sponsor
-        </div>
+  <div class="alert alert-success" *ngIf="isSponsorSaved">
+  
+    <strong>Success!</strong> Added a new Sponsor
+  </div>
   <h2>Add new Sponsor Details</h2>
   <p>Please enter following details to successfuly add a sponsor.</p>
   <div class="form-group" [ngClass]="{'error': firstName?.invalid && firstName?.touched}">
     <label for="firstName" class="col-sm-2 control-label">First Name</label>
     <div class="col-sm-10">
-      <input formControlName="firstName" [(ngModel)]="sponser.firstName" id="firstName" class="form-control" type="text" placeholder="First Name" />
+      <input formControlName="firstName" [(ngModel)]="sponser.firstName" id="firstName" class="form-control" type="text" placeholder="First Name"
+      />
       <em *ngIf="firstName?.invalid && firstName?.touched">Required</em>
     </div>
   </div>
   <div class="form-group">
-      <label for="middleInitial" class="col-sm-2 control-label">Middle Name</label>
-      <div class="col-sm-10">
-        <input formControlName="middleInitial" [(ngModel)]="sponser.middleInitial" 
-        id="middleInitial" class="form-control" type="text" placeholder="Middle Name" />
-      </div>
+    <label for="middleInitial" class="col-sm-2 control-label">Middle Name</label>
+    <div class="col-sm-10">
+      <input formControlName="middleInitial" [(ngModel)]="sponser.middleInitial" id="middleInitial" class="form-control" type="text"
+        placeholder="Middle Name" />
     </div>
+  </div>
   <div class="form-group" [ngClass]="{'error': lastName?.invalid && lastName?.touched}">
     <label for="lastName" class="col-sm-2 control-label">Last Name</label>
     <div class="col-sm-10">
-      <input formControlName="lastName" [(ngModel)]="sponser.lastName" id="lastName" class="form-control" type="text" placeholder="Last Name" />
+      <input formControlName="lastName" [(ngModel)]="sponser.lastName" id="lastName" class="form-control" type="text" placeholder="Last Name"
+      />
       <em *ngIf="lastName?.invalid && lastName?.touched">Required</em>
     </div>
   </div>
   <div class="form-group">
     <label for="dateOfBirth" class="col-sm-2 control-label">Day and Month of Birth</label>
-    <div class="col-sm-10">
-      <input formControlName="dateOfBirth" [(ngModel)]="sponser.dayMonth" 
-      id="dateOfBirth" class="form-control" type="text" 
-      placeholder="Date of Birth" />
+    <div class="col-sm-2">
+      <input formControlName="dateOfBirth" 
+      [(ngModel)]="sponser.dayMonth" id="dateOfBirth" 
+      class="form-control" type="text" placeholder="Date of Birth"/>
+    </div>
+    <div class="col-sm-8">
+      <select class="form-control">
+        <option value="1">January</option>
+        <option value="2">February</option>
+        <option value="3">March</option>
+        <option value="4">April</option>
+        <option value="5">May</option>
+        <option value="6">June</option>
+        <option value="7">July</option>
+        <option value="8">August</option>
+        <option value="9">September</option>
+        <option value="10">October</option>
+        <option value="11">November</option>
+        <option value="12">December</option>
+      </select>
     </div>
   </div>
   <div class="form-group" [ngClass]="{'error': emailAddress?.invalid && emailAddress?.touched}">
-      <label for="lastName" class="col-sm-2 control-label">Email</label>
-      <div class="col-sm-10">
-        <input formControlName="emailAddress" 
-        [(ngModel)]="sponser.emailAddress" id="emailAddress" 
-        class="form-control" type="text" placeholder="Email" />
-        <em *ngIf="emailAddress?.invalid && emailAddress?.touched">Required</em>
+    <label for="lastName" class="col-sm-2 control-label">Email</label>
+    <div class="col-sm-10">
+      <input formControlName="emailAddress" [(ngModel)]="sponser.emailAddress" id="emailAddress" class="form-control" type="text"
+        placeholder="Email" />
+      <em *ngIf="emailAddress?.invalid && emailAddress?.touched">Required</em>
+    </div>
+  </div>
+  <div formGroupName="address">
+    <div class="form-group" [ngClass]="{'error': street?.invalid && street?.touched}">
+      <label for="address" class="col-sm-2 control-label">Address</label>
+      <div class="col-sm-8">
+        <input formControlName="street" id="street" [(ngModel)]="sponser.street" class="form-control" type="text" placeholder="Street"
+        />
+        <em *ngIf="street?.invalid && street?.touched">Required</em>
+      </div>
+      <div class="col-sm-2">
+        <input formControlName="appartmentNumber" id="appartmentNumber" [(ngModel)]="sponser.appartmentNumber" class="form-control"
+          type="text" placeholder="Appartment #" />
       </div>
     </div>
-  <div formGroupName="address">
-      <div class="form-group"  [ngClass]="{'error': street?.invalid && street?.touched}">
-          <label for="address" class="col-sm-2 control-label">Address</label>
-          <div class="col-sm-8">
-            <input formControlName="street" id="street" [(ngModel)]="sponser.street" 
-            class="form-control" type="text" placeholder="Street" />
-            <em *ngIf="street?.invalid && street?.touched">Required</em>
-          </div>
-          <div class="col-sm-2">
-              <input formControlName="appartmentNumber" 
-              id="appartmentNumber" 
-              [(ngModel)]="sponser.appartmentNumber" 
-              class="form-control" type="text" placeholder="Appartment #" />            
-            </div>
+
+    <div class="form-group" [ngClass]="{'error': city?.invalid && city?.touched}">
+      <div class="col-sm-offset-2 col-sm-4">
+        <input formControlName="city" id="city" [(ngModel)]="sponser.city" class="form-control" type="text" placeholder="City" />
+        <em *ngIf="city?.invalid && city?.touched">Required</em>
       </div>
-     
-      <div class="form-group"  [ngClass]="{'error': city?.invalid && city?.touched}">
-          <div class="col-sm-offset-2 col-sm-4">
-            <input formControlName="city" id="city" [(ngModel)]="sponser.city" 
-            class="form-control" type="text" placeholder="City" />
-            <em *ngIf="city?.invalid && city?.touched">Required</em>
-          </div>
-          <div class="col-sm-3">
-              <input formControlName="state" id="state" [(ngModel)]="sponser.state" 
-              class="form-control" type="text" placeholder="State" />
-              <em *ngIf="state?.invalid && state?.touched">Required</em>
-          </div>
-          <div class="col-sm-3">
-                <input formControlName="postalCode" id="postalCode" [(ngModel)]="sponser.postalCode" 
-                class="form-control" type="text" placeholder="Zip Code" />
-                <em *ngIf="postalCode?.invalid && postalCode?.touched">Required</em>
-          </div>
+      <div class="col-sm-3">
+        <input formControlName="state" id="state" [(ngModel)]="sponser.state" class="form-control" type="text" placeholder="State"
+        />
+        <em *ngIf="state?.invalid && state?.touched">Required</em>
       </div>
+      <div class="col-sm-3">
+        <input formControlName="postalCode" id="postalCode" [(ngModel)]="sponser.postalCode" class="form-control" type="text" placeholder="Zip Code"
+        />
+        <em *ngIf="postalCode?.invalid && postalCode?.touched">Required</em>
+      </div>
+    </div>
   </div>
-  
+  <div class="form-group">
+    <label for="lastName" class="col-sm-2 control-label">Select Parish</label>
+    <div class="col-sm-10">
+      <select class="form-control">
+        <option value="SE-ST1000">St. Stephen's Mar Thoma Church</option>
+        <option value="NE-CT1000">Carmel Mar Thoma Church</option>
+      </select>
+      <!--
+          <select class="form-control" formControlName="state">
+        <option *ngFor="let state of states" [value]="state">{{state}}</option>
+      </select>
+      -->
+    </div>
+  </div>
+
   <div class="form-group">
     <label for="gender" class="col-sm-2 control-label">Add Co-Sponsor</label>
     <div class="col-sm-10">
       <div class="btn-group btn-group-sm" data-toggle="buttons">
 
         <label class="btn btn-success">
-          <input formControlName="hasAnyCoSponser" type="radio" value="true" name="hasAnyCoSponser" 
-          [(ngModel)]="sponser.hasAnyCoSponser">Yes
+          <input formControlName="hasAnyCoSponser" type="radio" value="true" name="hasAnyCoSponser" [(ngModel)]="sponser.hasAnyCoSponser">Yes
         </label>
         <label class="btn btn-success">
-          <input formControlName="hasAnyCoSponser" type="radio" value="false"  name="hasAnyCoSponser"
-          [(ngModel)]="sponser.hasAnyCoSponser">No        
-        </label>      
+          <input formControlName="hasAnyCoSponser" type="radio" value="false" name="hasAnyCoSponser" [(ngModel)]="sponser.hasAnyCoSponser">No
+        </label>
       </div>
+    </div>
+  </div>
+  <div class="form-group" >
+    <label for="coSponserName" class="col-sm-2 control-label">Co Sponsor Name</label>
+    <div class="col-sm-10">
+      <input formControlName="coSponserName" 
+      [(ngModel)]="sponser.coSponserName" id="coSponserName" 
+      class="form-control" type="text" placeholder="Co Sponsor Name"/>
+    
     </div>
   </div>
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit"  class="btn btn-primary btn-sm" [disabled]="addSponsorForm.invalid">Submit</button>
+      <button type="submit" class="btn btn-primary btn-sm" [disabled]="addSponsorForm.invalid">Submit</button>
       <button type="button" (click)="cancel()" class="btn btn-primary btn-sm">Cancel</button>
     </div>
   </div>

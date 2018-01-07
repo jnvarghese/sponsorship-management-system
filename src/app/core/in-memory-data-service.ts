@@ -1,6 +1,5 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
 import { Student, Sponsor, Parish, Agency, Project, Contribution } from '../feature/model/index';
-import { SponsorshipInfo } from '../feature/model/sponsorship-info';
 
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {
@@ -39,7 +38,7 @@ export class InMemoryDataService implements InMemoryDbService {
         parish
       },
       {
-        id: 1,
+        id: 2,
         firstName: 'Kurian',
         lastName: 'Thamp',
         IsActive: true,
@@ -87,111 +86,23 @@ export class InMemoryDataService implements InMemoryDbService {
         address: 'Tiruvalla',
         isSponsored: true,
         project,
+        contributions: [], 
         hobbies: 'drawing',
         talent: 'singing',
         recentAchivements: ['school festival top']
-      },
-      { 
-        id: 14, 
-        firstName: 'Gracy', 
-        lastName: 'Chacko', 
-        gender: 'Female', 
-        dateOfBirth: '06/10/1990',
-        address: 'Tiruvalla',
-        isSponsored: true,
-        project,
-        hobbies: 'drawing',
-        talent: 'singing',
-        recentAchivements: ['school festival top']
-      },
-      { 
-        id: 15, 
-        firstName: 'Gracy', 
-        lastName: 'Chacko', 
-        gender: 'Female', 
-        dateOfBirth: '06/10/1990',
-        address: 'Tiruvalla',
-        isSponsored: true,
-        project,
-        hobbies: 'drawing',
-        talent: 'singing',
-        recentAchivements: ['school festival top']
-      },
-      { 
-        id: 16, 
-        firstName: 'Gracy', 
-        lastName: 'Chacko', 
-        gender: 'Female', 
-        dateOfBirth: '06/10/1990',
-        address: 'Tiruvalla',
-        isSponsored: true,
-        project,
-        hobbies: 'drawing',
-        talent: 'singing',
-        recentAchivements: ['school festival top']
-      },
-      { 
-        id: 17, 
-        firstName: 'Gracy', 
-        lastName: 'Chacko', 
-        gender: 'Female', 
-        dateOfBirth: '06/10/1990',
-        address: 'Tiruvalla',
-        isSponsored: true,
-        project,
-        hobbies: 'drawing',
-        talent: 'singing',
-        recentAchivements: ['school festival top']
-      },
-      { 
-        id: 18, 
-        firstName: 'Gracy', 
-        lastName: 'Chacko', 
-        gender: 'Female', 
-        dateOfBirth: '06/10/1990',
-        address: 'Tiruvalla',
-        isSponsored: true,
-        project,
-        hobbies: 'drawing',
-        talent: 'singing',
-        recentAchivements: ['school festival top']
-      },
-      { 
-        id: 19, 
-        firstName: 'Gracy', 
-        lastName: 'Chacko', 
-        gender: 'Female', 
-        dateOfBirth: '06/10/1990',
-        address: 'Tiruvalla',
-        isSponsored: true,
-        project,
-        hobbies: 'drawing',
-        talent: 'singing',
-        recentAchivements: ['school festival top']
-      },
-      { 
-        id: 20, 
-        firstName: 'Gracy', 
-        lastName: 'Chacko', 
-        gender: 'Female', 
-        dateOfBirth: '06/10/1990',
-        address: 'Tiruvalla',
-        isSponsored: true,
-        project,
-        hobbies: 'drawing',
-        talent: 'singing',
-        recentAchivements: ['school festival top']
-      },
+      }
     ];
     
     const sponsorshipDetails =
       [
         {
+          id:1,
           sponser: sponsors[0],
           students: [students[1], students[2]],
           isActive: true
         },
         {
+          id:2,
           sponser: sponsors[1],
           students: [students[0]],
           isActive: true

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SponsorService } from '../../shared/service/sponsor.service';
-import { SponsorshipInfo, Sponsor } from '../../model/index';
+import { Enrollment, Sponsor } from '../../model/index';
 
 @Component({
   selector: 'app-sponsor-action',
@@ -10,13 +10,13 @@ import { SponsorshipInfo, Sponsor } from '../../model/index';
 })
 export class SponsorActionComponent implements OnInit {
 
-  info: SponsorshipInfo;
+  info: Enrollment;
 
   constructor(private route: ActivatedRoute, private sponsorService: SponsorService<Sponsor>) { }
 
   ngOnInit() {
     this.route.params.subscribe((params: { id: string }) => {
-      this.sponsorService.getSponsorShipInfo(+params.id).subscribe((info) => {
+      this.sponsorService.getSponsorShipInfo(+params.id).then((info) => {
         this.info = info[0];
       });
     });

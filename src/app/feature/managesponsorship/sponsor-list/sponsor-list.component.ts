@@ -11,7 +11,7 @@ import { SponsorService } from '../../shared/service/sponsor.service';
 })
 export class SponsorListComponent implements OnInit {
 
-  sponsers: Observable<Sponsor[]>;
+  sponsers: Observable<Array<Sponsor>>;
 
   private searchTerms = new Subject<string>();
 
@@ -25,11 +25,11 @@ export class SponsorListComponent implements OnInit {
       // return the http search observable
       ? this.sponsorService.search(term)
       // or the observable of empty sponsor if no search term
-      : Observable.of<Sponsor[]>([]))
+      : Observable.of<Array<Sponsor>>([]))
     .catch(error => {
       // TODO: real error handling
       console.log(`Error in component ... ${error}`);
-      return Observable.of<Sponsor[]>([]);
+      return Observable.of<Array<Sponsor>>([]);
     });
   }
   searchSponsor(term: string): void {

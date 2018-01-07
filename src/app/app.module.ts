@@ -5,22 +5,21 @@ import { NgModule } from '@angular/core';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { AppComponent } from './app.component';
 import { InMemoryDataService } from './core/in-memory-data-service';
-import { appRoutes } from './routes';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import {
-  SponsorComponent,
-  SponsorDetailComponent,
-  StudentDetailComponent,
   StudentService,
   SponsorService,
   DashboardComponent,
   PageNotFoundComponent,
   HeaderComponent,
   FooterComponent,
-  JQUERY_PROVIDER} from './feature/index';
-import { appRoutingComponents, AppRoutingModule } from './index';
-import { EnrollmentComponent } from './feature/enrollment/enrollment.component';
+  JQUERY_PROVIDER,
+  EnrollService} from './feature/index';
+import { SponsorModule } from './feature/sponsor/sponsor.module';
+import { EnrollmentModule } from './feature/enrollment/enrollment.module';
+import { ManageSponsorShipModule } from './feature/managesponsorship/managesponsorship.module';
+import { StudentModule } from './feature/student/student.module';
+import { AppRoutingModule } from './app-routing.module';
 
 declare let jQuery: Object;
 
@@ -29,22 +28,22 @@ declare let jQuery: Object;
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    DashboardComponent,
-    appRoutingComponents,
+    DashboardComponent,    
     PageNotFoundComponent,
     HeaderComponent,
     FooterComponent,
-    EnrollmentComponent
   ],
   imports: [
     BrowserModule,
     HttpModule,
-    AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    // The HttpClientInMe,moryWebApiModule module intercepts HTTP requests
-    // and returns simulated server responses.
-    // Remove it when a real server is ready to receive requests.
+    
+    StudentModule,
+    SponsorModule,
+    EnrollmentModule,
+    ManageSponsorShipModule,
+    AppRoutingModule,
     InMemoryWebApiModule.forRoot(
       InMemoryDataService, { delay: 600  }
     ) // https://angular.io/tutorial/toh-pt6
@@ -52,6 +51,7 @@ declare let jQuery: Object;
   providers: [
     StudentService,
     SponsorService,
+    EnrollService,
     JQUERY_PROVIDER
   ],
   bootstrap: [AppComponent]

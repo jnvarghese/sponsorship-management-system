@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-6">
-            <p>{{info?.name}}</p>
+            <p>{{info?.sponser?.firstName}} {{info?.sponser?.lastName}}</p>
         </div>
         <div class="col-sm-6">
             <p>{{info?.isActive}}</p>
@@ -12,11 +12,11 @@
             <div class="panel-heading">
                 <h4 class="panel-title">
                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#student{{student.id}}">
-                            {{student.name}}
+                        {{student.firstName}} {{student.lastName}}
                     </a>
                 </h4>
             </div>
-            <div id="student{{student.id}}" class="panel-collapse collapse">          
+            <div id="student{{student.id}}" class="panel-collapse collapse">
                 <div class="panel-body">
                     <table class="table table-hover">
                         <thead>
@@ -44,6 +44,7 @@
                                     <p>{{contributions?.status}}</p>
                                 </td>
                             </tr>
+                            <p *ngIf="student.contributions?.length == 0">No data found</p>
                         </tbody>
                     </table>
                 </div>

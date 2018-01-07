@@ -4,9 +4,9 @@ import { SponsorComponent } from './sponsor.component';
 import { SponsorDetailComponent } from './sponsor-detail/sponsor-detail.component';
 
 export const sponsorRoutes: Routes = [
-    { path: 'sponsors', component: SponsorComponent },
-    { path: 'createsponsor', component: SponsorDetailComponent },
-    { path: 'sponsordetail/:id', component: SponsorDetailComponent }
+    { path: 'sponsor/list', component: SponsorComponent },
+    { path: 'sponsor/add', component: SponsorDetailComponent },
+    { path: 'sponsor/modify/:id', component: SponsorDetailComponent }
   ];
 
 export const sponsorRoutingComponents = [SponsorComponent, SponsorDetailComponent];
