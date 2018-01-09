@@ -1,6 +1,6 @@
-<form class="form-horizontal" [formGroup]="addSponsorForm" (ngSubmit)="saveSponsorDetails(addSponsorForm.value)" style="margin-top:90px">
-  <div class="alert alert-success" *ngIf="isSponsorSaved">
-  
+<form class="form-horizontal" [formGroup]="addSponsorForm" 
+(ngSubmit)="saveSponsorDetails(addSponsorForm.value)" style="margin-top:90px">
+  <div class="alert alert-success" *ngIf="isSponsorSaved">  
     <strong>Success!</strong> Added a new Sponsor
   </div>
   <h2>Add new Sponsor Details</h2>
@@ -8,7 +8,9 @@
   <div class="form-group" [ngClass]="{'error': firstName?.invalid && firstName?.touched}">
     <label for="firstName" class="col-sm-2 control-label">First Name</label>
     <div class="col-sm-10">
-      <input formControlName="firstName" [(ngModel)]="sponser.firstName" id="firstName" class="form-control" type="text" placeholder="First Name"
+      <input formControlName="firstName" 
+      [(ngModel)]="sponser.firstName" id="firstName" class="form-control" 
+      type="text" placeholder="First Name"
       />
       <em *ngIf="firstName?.invalid && firstName?.touched">Required</em>
     </div>
@@ -16,14 +18,18 @@
   <div class="form-group">
     <label for="middleInitial" class="col-sm-2 control-label">Middle Name</label>
     <div class="col-sm-10">
-      <input formControlName="middleInitial" [(ngModel)]="sponser.middleInitial" id="middleInitial" class="form-control" type="text"
+      <input formControlName="middleInitial" 
+      [(ngModel)]="sponser.middleInitial" 
+      id="middleInitial" class="form-control" type="text"
         placeholder="Middle Name" />
     </div>
   </div>
   <div class="form-group" [ngClass]="{'error': lastName?.invalid && lastName?.touched}">
     <label for="lastName" class="col-sm-2 control-label">Last Name</label>
     <div class="col-sm-10">
-      <input formControlName="lastName" [(ngModel)]="sponser.lastName" id="lastName" class="form-control" type="text" placeholder="Last Name"
+      <input formControlName="lastName" [
+      (ngModel)]="sponser.lastName" id="lastName" class="form-control" 
+      type="text" placeholder="Last Name"
       />
       <em *ngIf="lastName?.invalid && lastName?.touched">Required</em>
     </div>
@@ -55,7 +61,9 @@
   <div class="form-group" [ngClass]="{'error': emailAddress?.invalid && emailAddress?.touched}">
     <label for="lastName" class="col-sm-2 control-label">Email</label>
     <div class="col-sm-10">
-      <input formControlName="emailAddress" [(ngModel)]="sponser.emailAddress" id="emailAddress" class="form-control" type="text"
+      <input formControlName="emailAddress" 
+      [(ngModel)]="sponser.emailAddress" id="emailAddress" 
+      class="form-control" type="text"
         placeholder="Email" />
       <em *ngIf="emailAddress?.invalid && emailAddress?.touched">Required</em>
     </div>
@@ -64,28 +72,33 @@
     <div class="form-group" [ngClass]="{'error': street?.invalid && street?.touched}">
       <label for="address" class="col-sm-2 control-label">Address</label>
       <div class="col-sm-8">
-        <input formControlName="street" id="street" [(ngModel)]="sponser.street" class="form-control" type="text" placeholder="Street"
+        <input formControlName="street" id="street" 
+        [(ngModel)]="sponser.street" class="form-control" type="text" placeholder="Street"
         />
         <em *ngIf="street?.invalid && street?.touched">Required</em>
       </div>
       <div class="col-sm-2">
-        <input formControlName="appartmentNumber" id="appartmentNumber" [(ngModel)]="sponser.appartmentNumber" class="form-control"
+        <input formControlName="appartmentNumber" id="appartmentNumber" 
+        [(ngModel)]="sponser.appartmentNumber" class="form-control"
           type="text" placeholder="Appartment #" />
       </div>
     </div>
 
     <div class="form-group" [ngClass]="{'error': city?.invalid && city?.touched}">
       <div class="col-sm-offset-2 col-sm-4">
-        <input formControlName="city" id="city" [(ngModel)]="sponser.city" class="form-control" type="text" placeholder="City" />
+        <input formControlName="city" id="city" 
+        [(ngModel)]="sponser.city" class="form-control" type="text" placeholder="City" />
         <em *ngIf="city?.invalid && city?.touched">Required</em>
       </div>
       <div class="col-sm-3">
-        <input formControlName="state" id="state" [(ngModel)]="sponser.state" class="form-control" type="text" placeholder="State"
+        <input formControlName="state" id="state" 
+        [(ngModel)]="sponser.state" class="form-control" type="text" placeholder="State"
         />
         <em *ngIf="state?.invalid && state?.touched">Required</em>
       </div>
       <div class="col-sm-3">
-        <input formControlName="postalCode" id="postalCode" [(ngModel)]="sponser.postalCode" class="form-control" type="text" placeholder="Zip Code"
+        <input formControlName="postalCode" id="postalCode" 
+        [(ngModel)]="sponser.postalCode" class="form-control" type="text" placeholder="Zip Code"
         />
         <em *ngIf="postalCode?.invalid && postalCode?.touched">Required</em>
       </div>
@@ -107,15 +120,23 @@
   </div>
 
   <div class="form-group">
-    <label for="gender" class="col-sm-2 control-label">Add Co-Sponsor</label>
+    <label for="sponsorStatus" class="col-sm-2 control-label">Sponsor status</label>
     <div class="col-sm-10">
       <div class="btn-group btn-group-sm" data-toggle="buttons">
 
         <label class="btn btn-success">
-          <input formControlName="hasAnyCoSponser" type="radio" value="true" name="hasAnyCoSponser" [(ngModel)]="sponser.hasAnyCoSponser">Yes
+          <input formControlName="sponsorStatus" 
+          type="radio" 
+          value="active" 
+          name="sponsorStatus"
+          >Active
         </label>
         <label class="btn btn-success">
-          <input formControlName="hasAnyCoSponser" type="radio" value="false" name="hasAnyCoSponser" [(ngModel)]="sponser.hasAnyCoSponser">No
+          <input formControlName="sponsorStatus" 
+          type="radio" 
+          value="nonactive" 
+          name="sponsorStatus"
+          >Non Active
         </label>
       </div>
     </div>

@@ -10,10 +10,10 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li class="active">
-          <a href="#">Home</a>
+        <li [routerLinkActive]="['active']">
+          <a [routerLink]="['/dashboard']">Home</a>
         </li>
-        <li class="dropdown">
+        <li class="dropdown" [routerLinkActive]="['active']">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">Sponsor
             <span class="caret"></span>
           </a>
@@ -26,7 +26,7 @@
             </li>
           </ul>
         </li>
-        <li class="dropdown">
+        <li class="dropdown" [routerLinkActive]="['active']">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">Student
             <span class="caret"></span>
           </a>
@@ -39,10 +39,10 @@
             </li>
           </ul>
         </li>
-        <li>
-          <a [routerLink]="['/enroll/sponsor']">Enrollment</a>
+        <li [routerLinkActive]="['active']">
+          <a [routerLink]="['/enroll/sponsor']" >Enrollment</a>
         </li>
-        <li>
+        <li [routerLinkActive]="['active']">
           <a [routerLink]="['/manage-sponsor']">Manage Sponsorship</a>
         </li>
       </ul>

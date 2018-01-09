@@ -9,6 +9,7 @@ export class Student {
   address: string;
   isSponsored: boolean;
   project: Project;
+  softlocked: boolean = false;
   hobbies?: string;
   talent?: string;
   recentAchivements?: string[];

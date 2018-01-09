@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SponsorService, EnrollService } from '../../index';
 import { Enrollment, Sponsor } from '../../model/index';
@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
   templateUrl: './enroll-sponsor.component.html',
   styleUrls: ['./enroll-sponsor.component.css']
 })
-export class EnrollSponsorComponent implements OnInit {
+export class EnrollSponsorComponent implements OnInit,OnChanges {
 
   hasAnySponsorSelected: boolean = false;
   enroll: Enrollment;
@@ -66,6 +66,10 @@ export class EnrollSponsorComponent implements OnInit {
       this.enroll = new Enrollment();
      }
   }
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('changes ', changes);
+  }
+
   pupulateForm(data: any){
     console.log('EnrollSponsorComponent.pupulateForm ',data);
     this.hasAnySponsorSelected = true;
@@ -97,7 +101,7 @@ export class EnrollSponsorComponent implements OnInit {
 
   selectSponsor(sponsor: Sponsor) {
     this.containerEl.nativeElement.value = '';
-    this.sponsorSearchTerms.next();
+    //this.sponsorSearchTerms.next();
     this.hasAnySponsorSelected = true;
     let fullName = sponsor.firstName +' '+ sponsor.lastName;
     this.enroll.sponsorId = sponsor.id;

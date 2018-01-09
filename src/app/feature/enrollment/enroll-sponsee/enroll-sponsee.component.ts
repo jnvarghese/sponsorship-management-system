@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
 import { Enrollment, Student, Sponsee } from '../../model/index';
 import { Subscription } from 'rxjs/Subscription';
 import { EnrollService, StudentService } from '../../index';
@@ -11,33 +11,32 @@ import { Subject } from 'rxjs/Subject';
   templateUrl: './enroll-sponsee.component.html',
   styleUrls: ['./enroll-sponsee.component.css']
 })
-export class EnrollSponseeComponent implements OnInit, OnDestroy {
+export class EnrollSponseeComponent implements OnInit {
 
   hasAnyStudentSelected: boolean = false;
   enroll: Enrollment;
-  subscription: Subscription;
-  data: any;
+  addMore: boolean;
+  message: string;
   students: Observable<Array<Student>>;
   private studentSearchTerms = new Subject<string>();
-  sponsorSelected:  boolean ;
+
   @Input() sponData;
   @Output() sponsee: EventEmitter<Enrollment> = new EventEmitter<Enrollment>();
- // @Output() navigate:EventEmitter<string> = new EventEmitter<string>();
+  @ViewChild('studentSearchBox') containerEl: ElementRef;
 
-  constructor(private enrollService: EnrollService,
-    private studentService: StudentService) {
-    this.subscription = this.enrollService.getData().subscribe(res => { this.data = res; });
-  }
+  constructor(private studentService: StudentService) {}
 
   ngOnInit() {
+    console.log('Sponsee Comp. init ', this.enroll);
+    this.addMore = false;
     
-    if(this.sponData.sponsee){
-      this.hasAnyStudentSelected = true;
-    }
-    this.enroll = new Enrollment(this.sponData.sponsorId,
-      this.sponData.sponsorName, this.sponData.paymentDate, 
+    this.enroll = new Enrollment(
+      this.sponData.sponsorId,
+      this.sponData.sponsorName, 
+      this.sponData.paymentDate, 
       this.sponData.effectiveDate, 
-      this.sponData.contributionAmount);
+      this.sponData.contributionAmount
+    );
 
     this.students = this.studentSearchTerms
       .debounceTime(300)        // wait for 300ms pause in events
@@ -54,22 +53,27 @@ export class EnrollSponseeComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy() {
-    // unsubscribe to ensure no memory leaks
-    this.subscription.unsubscribe();
-  }
-
   searchStudent(term: string): void {
-    this.hasAnyStudentSelected = false;
-    this.enroll.sponsee = [];
+    if (!this.enroll.sponsee){
+      this.hasAnyStudentSelected = false;
+      this.enroll.sponsee = [];
+    }
     // Push a search term into the observable stream.
     this.studentSearchTerms.next(term);
   }
 
   selectStudent(student: Student) {
-    this.students = null;
+    console.log('Sponsee Comp. selectStudent ', this.enroll);
+    this.containerEl.nativeElement.value = '';
+    //this.studentSearchTerms.next();
     this.hasAnyStudentSelected = true;
     let dateIncrementor = this.enroll.contributionAmount / 20;
+    if(dateIncrementor > 12){
+       this.message = `Mr ${this.enroll.sponsorName}'s, contribution $${this.enroll.contributionAmount}
+       exceeds twelve months of sponsorship.
+       Would you like to add a anothor student?`;
+       this.addMore = true;
+    }
     let dateSpliier = this.enroll.effectiveDate.split('/');
     let month = +dateSpliier[1];
     let year = +dateSpliier[2];
@@ -78,6 +82,31 @@ export class EnrollSponseeComponent implements OnInit, OnDestroy {
     let expireDate = this.calculateExpiration(incremented);
     let sponsee = new Sponsee(this.enroll.sponsorId, expireDate[0], expireDate[1], student.id, student.firstName);
     this.enroll.sponsee.push(sponsee);  
+
+    if(this.addMore){
+      
+      if(this.enroll.sponsee.length > 1){
+        let remianing = dateIncrementor;
+        for (let e of this.enroll.sponsee){    
+          let year = effectiveDate.getDate().getFullYear();
+          let month = effectiveDate.getDate().getMonth() - 1;     
+          let incremented2;
+          let expireDate2;          
+          if(remianing > 12){
+            incremented2 = this.incrementDate(1, 'year', effectiveDate);
+            expireDate2 = this.calculateExpiration(incremented2);         
+          }else{
+            incremented2 = this.incrementDate(remianing, 'month', effectiveDate);
+            expireDate2 = this.calculateExpiration(incremented2);   
+            this.addMore = false       
+          }
+          e.expirationMonth = expireDate2[0];
+          e.expirationYear = expireDate2[1];
+          remianing = remianing - 12;
+        }       
+      }
+    }
+
   }
 
   next() {

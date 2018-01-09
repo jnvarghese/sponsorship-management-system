@@ -10,10 +10,11 @@ export class EnrollmentComponent implements OnInit {
 
   sponsorSelected: boolean = false;
   sponsorData: any;
+  
   ngOnInit() {
 
   }
-
+  
   sponsorInfo(formdata: any) {
     this.sponsorSelected = true;
     this.sponsorData = formdata;

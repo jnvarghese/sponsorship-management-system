@@ -1,6 +1,9 @@
 <div class="form-horizontal" style="margin-top:90px">
         <h4>Select Student</h4>
         <p>Please search a student using following selector.</p>
+        <div class="alert alert-info" role="alert" *ngIf="addMore">
+                <strong>You could add more student! </strong>{{message}}
+        </div>
         <div class="input-group" style="margin-bottom:10px">
                 <input class="form-control" #studentSearchBox required="required" type="text" (keyup)="searchStudent(studentSearchBox.value)"
                         placeholder="Search" />
@@ -15,11 +18,11 @@
         </ul>
         <div *ngIf="hasAnyStudentSelected" class="row-fluid">
                 <div *ngFor="let sponsee of enroll.sponsee">
-                        {{sponsee.name}} {{sponsee.expirationMonth}} {{sponsee.expirationYear}}
-                        <div>
+                        <div class="alert alert-success">
+                             Added sponsorship for {{sponsee.name}} until {{sponsee.expirationMonth}}/{{sponsee.expirationYear}}
                         </div>
                 </div>
         </div>
-        <button class="btn btn-primary nextBtn pull-right" (click)="previous()" type="button">Previous</button>
-        <button class="btn btn-primary nextBtn pull-right" (click)="next()" type="button">Next</button>
+        <button class="btn btn-primary nextBtn" (click)="previous()" type="button">Previous</button>
+        <button class="btn btn-primary nextBtn" (click)="next()" type="button">Next</button>
 </div>
