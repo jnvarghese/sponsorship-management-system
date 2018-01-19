@@ -15,6 +15,8 @@ export class StudentDetailComponent implements OnInit {
   studentForm: FormGroup;
   error: any;
   navigated = false; // true if navigated here
+  selectedProjectId:any;
+  selectedGender:any;
 
   isStudentSaved: boolean = false;
 
@@ -22,12 +24,11 @@ export class StudentDetailComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private studentService: StudentService,
-    private fb: FormBuilder) {
-
-    this.createForm();
+    private fb: FormBuilder) {   
   }
   //https://angular.io/guide/reactive-forms
   ngOnInit() {
+      this.createForm();
       let studentId = this.route.snapshot.params['id'];
       if (studentId !== undefined) {
         const id = +studentId;
@@ -35,44 +36,51 @@ export class StudentDetailComponent implements OnInit {
         this.studentService.findStudent(id)
           .then(student => {
             this.student = student[0]
+            this.selectedProjectId = this.student.project.id;
+            this.selectedGender = this.student.gender;
             return this.studentForm.setValue({
               firstName: this.student.firstName,
               middleName: this.student.middleName ? this.student.middleName : '',
               lastName: this.student.lastName ? this.student.lastName : '',
               dateOfBirth: this.student.dateOfBirth ? this.student.dateOfBirth : '',
-              address: this.student.address ? this.student.address : '',
-              gender: 'M',
-              project: this.student.project ? this.student.project : '',
+              address: this.student.address ? this.student.address : '', 
+              gender: '', 
+              projectId: '',           
               hobby: this.student.hobbies ? this.student.hobbies : '',
               talent: this.student.talent ? this.student.talent : '',
               recentAchivements: this.student.recentAchivements ? this.student.recentAchivements : '',
             });
           });
       } else {
-        this.navigated = false;
+        this.navigated = false;       
         this.student = new Student();
       }
 
   }
   genders = [
-    { value: 'M', display: 'Male' },
-    { value: 'F', display: 'Female' },
-    { value: 'O', display: 'Other'}
+    { value: 'M', label: 'Male' },
+    { value: 'F', label: 'Female' },
+    { value: 'O', label: 'Other'}
   ];
 
-  /*findGender = (value) => {
-    this.genders.find((g) => g.value === value);
-  }*/
+  projects = [{
+    id: 1,
+    label: 'Life to Life',
+  },
+  {
+   id: 2,
+   label: 'Life to Mission'
+ }]
 
   createForm() {
     this.studentForm = this.fb.group({
-      firstName: '',//[null, Validators.required],
+      firstName: [null, Validators.required],
       middleName: '',
-      lastName: '',//[null, Validators.required],
-      dateOfBirth: '',//[null, Validators.required],
-      address: '',//[null, Validators.required],
-      gender: [this.genders[0].value, []],
-      project: '',
+      lastName: [null, Validators.required],
+      dateOfBirth: [null, Validators.required],
+      address: [null, Validators.required],
+      gender: [null, Validators.required],
+      projectId: [null, Validators.required],
       hobby: '',
       talent: '',
       recentAchivements: '',

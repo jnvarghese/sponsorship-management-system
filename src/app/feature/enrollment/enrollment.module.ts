@@ -1,8 +1,10 @@
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { enrollmentRoutes, enrollRoutingComponents } from './routes';
+import { enrollmentRoutes } from './routes';
 import { ReactiveFormsModule } from '@angular/forms';
+import { EnrollmentComponent, EnrollSponseeComponent, EnrollSponsorComponent, ReviewComponent } from './index';
+
 
 @NgModule({
   imports: [
@@ -10,7 +12,12 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     RouterModule.forChild(enrollmentRoutes),
   ],
-  declarations: [enrollRoutingComponents],
+  declarations: [
+    EnrollmentComponent,
+    EnrollSponseeComponent,
+    EnrollSponsorComponent,
+    ReviewComponent
+  ],
   providers: []
 })
 export class EnrollmentModule { }

@@ -7,11 +7,16 @@ export class InMemoryDataService implements InMemoryDbService {
      id: 1,
      name: 'CARD',
    }
-   const project = {
+   const project = [{
      id: 1,
      name: 'Life to Life',
      agency,
-   }
+   },
+   {
+    id: 2,
+    name: 'Life to Mission',
+    agency,
+  }]
     const parish = {
       id: 1,
       code: 'NE-ST1001',
@@ -63,7 +68,7 @@ export class InMemoryDataService implements InMemoryDbService {
         dateOfBirth: '05/05/1981',
         address: 'Tiruvalla',
         isSponsored: true,
-        project,
+        project:project[0],
         contributions: [contributions[0]],
       },
       { 
@@ -74,7 +79,7 @@ export class InMemoryDataService implements InMemoryDbService {
         dateOfBirth: '10/05/1984',
         address: 'Tiruvalla',
         isSponsored: true,
-        project,
+        project:project[1],
         contributions: [contributions[1]], 
       },
       { 

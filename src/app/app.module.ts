@@ -21,6 +21,7 @@ import { ManageSponsorShipModule } from './feature/managesponsorship/managespons
 import { StudentModule } from './feature/student/student.module';
 import { AppRoutingModule } from './app-routing.module';
 
+
 declare let jQuery: Object;
 
 @NgModule({
@@ -37,8 +38,7 @@ declare let jQuery: Object;
     BrowserModule,
     HttpModule,
     FormsModule,
-    ReactiveFormsModule,
-    
+    ReactiveFormsModule,    
     StudentModule,
     SponsorModule,
     EnrollmentModule,
@@ -46,7 +46,8 @@ declare let jQuery: Object;
     AppRoutingModule,
     InMemoryWebApiModule.forRoot(
       InMemoryDataService, { delay: 600  }
-    ) // https://angular.io/tutorial/toh-pt6
+    ), // https://angular.io/tutorial/toh-pt6,
+
   ],
   providers: [
     StudentService,

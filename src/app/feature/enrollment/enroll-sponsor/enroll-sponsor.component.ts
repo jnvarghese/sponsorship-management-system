@@ -79,7 +79,7 @@ export class EnrollSponsorComponent implements OnInit,OnChanges {
       paymentDate: data.paymentDate,
       contributionAmount: data.contributionAmount,
       effectiveDate: data.effectiveDate,
-      sponsee: data.sponsee
+      sponsee: data.sponsee || []
     });
   }
 

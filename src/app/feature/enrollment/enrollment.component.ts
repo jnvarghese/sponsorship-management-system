@@ -8,27 +8,37 @@ import { Enrollment } from '../model/index';
 })
 export class EnrollmentComponent implements OnInit {
 
-  sponsorSelected: boolean = false;
+  displayReview: boolean;
+  displaySponsee: boolean;
+  displaySponsor: boolean;
   sponsorData: any;
   
   ngOnInit() {
-
+    this.displaySponsor = true;
+    this.displaySponsee = false;
+    this.displayReview = false;
   }
   
   sponsorInfo(formdata: any) {
-    this.sponsorSelected = true;
-    this.sponsorData = formdata;
-    console.log('EnrollmentComponent.sponsorInfo ', formdata);
+   this.displaySponsor = false;
+   this.displaySponsee = true;
+   this.displayReview = false;
+   this.sponsorData = formdata;
+   console.log('EnrollmentComponent.sponsorInfo ', formdata);
   }
 
   sponseeInfo(e: Enrollment): void {
     if(e.goto === 'toSponsor'){
-      this.sponsorSelected = false;
-      this.sponsorData = e;
-    }else if(e.goto === 'toReview'){
+      this.displaySponsor = true;
+      this.displaySponsee = false;
+      this.displayReview = false;
+    } else if(e.goto === 'toReview'){
+      this.displaySponsor = false;
+      this.displaySponsee = false;
+      this.displayReview = true;
+    } else{
 
-    }else{
-
-    }   
+    }  
+    this.sponsorData = e; 
   }
 }

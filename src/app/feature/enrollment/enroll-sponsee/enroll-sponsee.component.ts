@@ -84,25 +84,35 @@ export class EnrollSponseeComponent implements OnInit {
     this.enroll.sponsee.push(sponsee);  
 
     if(this.addMore){
-      
+      let sponseeSize = this.enroll.sponsee.length;
+      console.log( 'total available time ', dateIncrementor)
+      console.log('total sponsee ', this.enroll.sponsee.length)
       if(this.enroll.sponsee.length > 1){
         let remianing = dateIncrementor;
-        for (let e of this.enroll.sponsee){    
+        for (let e of this.enroll.sponsee){   
+         console.log('decremented sponsee ', sponseeSize)
+         console.log (' remianing ', remianing);
           let year = effectiveDate.getDate().getFullYear();
           let month = effectiveDate.getDate().getMonth() - 1;     
           let incremented2;
           let expireDate2;          
-          if(remianing > 12){
+          if(remianing >= 12 && sponseeSize > 1){
             incremented2 = this.incrementDate(1, 'year', effectiveDate);
             expireDate2 = this.calculateExpiration(incremented2);         
-          }else{
+          }else if(remianing > 12 || remianing <= 12){
             incremented2 = this.incrementDate(remianing, 'month', effectiveDate);
-            expireDate2 = this.calculateExpiration(incremented2);   
+            expireDate2 = this.calculateExpiration(incremented2);     
+            if(remianing <= 12){
+              this.addMore = false    
+            }       
+          }else{
             this.addMore = false       
           }
           e.expirationMonth = expireDate2[0];
           e.expirationYear = expireDate2[1];
           remianing = remianing - 12;
+
+          sponseeSize = --sponseeSize; 
         }       
       }
     }

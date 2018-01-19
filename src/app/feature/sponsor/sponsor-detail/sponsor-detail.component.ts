@@ -1,5 +1,5 @@
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Sponsor } from '../../model/index';
 import { Component, Input, OnInit } from '@angular/core';
 import { SponsorService } from '../../shared/service/sponsor.service';
@@ -15,60 +15,83 @@ export class SponsorDetailComponent implements OnInit {
   error: any;
   navigated = false; // true if navigated here
   isSponsorSaved: boolean;
+  public sponsorForm: FormGroup;
+  public address: FormGroup;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private sponsorService: SponsorService<Sponsor>) { }
+    private sponsorService: SponsorService<Sponsor>,
+    private fb: FormBuilder) { }
 
-  addSponsorForm: FormGroup;
-  address: FormGroup;
-  firstName = new FormControl('', Validators.required);
-  lastName = new FormControl('', Validators.required);
-  emailAddress = new FormControl('', [Validators.required,Validators.email]);
-  dateOfBirth = new FormControl();
-  middleInitial = new FormControl();
   //http://plnkr.co/edit/mWhYtc2nf8hSHFbLWlEx?p=preview
-  hasAnyCoSponser = new FormControl(); //new FormControl('', Validators.required);
-  street = new FormControl('', Validators.required);
-  appartmentNumber = new FormControl();
-  city = new FormControl('', Validators.required);
-  state = new FormControl('', Validators.required);
-  postalCode = new FormControl('', [Validators.required, Validators.pattern('^[0-9]{5}(?:-[0-9]{4})?$')]);
+  /*
+    street = new FormControl('', Validators.required);
+    appartmentNumber = new FormControl();
+    city = new FormControl('', Validators.required);
+    state = new FormControl('', Validators.required);
+    postalCode = new FormControl('', [Validators.required, Validators.pattern('^[0-9]{5}(?:-[0-9]{4})?$')]);*/
   // gender = new FormControl(Validators.required);
 
-  ngOnInit() {  
-    this.address = new FormGroup({
-      street: this.street,
-      appartmentNumber: this.appartmentNumber,
-      city: this.city,
-      state: this.state,
-      postalCode: this.postalCode
-    });
-    this.addSponsorForm = new FormGroup({
-      firstName: this.firstName,
-      lastName: this.lastName,
-      middleInitial: this.middleInitial,
-      dateOfBirth: this.dateOfBirth,
-      emailAddress: this.emailAddress,
-      hasAnyCoSponser: this.hasAnyCoSponser,
+  ngOnInit() {
+    this.createForm() 
+    let sponsorId = this.route.snapshot.params['id'];
+    if (sponsorId !== undefined) {
+      const id = +sponsorId;
+      this.navigated = true;
+      this.sponsorService.findSponsor(id)
+        .then(res => {
+          this.sponser = res[0];
+          this.pupulateForm(this.sponser);
+        })
+    } else {
+      this.navigated = false;
+      this.sponser = new Sponsor();
+    }
+  }
+  createForm() {
+    this.address = this.fb.group({
+      street: ['', Validators.required],
+      appartmentNumber: '',
+      city:  ['', Validators.required],
+      state: ['', Validators.required],
+      postalCode:  ['', [Validators.required, Validators.minLength(5), Validators.maxLength(5)]],
+    })
+    this.sponsorForm = this.fb.group({
+      firstName: ['', Validators.required],
+      middleInitial: '',
+      lastName: ['', Validators.required],
+      dateOfBirth: ['', Validators.required],
+      birthMonth:  ['', Validators.required],
+      emailAddress:  ['', [Validators.required,Validators.email]],
+      sponsorStatus: '',
+      coSponserName: '',
+      parishCode: '0',
       address: this.address
     });
-    this.route.params.subscribe(params => {
-      if (params['id'] !== undefined) {
-        const id = +params['id'];
-        this.navigated = true;
-        this.sponsorService.findSponsor(id)
-          .then(res => this.sponser = res[0])
-      } else {
-        this.navigated = false;
-        this.sponser = new Sponsor();
+  }
+  pupulateForm(sponser: Sponsor) {
+    this.sponsorForm.setValue({
+      firstName: sponser.firstName,
+      middleInitial: sponser.middleInitial || '',
+      lastName: sponser.lastName,
+      dateOfBirth: sponser.dayMonth || '',
+      emailAddress: sponser.emailAddress,
+      parishCode: sponser.parish.id,
+      sponsorStatus: sponser.IsActive,
+      coSponserName: sponser.coSponserName || '',
+      address: {
+        street :sponser.street,
+        appartmentNumber :sponser.appartmentNumber || '',
+        city: sponser.city,
+        state: sponser.state,
+        postalCode: sponser.postalCode || '',
       }
     });
-  }
 
+  }
   saveSponsorDetails(sponsorFormvalue) {
-    if (this.addSponsorForm.valid) {
+    if (this.sponsorForm.valid) {
       this.sponsorService
         .save(this.sponser)
         .then(response => {
