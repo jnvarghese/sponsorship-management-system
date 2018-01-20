@@ -35,20 +35,23 @@ export class StudentDetailComponent implements OnInit {
         this.navigated = true;
         this.studentService.findStudent(id)
           .then(student => {
-            this.student = student[0]
-            this.selectedProjectId = this.student.project.id;
+            console.log(' edit - student ',student);
+            this.student = student
+            this.selectedProjectId = this.student.projectId;            ;
             this.selectedGender = this.student.gender;
             return this.studentForm.setValue({
+              id: this.student.id,
               firstName: this.student.firstName,
-              middleName: this.student.middleName ? this.student.middleName : '',
-              lastName: this.student.lastName ? this.student.lastName : '',
-              dateOfBirth: this.student.dateOfBirth ? this.student.dateOfBirth : '',
-              address: this.student.address ? this.student.address : '', 
+              middleName: this.student.middleName || '',
+              lastName: this.student.lastName || '',
+              dateOfBirth: this.student.dateOfBirth || '',
+              address: this.student.address || '', 
+              status: this.student.status || '',
               gender: this.student.gender, 
-              projectId: this.student.project.id,        
-              hobby: this.student.hobbies ? this.student.hobbies : '',
-              talent: this.student.talent ? this.student.talent : '',
-              recentAchivements: this.student.recentAchivements ? this.student.recentAchivements : '',
+              projectId: this.student.projectId,        
+              hobby: this.student.hobbies || '',
+              talent: this.student.talent || '',
+              recentAchivements: this.student.recentAchivements || '',
             });
           });
       } else {
@@ -74,7 +77,9 @@ export class StudentDetailComponent implements OnInit {
 
   createForm() {
     this.studentForm = this.fb.group({
+      id: '',
       firstName: [null, Validators.required],
+      status: '',
       middleName: '',
       lastName: [null, Validators.required],
       dateOfBirth: [null, Validators.required],
@@ -87,11 +92,9 @@ export class StudentDetailComponent implements OnInit {
     });
   }
   saveStudent(): void {
-    console.log(this.studentForm.status);
-    console.log(this.studentForm.value);
     if (this.studentForm.valid) {
       this.studentService
-        .save(this.student)
+        .save(this.studentForm.value)
         .then(response => {
         })
         .catch(error => this.error = error); // TODO: Display error message  

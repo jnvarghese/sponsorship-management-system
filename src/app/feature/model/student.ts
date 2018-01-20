@@ -7,8 +7,10 @@ export class Student {
   gender: string;
   dateOfBirth: string;
   address: string;
-  isSponsored: boolean;
-  project: Project;
+  status: string;
+  projectId: string;
+  projectName: string;
+  agencyName: string;
   softlocked: boolean = false;
   hobbies?: string;
   talent?: string;

@@ -9,24 +9,24 @@ import { Student } from '../../model/student';
 @Injectable()
 export class StudentService {
 
-  private studentsUrl = 'api/students';  // URL to web api
+  private studentsUrl = 'api/student';  // URL to web api
 
   constructor(private http: Http) { }
 
   /** GET Studentes from the server */
   getStudents(): Promise<Array<Student>> {
-    return this.http.get(this.studentsUrl).toPromise()
+    return this.http.get(`${this.studentsUrl}/list`).toPromise()
       .then((response) => {
-        return response.json().data as Student[];
+        return response.json() as Student[];
       })
       .catch(this.handleError);
   }
 
   /** GET Studentes from the server */
   findStudent(id: number): Promise<Student> {
-    return this.http.get(`${this.studentsUrl}/?id=${id}`).toPromise()
+    return this.http.get(`${this.studentsUrl}/find/${id}`).toPromise()
       .then((response) => {
-        return response.json().data as Student;
+        return response.json() as Student;
       })
       .catch(this.handleError);
 
@@ -46,7 +46,7 @@ export class StudentService {
     headers.append('Content-Type', 'application/json');
 
     return this.http
-      .post(this.studentsUrl, JSON.stringify(student), { headers: headers })
+      .post(`${this.studentsUrl}/add`, JSON.stringify(student), { headers: headers })
       .toPromise()
       .then(() => student)
       .catch(this.handleError);
@@ -55,7 +55,8 @@ export class StudentService {
   // Update existing Student
   private put(student: Student): Promise<Student> {
 
-    const url = `${this.studentsUrl}/${student.id}`;
+    const url = `${this.studentsUrl}/modify/${student.id}`;
+    console.log('  url ', url);
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 

@@ -44,9 +44,9 @@ declare let jQuery: Object;
     EnrollmentModule,
     ManageSponsorShipModule,
     AppRoutingModule,
-    InMemoryWebApiModule.forRoot(
+    /*InMemoryWebApiModule.forRoot(
       InMemoryDataService, { delay: 600  }
-    ), // https://angular.io/tutorial/toh-pt6,
+    ),*/ // https://angular.io/tutorial/toh-pt6,
 
   ],
   providers: [

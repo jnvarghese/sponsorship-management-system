@@ -15,7 +15,8 @@ export class Sponsor {
     state: string;
     postalCode: number;
     hasAnyCoSponser: boolean;
-    parish: Parish;
+    parishId: number;
+    parishName: string;
     coSponserName: string;
     coSponserFirstName: string;
     coSponserLastName: string;

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
 import { Sponsor } from '../../model/sponsor';
 import { Observable } from 'rxjs/Observable';
-
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
@@ -11,22 +10,23 @@ import { Enrollment } from '../../model/index';
 @Injectable()
 export class SponsorService<T> {
 
-  private sponsorUrl = 'api/sponsors';  // URL to web api
+  private sponsorUrl = 'api/sponsor';  // URL to web api
 
   constructor(private http: Http) { }
 
   /** GET heroes from the server */
   getSponsors(): Promise<Array<T>> {
-    return this.http.get(this.sponsorUrl).toPromise()
+    return this.http.get(`${this.sponsorUrl}/list`).toPromise()
       .then((response) => {
-        return response.json().data as T[];
+        return response.json() as T[];
       })
       .catch(this.handleError);
   }
+
   findSponsor(id: number): Promise<T> {
-    return this.http.get(`${this.sponsorUrl}/?id=${id}`).toPromise()
+    return this.http.get(`${this.sponsorUrl}/find/${id}`).toPromise()
       .then((response) => {
-        return response.json().data as T;
+        return response.json() as T;
       })
       .catch(this.handleError);
   }
@@ -45,7 +45,7 @@ export class SponsorService<T> {
     headers.append('Content-Type', 'application/json');
 
     return this.http
-      .post(this.sponsorUrl, JSON.stringify(sponsor), { headers: headers })
+      .post(`${this.sponsorUrl}/add`, JSON.stringify(sponsor), { headers: headers })
       .toPromise()
       .then(() => sponsor)
       .catch(this.handleError);
@@ -54,7 +54,7 @@ export class SponsorService<T> {
   // Update existing Student
   private put(sponsor: Sponsor): Promise<Sponsor> {
 
-    const url = `${this.sponsorUrl}/${sponsor.id}`;
+    const url = `${this.sponsorUrl}/modify/${sponsor.id}`;
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 

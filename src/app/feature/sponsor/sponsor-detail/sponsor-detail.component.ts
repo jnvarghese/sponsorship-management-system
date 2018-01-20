@@ -25,23 +25,16 @@ export class SponsorDetailComponent implements OnInit {
     private fb: FormBuilder) { }
 
   //http://plnkr.co/edit/mWhYtc2nf8hSHFbLWlEx?p=preview
-  /*
-    street = new FormControl('', Validators.required);
-    appartmentNumber = new FormControl();
-    city = new FormControl('', Validators.required);
-    state = new FormControl('', Validators.required);
-    postalCode = new FormControl('', [Validators.required, Validators.pattern('^[0-9]{5}(?:-[0-9]{4})?$')]);*/
-  // gender = new FormControl(Validators.required);
 
   ngOnInit() {
-    this.createForm() 
+    this.createForm()
     let sponsorId = this.route.snapshot.params['id'];
     if (sponsorId !== undefined) {
       const id = +sponsorId;
       this.navigated = true;
       this.sponsorService.findSponsor(id)
         .then(res => {
-          this.sponser = res[0];
+          this.sponser = res;
           this.pupulateForm(this.sponser);
         })
     } else {
@@ -50,24 +43,21 @@ export class SponsorDetailComponent implements OnInit {
     }
   }
   createForm() {
-    this.address = this.fb.group({
-      street: ['', Validators.required],
-      appartmentNumber: '',
-      city:  ['', Validators.required],
-      state: ['', Validators.required],
-      postalCode:  ['', [Validators.required, Validators.minLength(5), Validators.maxLength(5)]],
-    })
     this.sponsorForm = this.fb.group({
       firstName: ['', Validators.required],
       middleInitial: '',
       lastName: ['', Validators.required],
       dateOfBirth: ['', Validators.required],
-      birthMonth:  ['', Validators.required],
-      emailAddress:  ['', [Validators.required,Validators.email]],
-      sponsorStatus: '',
+      birthMonth: ['', Validators.required],
+      emailAddress: ['', [Validators.required, Validators.email]],
       coSponserName: '',
       parishCode: '0',
-      address: this.address
+      sponsorStatus: '',
+      street: ['', Validators.required],
+      appartmentNumber: '',
+      city: ['', Validators.required],
+      state: ['', Validators.required],
+      postalCode: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(5)]],
     });
   }
   pupulateForm(sponser: Sponsor) {
@@ -75,20 +65,18 @@ export class SponsorDetailComponent implements OnInit {
       firstName: sponser.firstName,
       middleInitial: sponser.middleInitial || '',
       lastName: sponser.lastName,
+      sponsorStatus: '',
       dateOfBirth: sponser.dayMonth || '',
+      birthMonth: sponser.dayMonth || '',
       emailAddress: sponser.emailAddress,
-      parishCode: sponser.parish.id,
-      sponsorStatus: sponser.IsActive,
+      parishCode: sponser.parishId,
       coSponserName: sponser.coSponserName || '',
-      address: {
-        street :sponser.street,
-        appartmentNumber :sponser.appartmentNumber || '',
-        city: sponser.city,
-        state: sponser.state,
-        postalCode: sponser.postalCode || '',
-      }
+      street: sponser.street,
+      appartmentNumber: sponser.appartmentNumber || '',
+      city: sponser.city,
+      state: sponser.state,
+      postalCode: sponser.postalCode || '',
     });
-
   }
   saveSponsorDetails(sponsorFormvalue) {
     if (this.sponsorForm.valid) {

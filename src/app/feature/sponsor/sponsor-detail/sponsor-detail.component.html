@@ -10,7 +10,7 @@
         <div class="col-sm-4" [ngClass]="{'error': firstName?.invalid && firstName?.touched}">
           <label for="firstName">First Name</label>
           <input formControlName="firstName" id="firstName" class="form-control" type="text" placeholder="First Name" />
-          <em *ngIf="sponsorForm.controls.firstName?.invalid && sponsorForm.controls.firstName?.touched">Required</em>
+          <em *ngIf="sponsorForm.get('firstName')?.invalid && sponsorForm.get('firstName')?.touched">Required</em>
         </div>
 
         <div class="col-sm-4">
@@ -65,7 +65,7 @@
         <div class="col-sm-8" [ngClass]="{'error': street?.invalid && street?.touched}">
           <label for="address">Address</label>
           <input formControlName="street" id="street" class="form-control" type="text" placeholder="Street" />
-          <em *ngIf="address.controls.street?.invalid && address.controls.street?.touched">Required</em>
+          <em *ngIf="sponsorForm.get('street')?.invalid && sponsorForm.get('street')?.touched">Required</em>
         </div>
         <div class="col-sm-2">
           <label for="address">Appt. No.</label>
@@ -81,17 +81,17 @@
         <div class="col-sm-4" [ngClass]="{'error': city?.invalid && city?.touched}">
           <label for="city">City</label>
           <input formControlName="city" id="city" class="form-control" type="text" placeholder="City" />
-          <em *ngIf="sponsorForm.get('address').get('city')?.invalid && address.get('city')?.touched">Required</em>
+          <em *ngIf="sponsorForm.get('city')?.invalid && sponsorForm.get('city')?.touched">Required</em>
         </div>
         <div class="col-sm-4">
           <label for="state">State</label>
           <input formControlName="state" id="state" class="form-control" type="text" placeholder="State" />
-          <em *ngIf="sponsorForm.get('address').get('state')?.invalid && address.get('state')?.touched">Required</em>
+          <em *ngIf="sponsorForm.get('state')?.invalid && sponsorForm.get('state')?.touched">Required</em>
         </div>
         <div class="col-sm-2">
           <label for="postalCode">Zip Code</label>
           <input formControlName="postalCode" id="postalCode" class="form-control" type="text" placeholder="Zip Code" />
-          <em *ngIf="sponsorForm.get('address').get('postalCode')?.invalid && address.get('postalCode')?.touched">Required</em>
+          <em *ngIf="sponsorForm.get('postalCode')?.invalid && sponsorForm.get('postalCode')?.touched">Required</em>
         </div>
       </div>
     </div>
@@ -118,10 +118,8 @@
         <div class="col-sm-4">
           <label for="sponsorStatus">Sponsor Status</label>
           <select class="form-control" formControlName="sponsorStatus">
-            <option [value]="0">Select Parish</option>
-            <option [value]="1">St. Stephen's Mar Thoma Church</option>
-            <option [value]="2">Carmel Mar Thoma Church</option>
-            <!--<option *ngFor="let c of countries" [value]="c">{{c.name}}      </option>-->
+            <option [value]="0">Active</option>
+            <option [value]="1">Non Active</option>
           </select>
         </div>
 

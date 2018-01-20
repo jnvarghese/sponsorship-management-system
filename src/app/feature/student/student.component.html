@@ -17,7 +17,6 @@
                   <th>Gender</th>
                   <th>Project</th>
                   <th>Agency</th>
-                  <th>Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -25,9 +24,8 @@
                   <td>{{ student.firstName }}</td>
                   <td>{{ student.lastName }}</td>
                   <td>{{ student.gender }}</td>
-                  <td>{{ student?.project.name }}</td>
-                  <td>{{ student?.project?.agency.name }}</td>
-                  <td>{{ student.isSponsored ===true ? 'Currently sponsored' : 'Not sponsored' }}</td>
+                  <td>{{ student.projectName }}</td>
+                  <td>{{ student.agencyName}}</td>
                 </tr>     
               </tbody>
           </table>
