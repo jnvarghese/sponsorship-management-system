@@ -47,17 +47,17 @@ export class SponsorDetailComponent implements OnInit {
       firstName: ['', Validators.required],
       middleInitial: '',
       lastName: ['', Validators.required],
-      dateOfBirth: ['', Validators.required],
-      birthMonth: ['', Validators.required],
+      dayOfBirth: ['', Validators.required],
+      monthOfBirth: ['', Validators.required],
       emailAddress: ['', [Validators.required, Validators.email]],
       coSponserName: '',
       parishCode: '0',
       sponsorStatus: '',
-      street: ['', Validators.required],
+      street: '',
       appartmentNumber: '',
-      city: ['', Validators.required],
-      state: ['', Validators.required],
-      postalCode: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(5)]],
+      city: '',
+      state: '',
+      postalCode: '',
     });
   }
   pupulateForm(sponser: Sponsor) {
@@ -65,9 +65,9 @@ export class SponsorDetailComponent implements OnInit {
       firstName: sponser.firstName,
       middleInitial: sponser.middleInitial || '',
       lastName: sponser.lastName,
-      sponsorStatus: '',
-      dateOfBirth: sponser.dayMonth || '',
-      birthMonth: sponser.dayMonth || '',
+      sponsorStatus: sponser.sponsorStatus,
+      dayOfBirth: sponser.dayOfBirth || '',
+      monthOfBirth: sponser.monthOfBirth || '',
       emailAddress: sponser.emailAddress,
       parishCode: sponser.parishId,
       coSponserName: sponser.coSponserName || '',
@@ -81,7 +81,7 @@ export class SponsorDetailComponent implements OnInit {
   saveSponsorDetails(sponsorFormvalue) {
     if (this.sponsorForm.valid) {
       this.sponsorService
-        .save(this.sponser)
+        .save(this.sponsorForm.value, this.sponser.id, this.sponser.parishId)
         .then(response => {
           this.isSponsorSaved = true;
         })

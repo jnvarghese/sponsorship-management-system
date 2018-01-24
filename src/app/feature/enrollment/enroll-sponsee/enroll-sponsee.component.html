@@ -17,7 +17,7 @@
                 <li class="list-group-item" (click)="selectStudent(student)">{{student.firstName}} {{student.lastName}} </li>
         </ul>
         <div *ngIf="hasAnyStudentSelected" class="row-fluid">
-                <div *ngFor="let sponsee of enroll.sponsee">
+                <div *ngFor="let sponsee of enroll.sponsees">
                         <div class="alert alert-success">
                              Added sponsorship for {{sponsee.name}} until {{sponsee.expirationMonth}}/{{sponsee.expirationYear}}
                         </div>

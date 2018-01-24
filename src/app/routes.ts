@@ -6,11 +6,17 @@ import {
 } from './feature/index';
 
 import { EnrollmentComponent } from './feature/enrollment/enrollment.component';
+import { InitResolve } from './feature/shared/resolver/init.resolve';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/dashboard', pathMatch: 'full'},
-    { path: 'dashboard', component: DashboardComponent },
-    //{ path: 'enroll', component: EnrollmentComponent },
+    { path: 'dashboard', component: DashboardComponent,
+      resolve: { initdata:  InitResolve}
+    },
+    {
+      path: 'admin',
+      loadChildren: './feature/admin/admin.module#AdminModule'
+    },
     { path: '**', component: PageNotFoundComponent }
   ];
 /*

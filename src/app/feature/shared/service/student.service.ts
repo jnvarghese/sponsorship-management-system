@@ -72,11 +72,11 @@ export class StudentService {
     return Promise.reject(error.message || error);
   }
 
-  search(term: string): Promise<Array<Student>> {
-    return this.http.get(`${this.studentsUrl}/?firstName=${term}`)
+  search(term: string, effectiveDate: string): Promise<Array<Student>> {
+    return this.http.get(`${this.studentsUrl}/search/${term}/${effectiveDate}`)
       .toPromise()
       .then((response) => {
-        return response.json().data as Array<Student>;
+        return response.json() as Array<Student>;
       })
       .catch(this.handleError);
   }

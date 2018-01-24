@@ -49,7 +49,7 @@ export class StudentDetailComponent implements OnInit {
               status: this.student.status || '',
               gender: this.student.gender, 
               projectId: this.student.projectId,        
-              hobby: this.student.hobbies || '',
+              hobbies: this.student.hobbies || '',
               talent: this.student.talent || '',
               recentAchivements: this.student.recentAchivements || '',
             });
@@ -83,10 +83,10 @@ export class StudentDetailComponent implements OnInit {
       middleName: '',
       lastName: [null, Validators.required],
       dateOfBirth: [null, Validators.required],
-      address: [null, Validators.required],
+      address: '',
       gender: [null, Validators.required],
       projectId: [null, Validators.required],
-      hobby: '',
+      hobbies: '',
       talent: '',
       recentAchivements: '',
     });

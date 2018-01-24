@@ -6,8 +6,9 @@ export class Sponsor {
     firstName: string;
     lastName: string;
     middleInitial: string;
-    dayMonth: string;
-    IsActive: boolean;
+    dayOfBirth: number;
+    monthOfBirth: number;
+    sponsorStatus: number;
     emailAddress: string;
     appartmentNumber: string;
     street: string;

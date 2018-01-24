@@ -14,13 +14,17 @@ import {
   HeaderComponent,
   FooterComponent,
   JQUERY_PROVIDER,
-  EnrollService} from './feature/index';
+  EnrollService,
+  InitService,
+  AdminService} from './feature/index';
 import { SponsorModule } from './feature/sponsor/sponsor.module';
 import { EnrollmentModule } from './feature/enrollment/enrollment.module';
 import { ManageSponsorShipModule } from './feature/managesponsorship/managesponsorship.module';
 import { StudentModule } from './feature/student/student.module';
 import { AppRoutingModule } from './app-routing.module';
-
+import { InitResolve } from './feature/shared/resolver/init.resolve';
+import { DateFormatPipe } from './shared/date.format.pipe';
+import { DashboardService } from './feature/shared/service/dashboard.service';
 
 declare let jQuery: Object;
 
@@ -32,7 +36,7 @@ declare let jQuery: Object;
     DashboardComponent,    
     PageNotFoundComponent,
     HeaderComponent,
-    FooterComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
@@ -50,9 +54,14 @@ declare let jQuery: Object;
 
   ],
   providers: [
+    AdminService,
+    DashboardService,
+    DateFormatPipe,
     StudentService,
     SponsorService,
     EnrollService,
+    InitResolve,
+    InitService,
     JQUERY_PROVIDER
   ],
   bootstrap: [AppComponent]

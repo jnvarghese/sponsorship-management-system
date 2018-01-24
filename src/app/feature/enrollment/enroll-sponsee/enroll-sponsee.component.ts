@@ -43,7 +43,7 @@ export class EnrollSponseeComponent implements OnInit {
       .distinctUntilChanged()   // ignore if next search term is same as previous
       .switchMap(term => term   // switch to new observable each time
         // return the http search observable
-        ? this.studentService.search(term)
+        ? this.studentService.search(term, this.enroll.effectiveDate)
         // or the observable of empty sponsor if no search term
         : Observable.of<Array<Student>>([]))
       .catch(error => {
@@ -54,20 +54,23 @@ export class EnrollSponseeComponent implements OnInit {
   }
 
   searchStudent(term: string): void {
-    if (!this.enroll.sponsee){
+    if (!this.enroll.sponsees){
       this.hasAnyStudentSelected = false;
-      this.enroll.sponsee = [];
+      this.enroll.sponsees = [];
     }
     // Push a search term into the observable stream.
     this.studentSearchTerms.next(term);
   }
 
   selectStudent(student: Student) {
-    console.log('Sponsee Comp. selectStudent ', this.enroll);
+    console.log('Sponsee Comp. selectStudent ', student);
     this.containerEl.nativeElement.value = '';
     //this.studentSearchTerms.next();
     this.hasAnyStudentSelected = true;
     let dateIncrementor = this.enroll.contributionAmount / 20;
+    this.enroll.miscAmount = this.enroll.contributionAmount % 20;
+    console.log( 'dateIncrementor ', dateIncrementor);
+    console.log( 'misc amount ', this.enroll.miscAmount);
     if(dateIncrementor > 12){
        this.message = `Mr ${this.enroll.sponsorName}'s, contribution $${this.enroll.contributionAmount}
        exceeds twelve months of sponsorship.
@@ -81,15 +84,21 @@ export class EnrollSponseeComponent implements OnInit {
     let incremented = this.incrementDate(dateIncrementor, 'month', effectiveDate);
     let expireDate = this.calculateExpiration(incremented);
     let sponsee = new Sponsee(this.enroll.sponsorId, expireDate[0], expireDate[1], student.id, student.firstName);
-    this.enroll.sponsee.push(sponsee);  
+   /* let computedDate = new Date(expireDate[1], expireDate[0]-1, 1, 0, 0, 0, 0);
+          let sponsorValidityDate = new Date(student.expirationYear, student.expirationMonth-1, 1, 0, 0, 0, 0);
+          console.log(' computedDate', computedDate )
+          console.log(' sponsorValidityDate', sponsorValidityDate )
+          console.log( 'compare ', effectiveDate.getDate().getTime() <= sponsorValidityDate.getTime());*/
+
+    this.enroll.sponsees.push(sponsee);  
 
     if(this.addMore){
-      let sponseeSize = this.enroll.sponsee.length;
+      let sponseeSize = this.enroll.sponsees.length;
       console.log( 'total available time ', dateIncrementor)
-      console.log('total sponsee ', this.enroll.sponsee.length)
-      if(this.enroll.sponsee.length > 1){
+      console.log('total sponsee ', this.enroll.sponsees.length)
+      if(this.enroll.sponsees.length > 1){
         let remianing = dateIncrementor;
-        for (let e of this.enroll.sponsee){   
+        for (let e of this.enroll.sponsees){   
          console.log('decremented sponsee ', sponseeSize)
          console.log (' remianing ', remianing);
           let year = effectiveDate.getDate().getFullYear();
@@ -110,6 +119,7 @@ export class EnrollSponseeComponent implements OnInit {
           }
           e.expirationMonth = expireDate2[0];
           e.expirationYear = expireDate2[1];
+          
           remianing = remianing - 12;
 
           sponseeSize = --sponseeSize; 
@@ -121,6 +131,7 @@ export class EnrollSponseeComponent implements OnInit {
 
   next() {
     this.enroll.goto = 'toReview';
+    console.log('Enroll Sponsee Next()', this.enroll)
     this.sponsee.emit(this.enroll);
   }
 
@@ -128,6 +139,7 @@ export class EnrollSponseeComponent implements OnInit {
     this.enroll.goto = 'toSponsor';
     this.sponsee.emit(this.enroll);
   }
+  
   private getEffectiveDate = (year, month) => {
     return {
       getDate: () => {

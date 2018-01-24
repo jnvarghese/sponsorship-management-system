@@ -6,13 +6,29 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">WebSiteName</a>
+      <a class="navbar-brand" href="#"></a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li [routerLinkActive]="['active']">
           <a [routerLink]="['/dashboard']">Home</a>
         </li>
+        <li class="dropdown" [routerLinkActive]="['active']">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Administration
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a [routerLink]="['/admin/agency']">Agency</a>
+            </li>
+            <li>
+              <a [routerLink]="['/admin/project']">Project</a>
+            </li>
+            <li>
+              <a [routerLink]="['/admin/parish']">Parish</a>
+            </li>
+          </ul>
+        </li>       
         <li class="dropdown" [routerLinkActive]="['active']">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">Sponsor
             <span class="caret"></span>
@@ -46,7 +62,7 @@
           <a [routerLink]="['/manage-sponsor']">Manage Sponsorship</a>
         </li>
       </ul>
-
+      <!--
       <ul class="nav navbar-nav navbar-right">
         <form class="navbar-form navbar-left">
           <div class="input-group">
@@ -67,6 +83,7 @@
             <span class="glyphicon glyphicon-log-in"></span> Login</a>
         </li>
       </ul>
+    -->
     </div>
   </div>
 </nav>

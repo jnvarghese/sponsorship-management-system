@@ -12,6 +12,8 @@ export class Student {
   projectName: string;
   agencyName: string;
   softlocked: boolean = false;
+  expirationMonth: number;
+  expirationYear: number;
   hobbies?: string;
   talent?: string;
   recentAchivements?: string[];

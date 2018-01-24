@@ -6,3 +6,5 @@ export * from './parish';
 export * from './project';
 export * from './agency';
 export * from './contribution';
+export * from './initializer';
+export * from './dashboard';

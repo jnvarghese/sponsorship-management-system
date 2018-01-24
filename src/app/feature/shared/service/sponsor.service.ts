@@ -31,19 +31,19 @@ export class SponsorService<T> {
       .catch(this.handleError);
   }
 
-  save(student: Sponsor): Promise<Sponsor> {
-    if (student.id) {
-      return this.put(student);
+  save(sponsor: Sponsor, id: number, parishId: number): Promise<Sponsor> {
+    sponsor.parishId = parishId
+    if (id) {
+      sponsor.id = id;
+      return this.put(sponsor);
     }
-    //student.id = new Date().getMilliseconds();
-    return this.post(student);
+    return this.post(sponsor);
   }
 
   // Add new Student
   private post(sponsor: Sponsor): Promise<Sponsor> {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-
     return this.http
       .post(`${this.sponsorUrl}/add`, JSON.stringify(sponsor), { headers: headers })
       .toPromise()
@@ -53,11 +53,9 @@ export class SponsorService<T> {
 
   // Update existing Student
   private put(sponsor: Sponsor): Promise<Sponsor> {
-
     const url = `${this.sponsorUrl}/modify/${sponsor.id}`;
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-
     return this.http
       .put(url, JSON.stringify(sponsor), { headers: headers })
       .toPromise()
@@ -66,10 +64,10 @@ export class SponsorService<T> {
   }
 
   search(term: string): Promise<Array<T>> {
-    return this.http.get(`${this.sponsorUrl}/?firstName=${term}`)
+    return this.http.get(`${this.sponsorUrl}/search/${term}`)
       .toPromise()
       .then((response) => {
-        return response.json().data as Array<T>;
+        return response.json() as Array<T>;
       })
       .catch(this.handleError);
   }

@@ -7,6 +7,7 @@ export class Enrollment {
         public paymentDate?: string,
         public effectiveDate?: string,
         public contributionAmount?: number,
-        public sponsee?: Array<Sponsee>) { }
+        public miscAmount?: number,
+        public sponsees?: Array<Sponsee>) { }
 }
 
