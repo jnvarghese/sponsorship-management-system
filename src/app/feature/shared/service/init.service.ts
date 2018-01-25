@@ -6,23 +6,29 @@ import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
-import { Initializer } from '../../model/index';
+import { Initializer, Center } from '../../model/index';
 
 @Injectable()
 export class InitService {
-    
-    private sponsorUrl = 'api/init';  // URL to web api
+
+    private apiurl = 'api/init';
 
     constructor(private http: Http) { }
 
-    /** GET heroes from the server */
+    getCenterList(): Promise<Array<Center>> {
+        let initializer = new Initializer();
+        return this.http.get(`${this.apiurl}/center`).toPromise()
+            .then((response) => {
+                return response.json() as Array<Center>;
+            })
+            .catch(this.handleError);
+    }
+
     getInitializerData(): Promise<Initializer> {
         let initializer = new Initializer();
-        return this.http.get(this.sponsorUrl).toPromise()
+        return this.http.get(this.apiurl).toPromise()
             .then((response) => {
-                initializer.projects =  response.json()[0];
-                initializer.parishes =  response.json()[1];
-                initializer.agencies =  response.json()[2];
+
                 return initializer;
             })
             .catch(this.handleError);

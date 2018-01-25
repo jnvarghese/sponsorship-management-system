@@ -34,18 +34,20 @@
           <em *ngIf="studentForm.get('dateOfBirth').invalid && studentForm.get('dateOfBirth').touched">Required</em>
         </div>
 
-        <div class="col-sm-3">
+        <div class="col-sm-3"  [ngClass]="{'error': gender?.invalid && gender?.touched}">
           <label for="gender">Gender</label>
           <select class="form-control" formControlName="gender">
             <option *ngFor="let g of genders" [value]="g.value" [selected]="selectedGender === g.value">{{g.label}}</option>
           </select>
+          <em *ngIf="studentForm.get('gender').invalid && studentForm.get('gender').touched">Required</em>
         </div>
 
-        <div class="col-sm-4">
+        <div class="col-sm-4" [ngClass]="{'error': projectId?.invalid && projectId?.touched}">
           <label for="project">Project</label>
           <select class="form-control" formControlName="projectId">
             <option *ngFor="let project of projects" [value]="project.id" [selected]="selectedProjectId === project.id">{{project.label}}</option>
           </select>
+          <em *ngIf="studentForm.get('projectId').invalid && studentForm.get('projectId').touched">Required</em>
         </div>
 
       </div>

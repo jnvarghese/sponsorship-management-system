@@ -13,9 +13,16 @@ export class AdminService<T> {
 
   constructor(private http: Http) { }
 
-  /** GET heroes from the server */
   get(url: string): Promise<Array<T>> {
     return this.http.get(`${url}/list`).toPromise()
+      .then((response) => {
+        return response.json() as T[];
+      })
+      .catch(this.handleError);
+  }
+
+  getById(url: string, centerId: number): Promise<Array<T>> {
+    return this.http.get(`${url}/list/${centerId}`).toPromise()
       .then((response) => {
         return response.json() as T[];
       })

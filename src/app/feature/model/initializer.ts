@@ -1,9 +1,8 @@
-import { Project, Parish, Agency } from "./index";
+import { Region, Center } from "./index";
 
 export class Initializer {
 
-   projects: Array<Project>;
-   parishes: Array<Parish>;
-   agencies: Array<Agency>;
+   regions: Array<Region>;
+   centers: Array<Center>;
 
 }

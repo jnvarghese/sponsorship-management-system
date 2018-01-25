@@ -1,8 +1,9 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Sponsor } from '../../model/index';
+import { Sponsor, Parish } from '../../model/index';
 import { Component, Input, OnInit } from '@angular/core';
 import { SponsorService } from '../../shared/service/sponsor.service';
+import { AdminService } from '../../shared/service/admin.service';
 
 @Component({
   selector: 'app-sponsor-detail',
@@ -17,11 +18,14 @@ export class SponsorDetailComponent implements OnInit {
   isSponsorSaved: boolean;
   public sponsorForm: FormGroup;
   public address: FormGroup;
+  parishes: Array<Parish>;
+  selectedParishId: number;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private sponsorService: SponsorService<Sponsor>,
+    private adminService: AdminService<Parish>,
     private fb: FormBuilder) { }
 
   //http://plnkr.co/edit/mWhYtc2nf8hSHFbLWlEx?p=preview
@@ -41,6 +45,10 @@ export class SponsorDetailComponent implements OnInit {
       this.navigated = false;
       this.sponser = new Sponsor();
     }
+
+    this.adminService.get('/api/admin/parishes')
+    .then(data => this.parishes = data)
+    .catch(err => console.log(err));
   }
   createForm() {
     this.sponsorForm = this.fb.group({
@@ -49,7 +57,7 @@ export class SponsorDetailComponent implements OnInit {
       lastName: ['', Validators.required],
       dayOfBirth: ['', Validators.required],
       monthOfBirth: ['', Validators.required],
-      emailAddress: ['', [Validators.required, Validators.email]],
+      emailAddress: [''],
       coSponserName: '',
       parishCode: '0',
       sponsorStatus: '',
@@ -61,6 +69,7 @@ export class SponsorDetailComponent implements OnInit {
     });
   }
   pupulateForm(sponser: Sponsor) {
+    this.selectedParishId = sponser.parishId;
     this.sponsorForm.setValue({
       firstName: sponser.firstName,
       middleInitial: sponser.middleInitial || '',

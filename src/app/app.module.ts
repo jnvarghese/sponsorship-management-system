@@ -25,6 +25,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { InitResolve } from './feature/shared/resolver/init.resolve';
 import { DateFormatPipe } from './shared/date.format.pipe';
 import { DashboardService } from './feature/shared/service/dashboard.service';
+import { AdminModule } from './feature/admin/admin.module';
 
 declare let jQuery: Object;
 
@@ -47,7 +48,9 @@ declare let jQuery: Object;
     SponsorModule,
     EnrollmentModule,
     ManageSponsorShipModule,
+    AdminModule,
     AppRoutingModule,
+   
     /*InMemoryWebApiModule.forRoot(
       InMemoryDataService, { delay: 600  }
     ),*/ // https://angular.io/tutorial/toh-pt6,

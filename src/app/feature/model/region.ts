@@ -1,6 +1,6 @@
-export class Agency{
+export class Region{
     id: number;
     code: string;
     name: string;
-    status: string
+    status: string;
 }

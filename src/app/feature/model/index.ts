@@ -8,3 +8,6 @@ export * from './agency';
 export * from './contribution';
 export * from './initializer';
 export * from './dashboard';
+export * from './parishproject';
+export * from './region';
+export * from './center';

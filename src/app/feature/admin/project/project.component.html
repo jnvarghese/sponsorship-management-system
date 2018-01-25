@@ -1,11 +1,27 @@
-<p style="margin-top:90px">
-  project works!
-  h
-  hu
-  u
-  h
-  df
-  dfg
-  fdg
-  dsf
-</p>
+<div class="container" style="margin-top:70px">
+    <h2>Project List</h2>
+    <p>This list displays the projects</p>
+    
+    <div class="row">
+        <div class="col-sm-12">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Agency Code</th>
+                <th>Agency Name</th>     
+                <th>Project Code</th>     
+                <th>Project Name</th>      
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let project of projects" [routerLink]="['/sponsor/modify',  project.id]">
+                <td>{{ project.agencyCode }}</td>
+                <td>{{ project.agencyName }}</td>
+                <td>{{ project.code }}</td>
+                <td>{{ project.name }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+</div>

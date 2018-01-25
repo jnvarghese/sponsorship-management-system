@@ -1,24 +1,18 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AgencyComponent, ProjectComponent, ParishComponent } from './index';
+import { CommonModule } from '@angular/common';
 
-const routes: Routes = [
-    {path: 'admin/agency', component: AgencyComponent },
-    {path: 'admin/project', component: ProjectComponent },
-    {path: 'admin/parish', component: ParishComponent },
-    /*{
-        path: '',
-        component: Feature5Component,
-        children: [
-          { path: 'about', component: AboutHomeComponent, outlet: 'abt' }, // url: about/
-          { path: 'item', component: AboutItemComponent, outlet:'itm' } // url: about/item
-        ]
-        path: '/admin/agency', component: AgencyComponent
-      }*/
+const adminRoutes: Routes = [
+  { path: 'admin/agency', component: AgencyComponent },
+  { path: 'admin/project', component: ProjectComponent },
+  { path: 'admin/parish', component: ParishComponent }
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(adminRoutes)],
   exports: [RouterModule]
 })
 export class AdminRoutingModule { }

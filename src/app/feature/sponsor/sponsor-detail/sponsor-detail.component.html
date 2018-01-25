@@ -102,10 +102,7 @@
         <div class="col-sm-10">
           <label for="lastName">Select Parish</label>
           <select class="form-control" formControlName="parishCode">
-            <option [value]="0">Select Parish</option>
-            <option [value]="1">St. Stephen's Mar Thoma Church</option>
-            <option [value]="2">Carmel Mar Thoma Church</option>
-            <!--<option *ngFor="let c of countries" [value]="c">{{c.name}}      </option>-->
+            <option *ngFor="let parish of parishes" [value]="parish.id" [selected]="selectedParishId === parish.id">{{parish.name}}</option>
           </select>
         </div>
       </div>

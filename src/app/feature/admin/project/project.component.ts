@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Project } from '../../model/index';
+import { AdminService } from '../../index';
 
 @Component({
   selector: 'app-project',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProjectComponent implements OnInit {
 
-  constructor() { }
+  projects: Array<Project>;
+  
+  constructor(private adminService: AdminService<Project>) { }
 
   ngOnInit() {
+    this.adminService.get('/api/admin/projects')
+      .then(data => this.projects = data)
+      .catch(err => console.log(err));
   }
 
 }
