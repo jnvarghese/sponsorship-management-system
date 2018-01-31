@@ -5,7 +5,8 @@ import {
   ProjectComponent, 
   ParishComponent, 
   AgencyComponent, 
-  ParishprojectassignComponent 
+  ParishprojectassignComponent, 
+  ParishDetailComponent
 } from './index';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -19,7 +20,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     AgencyComponent,
     ProjectComponent,
     ParishComponent,
-    ParishprojectassignComponent
+    ParishprojectassignComponent,
+    ParishDetailComponent
   ],
   providers: []
 })

@@ -4,6 +4,7 @@ export class Project {
     name: string; 
     code: string;
     address: string;
+    selected: boolean;
     contactNumber: string;
     contactEmail: string;
     status: string;

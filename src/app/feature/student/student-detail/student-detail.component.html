@@ -45,7 +45,7 @@
         <div class="col-sm-4" [ngClass]="{'error': projectId?.invalid && projectId?.touched}">
           <label for="project">Project</label>
           <select class="form-control" formControlName="projectId">
-            <option *ngFor="let project of projects" [value]="project.id" [selected]="selectedProjectId === project.id">{{project.label}}</option>
+            <option *ngFor="let project of projects" [value]="project.id" [selected]="selectedProjectId === project.id">{{project.name}}</option>
           </select>
           <em *ngIf="studentForm.get('projectId').invalid && studentForm.get('projectId').touched">Required</em>
         </div>

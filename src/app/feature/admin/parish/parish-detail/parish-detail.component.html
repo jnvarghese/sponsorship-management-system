@@ -1,0 +1,84 @@
+<div class="container" style="margin-top:70px">
+  <form [formGroup]="parishForm" (ngSubmit)="saveParish(parishForm.value)">
+    <div class="alert alert-success" *ngIf="(isParishSaved) && (parishForm.valid)">
+      <strong>Success!</strong> Added new student
+    </div>
+    <div *ngIf="addingParish">
+      <h2>Create Parish</h2>
+      <p>Please enter following details to successfuly create a parish.</p>
+    </div>
+    <div *ngIf="!addingParish">
+      <h2>Modify Parish</h2>
+      <p>Please enter following details to successfuly modify a parish.</p>
+    </div>
+    <div class="row-fluid">
+      <div class="col-md-12">
+        <input type="hidden" formControlName="id">
+        <div class="form-group">
+          <div class="col-sm-3" [ngClass]="{'error': code?.invalid && code?.touched}">
+            <label for="code">Code</label>
+            <input formControlName="code" id="code" class="form-control" placeholder="Code" />
+            <em *ngIf="parishForm.get('code').invalid && parishForm.get('code').touched">Required</em>
+          </div>
+          <div class="col-sm-3" [ngClass]="{'error': name?.invalid && name?.touched}">
+            <label for="name">Name</label>
+            <input formControlName="name" id="name" class="form-control" placeholder="Name" />
+            <em *ngIf="parishForm.get('name').invalid && parishForm.get('name').touched">Required</em>
+          </div>
+          <div class="col-sm-4" [ngClass]="{'error': city?.invalid && city?.touched}">
+            <label for="city">City</label>
+            <input formControlName="city" id="city" class="form-control" placeholder="City" />
+            <em *ngIf="parishForm.get('city').invalid && parishForm.get('city').touched">Required</em>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="col-md-12">
+        <div class="form-group">
+          <div class="col-sm-3" [ngClass]="{'error': status?.invalid && status?.touched}">
+            <label for="status">Status</label>
+            <input formControlName="status" id="status" class="form-control" placeholder="Status" />
+            <em *ngIf="parishForm.get('status').invalid && parishForm.get('status').touched">Required</em>
+          </div>
+
+          <div class="col-sm-7" [ngClass]="{'error': centerId?.invalid && gender?.touched}">
+            <label for="gender">Center</label>
+            <select class="form-control" formControlName="centerId">
+              <option *ngFor="let center of centers" [value]="center.id" 
+              [selected]="selectedCenterId === center.id">{{center.regionName}} {{center.name}}</option>
+            </select>
+            <em *ngIf="parishForm.get('centerId').invalid && parishForm.get('centerId').touched">Required</em>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="col-md-12">
+        <div class="form-group">   
+          <div class="col-sm-10">
+            <label for="gender">Projects</label>
+            <div *ngFor="let project of projectsLists.controls; let i=index">
+              <input type="checkbox" [formControl]="project"/>{{projects[i].name}}
+            </div>                   
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row-fluid">
+      <div class="col-md-12">
+        <div class="form-group">
+          <div class="col-sm-offset-8 col-sm-1">
+            <button type="submit" class="btn btn-primary btn-sm" [disabled]="parishForm.invalid">Submit</button>
+          </div>
+          <div class="col-sm-1">
+            <button type="button" (click)="cancel()" class="btn btn-primary btn-sm">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <pre> {{ parishForm.value | json }}</pre>
+  </form>
+</div>
