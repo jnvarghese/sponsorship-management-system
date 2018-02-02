@@ -55,7 +55,7 @@ export class ParishComponent implements OnInit, OnDestroy {
   }
 
   onSelect(parish: Parish) {
-    this.router.navigate(['admin/parish/modify',  parish.id]);
+    this.router.navigate(['/admin/parish/modify',  parish.id]);
   }
 
 }

@@ -21,8 +21,8 @@ export class AdminService<T> {
       .catch(this.handleError);
   }
 
-  getById(url: string, centerId: number): Promise<Array<T>> {
-    return this.http.get(`${url}/list/${centerId}`).toPromise()
+  getById(url: string, id: number): Promise<Array<T>> {
+    return this.http.get(`${url}/list/${id}`).toPromise()
       .then((response) => {
         return response.json() as T[];
       })
@@ -37,7 +37,7 @@ export class AdminService<T> {
       .catch(this.handleError);
   }
 
-  save(url: string, e: admintype, id: number, parishId: number): Promise<T> {
+  save(url: string, e: admintype, id?: number, parishId?: number): Promise<T> {
     if (id) {      
       return this.put(url, e);
     }

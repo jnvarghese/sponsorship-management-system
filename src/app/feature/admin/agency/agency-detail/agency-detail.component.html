@@ -1,0 +1,58 @@
+<form [formGroup]="agencyForm" (ngSubmit)="saveAgency(agencyForm.value)" style="margin-top:90px">
+  <div class="alert alert-success" *ngIf="(isAgencySaved) && (agencyForm.valid)">
+    <strong>Success!</strong> Added new Agency
+  </div>
+  <h2>Create Agency</h2>
+  <p>Please enter following details to successfuly create a agency.</p>
+  <div class="row-fluid">
+    <div class="col-md-12">
+      <input type="hidden" formControlName="id">
+      <div class="form-group">
+        <div class="col-sm-10" [ngClass]="{'error': code?.invalid && code?.touched}">
+          <label for="code">Code</label>
+          <input formControlName="code" id="code" class="form-control" placeholder="Code" [maxLength]=5 />
+          <em *ngIf="agencyForm.get('code').invalid && agencyForm.get('code').touched">Required</em>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row-fluid">
+    <div class="col-md-12">
+      <div class="form-group">
+        <div class="col-sm-10" [ngClass]="{'error': name?.invalid && name?.touched}">
+          <label for="name">Name</label>
+          <input formControlName="name" id="name" class="form-control" placeholder="Name" />
+          <em *ngIf="agencyForm.get('name').invalid && agencyForm.get('name').touched">Required</em>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row-fluid">
+    <div class="col-md-12">
+      <div class="form-group">
+        <div class="col-sm-4">
+          <label for="agencyStatus">Status</label>
+          <select class="form-control" formControlName="status">
+            <option [value]="1">Active</option>
+            <option [value]="0">Non Active</option>
+          </select>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="row-fluid">
+    <div class="col-md-12">
+      <div class="form-group">
+        <div class="col-sm-offset-8 col-sm-1">
+          <button type="submit" class="btn btn-primary btn-sm" [disabled]="agencyForm.invalid">Submit</button>
+        </div>
+        <div class="col-sm-1">
+          <button type="button" (click)="cancel()" class="btn btn-primary btn-sm">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--<pre>{{agencyForm.value | json}}</pre>-->
+</form>

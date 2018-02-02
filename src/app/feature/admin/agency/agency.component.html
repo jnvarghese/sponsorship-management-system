@@ -1,23 +1,27 @@
 <div class="container" style="margin-top:70px">
-    <h2>Agency List</h2>
-    <p>This list displays the agencies</p>
-    
-    <div class="row">
-        <div class="col-sm-12">
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th>Agency Code</th>
-                <th>Agency Name</th>      
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let agency of agencies" [routerLink]="['/sponsor/modify',  agency.id]">
-                <td>{{ agency.code }}</td>
-                <td>{{ agency.name }}</td>             
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+  <h2>Agency List</h2>
+  <p>This list displays the agencies</p>
+  <div class="row">
+    <div class="col-sm-12">
+      <button type="submit" (click)="addAgency()" class="btn btn-primary btn-xs">Add Agency</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Agency Code</th>
+            <th>Agency Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let agency of agencies" [routerLink]="['/admin/agency/modify',  agency.id]">
+            <td>{{ agency.code }}</td>
+            <td>{{ agency.name }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>

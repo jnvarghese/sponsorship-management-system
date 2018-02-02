@@ -38,11 +38,14 @@
         <div class="form-group">
           <div class="col-sm-3" [ngClass]="{'error': status?.invalid && status?.touched}">
             <label for="status">Status</label>
-            <input formControlName="status" id="status" class="form-control" placeholder="Status" />
+            <select class="form-control" formControlName="status">
+              <option [value]="1">Active</option>
+              <option [value]="0">Non Active</option>
+            </select>
             <em *ngIf="parishForm.get('status').invalid && parishForm.get('status').touched">Required</em>
           </div>
 
-          <div class="col-sm-7" [ngClass]="{'error': centerId?.invalid && gender?.touched}">
+          <div class="col-sm-7" [ngClass]="{'error': centerId?.invalid && centerId?.touched}">
             <label for="gender">Center</label>
             <select class="form-control" formControlName="centerId">
               <option *ngFor="let center of centers" [value]="center.id" 
@@ -60,7 +63,7 @@
           <div class="col-sm-10">
             <label for="gender">Projects</label>
             <div *ngFor="let project of projectsLists.controls; let i=index">
-              <input type="checkbox" [formControl]="project"/>{{projects[i].name}}
+              <input type="checkbox" [formControl]="project"/>{{iniitalProjectList[i].name}}
             </div>                   
           </div>
         </div>

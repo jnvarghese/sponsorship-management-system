@@ -11,13 +11,14 @@ import { Project, Center, Parish } from '../../../model/index';
 })
 export class ParishDetailComponent implements OnInit {
 
+  parishId: number;
   isParishSaved: boolean;
   parishForm: FormGroup;
   addingParish = false;
   editingParish = false;
   selectedCenterId: any;
   selectedProjects: Array<number>;
-  projects: Array<Project>;
+  iniitalProjectList: Array<any>;
   centers: Array<Center>;
 
   constructor(private adminService: AdminService<Parish>,
@@ -31,38 +32,72 @@ export class ParishDetailComponent implements OnInit {
   ngOnInit() {
 
     this.selectedProjects = [];
-    this.projects = this.route.snapshot.data.projects;
-    console.log( ' Resolve snapshot data ', this.projects);
+    this.iniitalProjectList = this.route.snapshot.data.projects;
+    console.log(' Resolve snapshot data ', this.iniitalProjectList);
     this.createForm();
     this.initService.getCenterList()
       .then(data => this.centers = data)
       .catch(err => console.log(err))
     // this.chosenCenter = false;
     this.route.params.forEach((params: Params) => {
-      if (params['id'] !== undefined) {  
+      if (params['id'] !== undefined) {
         const id = +params['id'];
-        console.log( 'OnInit route param id ',id);
-        
+        console.log('OnInit route param id ', id);
+
         this.populateForm(id);
       }
-    });   
-     
+    });
+
   }
 
-  createForm() {    
+  createForm() {
     this.parishForm = this.fb.group({
       id: '',
       code: ['', Validators.required],
-      name: '',
-      city: '',
-      status: '',
-      centerId: '',
+      name: ['', Validators.required],
+      city: ['', Validators.required],
+      status: ['', Validators.required],
+      centerId: ['', Validators.required],
       projectsList: this.buildProjects()
-    });    
+    });
+  }
+
+  populateForm(parishId: number) {
+    this.adminService.find('/api/admin/parishes', parishId)
+      .then(data => {
+        this.editingParish = true;
+        console.log(' edit - parish ', data);
+        this.selectedCenterId = data.centerId;
+        this.parishId = data.id;
+        return this.parishForm.setValue({
+          id: data.id || '',
+          code: data.code || '',
+          name: data.name || '',
+          city: data.city || '',
+          status: +data.status || '',
+          centerId: +data.centerId || '',
+          projectsList: this.buildProjects()
+        });
+      });
   }
 
   saveParish() {
-    console.log( ' form ' , this.parishForm.value)
+    if (this.parishForm.valid) {
+      const form = Object.assign({}, this.parishForm.value, {
+        projects: this.parishForm.value.projectsList.map((s, i) => {
+          return {
+            id: this.iniitalProjectList[i].projectId,
+            selected: s == true ? 1 : 0
+          }
+        })
+      });
+      this.adminService
+        .save('/api/admin/parishes', form, this.parishId)
+        .then(res => {
+          this.isParishSaved = true;
+        })
+        .catch(this.handleError);
+    }
   }
 
   cancel() {
@@ -75,32 +110,17 @@ export class ParishDetailComponent implements OnInit {
 
   buildProjects() {
     let arr = [];
-    console.log( ' buildform ', this.projects);
-    if (this.projects) {
-      arr = this.projects.map(s => {
+    console.log(' buildform ', this.iniitalProjectList);
+    if (this.iniitalProjectList) {
+      arr = this.iniitalProjectList.map(s => {
         return this.fb.control(s.selected);
       })
     }
     return this.fb.array(arr);
   }
-  populateForm(parishId: number) {
-    this.adminService.find('/api/admin/parishes', parishId)
-      .then(data => {
-        this.editingParish = true;
-        console.log(' edit - parish ', data);
-        this.selectedCenterId = data.centerId;
-       /* data.parishProjects.forEach(e => {
-          this.selectedProjects.push(e.parishId);
-        })*/
-        return this.parishForm.setValue({
-          id: data.id || '',
-          code: data.code || '',
-          name: data.name || '',
-          city: data.city || '',
-          status: data.status || '',
-          centerId: data.centerId || '',
-          projectsList: this.buildProjects()
-        });
-      });
+
+  private handleError(error: any): Promise<any> {
+    console.error('An error occurred', error);
+    return Promise.reject(error.message || error);
   }
 }
