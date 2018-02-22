@@ -11,9 +11,9 @@ export class CommonResolve<T> implements Resolve<Array<T>> {
   constructor(private commonService: AdminService<T>, private route: ActivatedRoute) { }
 
   resolve(route: ActivatedRouteSnapshot) {
-    let id = route.paramMap.get('id');
+    const id = route.paramMap.get('id');
     this.url = `/api/admin/projects/parish`;
-    console.log( `Resolving with URL ${this.url} and ${id}`)
+    console.log( `Resolving with URL ${this.url} and ${id}`);
     return this.commonService.getById(this.url, +id);
   }
 }

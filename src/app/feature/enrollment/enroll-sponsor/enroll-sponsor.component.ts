@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { SponsorService, EnrollService } from '../../index';
-import { Enrollment, Sponsor } from '../../model/index';
+import { SponsorService, EnrollService, InitService, AdminService } from '../../index';
+import { Enrollment, Sponsor, Parish, Center } from '../../model/index';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
@@ -21,38 +21,29 @@ export class EnrollSponsorComponent implements OnInit,OnChanges {
 
   hasAnySponsorSelected: boolean = false;
   enroll: Enrollment;
-  sponsers: Observable<Array<Sponsor>>;
-  private sponsorSearchTerms = new Subject<string>();
   sponsorEnrollForm: FormGroup;
   @Input() sponData;
   @Output() sponsor = new EventEmitter();
 
+  sponsors: Array<Sponsor>;
+  parishes: Array<Parish>;
+  centers: Array<Center>;
+  chosenCenter: boolean;
+  chosenParish: boolean;
+
   constructor(
     private sponsorService: SponsorService<Sponsor>,
     private enrollService: EnrollService,
+    private initService: InitService,
     private fb : FormBuilder,
+    private adminService: AdminService<Parish>,
     private router: Router) {
 
       this.createForm();
      }
 
-  @ViewChild('sponsorSearchBox') containerEl: ElementRef;
-
   ngOnInit() {
-    
-    this.sponsers = this.sponsorSearchTerms
-      .debounceTime(300)        // wait for 300ms pause in events
-      .distinctUntilChanged()   // ignore if next search term is same as previous
-      .switchMap(term => term   // switch to new observable each time
-        // return the http search observable
-        ? this.sponsorService.search(term)
-        // or the observable of empty sponsor if no search term
-        : Observable.of<Array<Sponsor>>([]))
-      .catch(error => {
-        // TODO: real error handling
-        console.log(`Error in component ... ${error}`);
-        return Observable.of<Array<Sponsor>>([]);
-      });
+  
      if(this.sponData){     
       this.enroll = new Enrollment(
         this.sponData.sponsorId,
@@ -66,6 +57,11 @@ export class EnrollSponsorComponent implements OnInit,OnChanges {
      }else{
       this.enroll = new Enrollment();
      }
+
+     this.initService.getCenterList()
+     .then(data => this.centers = data)
+     .catch(err => console.log(err))
+     this.chosenCenter = false;  
   }
   ngOnChanges(changes: SimpleChanges) {
     console.log('changes ', changes);
@@ -76,6 +72,7 @@ export class EnrollSponsorComponent implements OnInit,OnChanges {
     this.hasAnySponsorSelected = true;
     this.sponsorEnrollForm.setValue({
       sponsorId: data.sponsorId,
+      parishId: data.parishId,
       sponsorName: data.sponsorName,
       paymentDate: data.paymentDate,
       contributionAmount: data.contributionAmount,
@@ -87,6 +84,7 @@ export class EnrollSponsorComponent implements OnInit,OnChanges {
   createForm() {
     this.sponsorEnrollForm = this.fb.group({
       sponsorId: '',
+      parishId: '',
       sponsorName: '',
       sponsee: '',
       paymentDate: [null, Validators.required],
@@ -94,19 +92,14 @@ export class EnrollSponsorComponent implements OnInit,OnChanges {
       effectiveDate: [null, Validators.required]
     });
   }
-  searchSponsor(term: string): void {
-    this.hasAnySponsorSelected = false;
-    // Push a search term into the observable stream.
-    this.sponsorSearchTerms.next(term);
-  }
-
   selectSponsor(sponsor: Sponsor) {
-    this.containerEl.nativeElement.value = '';
-    //this.sponsorSearchTerms.next();
+    console.log(' Enroll Sponsor - Select', sponsor);
     this.hasAnySponsorSelected = true;
     let fullName = sponsor.firstName +' '+ sponsor.lastName;
     this.enroll.sponsorId = sponsor.id;
+    this.enroll.parishId = sponsor.parishId;
     this.enroll.sponsorName = fullName;
+    this.sponsorEnrollForm.controls['parishId'].setValue(sponsor.parishId);
     this.sponsorEnrollForm.controls['sponsorId'].setValue(sponsor.id);
     this.sponsorEnrollForm.controls['sponsorName'].setValue(fullName);
   }
@@ -117,5 +110,26 @@ export class EnrollSponsorComponent implements OnInit,OnChanges {
     this.sponsor.emit(formModel);
     //this.enrollService.setup(formModel);
     //this.router.navigate(['/enroll']);
+  }
+
+  onCenterSelect(value: any) {
+    if(value !== "0"){
+      this.chosenCenter = true;
+      this.adminService.getById('/api/admin/parishes', +value)
+        .then(data => this.parishes = data)
+        .catch(err => console.log(err));
+    }else{
+      this.chosenCenter = false;
+    }
+  }
+  onParishSelect(value: any) {
+    if(value !== "0"){
+      this.chosenParish = true;
+      this.sponsorService.getSponsorsByParishId(+value)
+        .then(data => this.sponsors = data)
+        .catch(err => console.log(err));
+    }else{
+      this.chosenParish = false;
+    }
   }
 }

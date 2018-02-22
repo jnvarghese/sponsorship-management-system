@@ -9,6 +9,7 @@
   <div class="row" style="margin-top:20px">
     <div class="col-sm-12">
       <select class="form-control" (change)="selectParish($event.target.value)">
+        <option [value]="0" [selected]="true"> Please choose one </option>
         <option *ngFor="let center of centers" [value]="center.id">{{center.regionName}} {{center.name}}</option>
       </select>
     </div>

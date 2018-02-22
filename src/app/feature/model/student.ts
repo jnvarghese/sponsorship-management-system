@@ -1,4 +1,4 @@
-import { Project, Contribution } from "./index";
+import { Project, Contribution } from './index';
 
 export class Student {
   id: number;
@@ -11,7 +11,7 @@ export class Student {
   projectId: string;
   projectName: string;
   agencyName: string;
-  softlocked: boolean = false;
+  softlocked = false;
   expirationMonth: number;
   expirationYear: number;
   hobbies?: string;
@@ -19,6 +19,5 @@ export class Student {
   recentAchivements?: string[];
   middleName?: string;
   profilePicture?: string;
-  contributions?: Contribution[]
+  contributions?: Contribution[];
 }
-

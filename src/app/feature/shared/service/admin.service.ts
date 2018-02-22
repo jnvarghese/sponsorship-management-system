@@ -38,7 +38,7 @@ export class AdminService<T> {
   }
 
   save(url: string, e: admintype, id?: number, parishId?: number): Promise<T> {
-    if (id) {      
+    if (id) {
       return this.put(url, e);
     }
     return this.post(url, e);

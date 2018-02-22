@@ -28,11 +28,11 @@ export class SponsorDetailComponent implements OnInit {
     private adminService: AdminService<Parish>,
     private fb: FormBuilder) { }
 
-  //http://plnkr.co/edit/mWhYtc2nf8hSHFbLWlEx?p=preview
+  // http://plnkr.co/edit/mWhYtc2nf8hSHFbLWlEx?p=preview
 
   ngOnInit() {
-    this.createForm()
-    let sponsorId = this.route.snapshot.params['id'];
+    this.createForm();
+    const sponsorId = this.route.snapshot.params['id'];
     if (sponsorId !== undefined) {
       const id = +sponsorId;
       this.navigated = true;
@@ -40,7 +40,7 @@ export class SponsorDetailComponent implements OnInit {
         .then(res => {
           this.sponser = res;
           this.pupulateForm(this.sponser);
-        })
+        });
     } else {
       this.navigated = false;
       this.sponser = new Sponsor();
@@ -50,16 +50,18 @@ export class SponsorDetailComponent implements OnInit {
     .then(data => this.parishes = data)
     .catch(err => console.log(err));
   }
+
   createForm() {
     this.sponsorForm = this.fb.group({
       firstName: ['', Validators.required],
       middleInitial: '',
       lastName: ['', Validators.required],
+      nickName: '',
       dayOfBirth: ['', Validators.required],
       monthOfBirth: ['', Validators.required],
       emailAddress: [''],
       coSponserName: '',
-      parishCode: '0',
+      parishId:  [null, Validators.required],
       sponsorStatus: '',
       street: '',
       appartmentNumber: '',
@@ -74,11 +76,12 @@ export class SponsorDetailComponent implements OnInit {
       firstName: sponser.firstName,
       middleInitial: sponser.middleInitial || '',
       lastName: sponser.lastName,
+      nickName: sponser.nickName,
       sponsorStatus: sponser.sponsorStatus,
       dayOfBirth: sponser.dayOfBirth || '',
       monthOfBirth: sponser.monthOfBirth || '',
       emailAddress: sponser.emailAddress,
-      parishCode: sponser.parishId,
+      parishId: sponser.parishId,
       coSponserName: sponser.coSponserName || '',
       street: sponser.street,
       appartmentNumber: sponser.appartmentNumber || '',
@@ -89,15 +92,9 @@ export class SponsorDetailComponent implements OnInit {
   }
   saveSponsorDetails(sponsorFormvalue) {
     if (this.sponsorForm.valid) {
+      console.log('save in component', this.sponsorForm.value);
       this.sponsorService
-        .save(this.sponsorForm.value, this.sponser.id, this.sponser.parishId)
-        .then(response => {
-          this.isSponsorSaved = true;
-        })
-        .catch(error => {
-          this.error = error
-          this.isSponsorSaved = false;
-        }); // TODO: Display error message  
+        .save(this.sponsorForm.value, this.sponser.id);
 
     }
   }

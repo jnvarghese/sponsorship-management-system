@@ -1,10 +1,11 @@
-import { Parish } from "./parish";
+import { Parish } from './parish';
 
 export class Sponsor {
 
     id: number;
     firstName: string;
     lastName: string;
+    nickName: string;
     middleInitial: string;
     dayOfBirth: number;
     monthOfBirth: number;
@@ -18,6 +19,7 @@ export class Sponsor {
     hasAnyCoSponser: boolean;
     parishId: number;
     parishName: string;
+    parishCity: string;
     coSponserName: string;
     coSponserFirstName: string;
     coSponserLastName: string;
@@ -26,4 +28,3 @@ export class Sponsor {
     contributionAmount: number;
     effectiveDate: string;
 }
-

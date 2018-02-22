@@ -47,11 +47,14 @@ export class ParishComponent implements OnInit, OnDestroy {
   }
 
   selectParish(value: any) {
-    this.chosenCenter = true;
-    this.adminService.getById('/api/admin/parishes', +value)
-      .then(data => this.parishes = data)
-      .catch(err => console.log(err));
-    console.log('center ', value);
+    if(value !== "0"){
+      this.chosenCenter = true;
+      this.adminService.getById('/api/admin/parishes', +value)
+        .then(data => this.parishes = data)
+        .catch(err => console.log(err));
+    }else{
+      this.chosenCenter = false;
+    }
   }
 
   onSelect(parish: Parish) {

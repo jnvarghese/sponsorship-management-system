@@ -16,44 +16,44 @@ export class StudentDetailComponent implements OnInit {
   studentForm: FormGroup;
   error: any;
   navigated = false; // true if navigated here
-  selectedProjectId:any;
-  selectedGender:any;
+  selectedProjectId: any;
+  selectedGender: any;
   projects: Array<Project>;
-  
-  isStudentSaved: boolean = false;
+  fileToUpload: File = null;
+  isStudentSaved = false;
+  genders = [
+    { value: 'M', label: 'Male' },
+    { value: 'F', label: 'Female' },
+    { value: 'O', label: 'Other'}
+  ];
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private studentService: StudentService,
     private commonService: AdminService<Project>,
-    private fb: FormBuilder) {   
+    private fb: FormBuilder) {
   }
-  //https://angular.io/guide/reactive-forms
+  // https://angular.io/guide/reactive-forms
   ngOnInit() {
       this.commonService.get(`/api/admin//projects`)
-        .then(data  =>{
+        .then(data  => {
           this.projects = data;
         })
-        .catch(err =>{
+        .catch(err => {
           console.log(' Error ', err);
         });
       this.createForm();
-      let studentId = this.route.snapshot.params['id'];
+      const studentId = this.route.snapshot.params['id'];
       if (studentId !== undefined) {
         const id = +studentId;
         this.navigated = true;
         this.populateForm(id);
       } else {
-        this.navigated = false;       
+        this.navigated = false;
         this.student = new Student();
       }
   }
-  genders = [
-    { value: 'M', label: 'Male' },
-    { value: 'F', label: 'Female' },
-    { value: 'O', label: 'Other'}
-  ];
 
   createForm() {
     this.studentForm = this.fb.group({
@@ -71,12 +71,12 @@ export class StudentDetailComponent implements OnInit {
       recentAchivements: '',
     });
   }
-  populateForm(id: number){
+  populateForm(id: number) {
     this.studentService.findStudent(id)
     .then(student => {
-      console.log(' edit - student ',student);
-      this.student = student
-      this.selectedProjectId = this.student.projectId;            ;
+      console.log(' edit - student ', student);
+      this.student = student;
+      this.selectedProjectId = this.student.projectId;
       this.selectedGender = this.student.gender;
       return this.studentForm.setValue({
         id: this.student.id,
@@ -84,10 +84,10 @@ export class StudentDetailComponent implements OnInit {
         middleName: this.student.middleName || '',
         lastName: this.student.lastName || '',
         dateOfBirth: this.student.dateOfBirth || '',
-        address: this.student.address || '', 
+        address: this.student.address || '',
         status: this.student.status || '',
-        gender: this.student.gender, 
-        projectId: this.student.projectId,        
+        gender: this.student.gender,
+        projectId: this.student.projectId,
         hobbies: this.student.hobbies || '',
         talent: this.student.talent || '',
         recentAchivements: this.student.recentAchivements || '',
@@ -95,16 +95,19 @@ export class StudentDetailComponent implements OnInit {
     });
   }
   saveStudent(): void {
+    console.log('fileToUpload ', this.fileToUpload);
     if (this.studentForm.valid) {
       this.studentService
         .save(this.studentForm.value)
         .then(response => {
         })
-        .catch(error => this.error = error); // TODO: Display error message  
+        .catch(error => this.error = error); // TODO: Display error message
       this.isStudentSaved = true;
     }
   }
-
+  handleFileInput(files: FileList) {
+      this.fileToUpload = files.item(0);
+  }
   cancel() {
     this.router.navigate(['/students']);
   }

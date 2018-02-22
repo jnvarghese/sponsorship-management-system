@@ -6,7 +6,7 @@ export class InMemoryDataService implements InMemoryDbService {
    const agency = {
      id: 1,
      name: 'CARD',
-   }
+   };
    const project = [{
      id: 1,
      name: 'Life to Life',
@@ -16,24 +16,24 @@ export class InMemoryDataService implements InMemoryDbService {
     id: 2,
     name: 'Life to Mission',
     agency,
-  }]
+  }];
     const parish = {
       id: 1,
       code: 'NE-ST1001',
       name: 'St. Stephen\'s',
       isActive: false
-    }
+    };
     const contributions = [
       { id: 1, dateReceived: '09/09/2010', amount: '250.00', status: 'Completed' },
       { id: 2, dateReceived: '09/09/2011', amount: '350.00', status: 'Completed' },
       { id: 3, dateReceived: '09/09/2012', amount: '550.00', status: 'Completed' }
-    ]
+    ];
     const sponsors = [
       {
-        id: 1, 
-        firstName: 'John', 
-        lastName: 'Mathai', 
-        IsActive: true, 
+        id: 1,
+        firstName: 'John',
+        lastName: 'Mathai',
+        IsActive: true,
         emailAddress: 'john.mathai@sms.com',
         street: '120 Winterfell',
         city: 'xxxx',
@@ -61,53 +61,53 @@ export class InMemoryDataService implements InMemoryDbService {
     ];
     const students = [
       {
-        id: 11, 
-        firstName: 'Jinu', 
-        lastName: 'Varghese', 
-        gender: 'M', 
+        id: 11,
+        firstName: 'Jinu',
+        lastName: 'Varghese',
+        gender: 'M',
         dateOfBirth: '05/05/1981',
         address: 'Tiruvalla',
         isSponsored: true,
-        project:project[0],
+        project: project[0],
         contributions: [contributions[0]],
       },
-      { 
-        id: 12, 
-        firstName: 'Kiran', 
-        lastName: 'Lukose', 
-        gender: 'M', 
+      {
+        id: 12,
+        firstName: 'Kiran',
+        lastName: 'Lukose',
+        gender: 'M',
         dateOfBirth: '10/05/1984',
         address: 'Tiruvalla',
         isSponsored: true,
-        project:project[1],
-        contributions: [contributions[1]], 
+        project: project[1],
+        contributions: [contributions[1]],
       },
-      { 
-        id: 13, 
-        firstName: 'Gracy', 
-        lastName: 'Chacko', 
-        gender: 'F', 
+      {
+        id: 13,
+        firstName: 'Gracy',
+        lastName: 'Chacko',
+        gender: 'F',
         dateOfBirth: '06/10/1990',
         address: 'Tiruvalla',
         isSponsored: true,
         project,
-        contributions: [], 
+        contributions: [],
         hobbies: 'drawing',
         talent: 'singing',
         recentAchivements: ['school festival top']
       }
     ];
-    
+
     const sponsorshipDetails =
       [
         {
-          id:1,
+          id: 1,
           sponser: sponsors[0],
           students: [students[1], students[2]],
           isActive: true
         },
         {
-          id:2,
+          id: 2,
           sponser: sponsors[1],
           students: [students[0]],
           isActive: true

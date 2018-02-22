@@ -72,8 +72,8 @@ export class StudentService {
     return Promise.reject(error.message || error);
   }
 
-  search(term: string, effectiveDate: string): Promise<Array<Student>> {
-    return this.http.get(`${this.studentsUrl}/search/${term}/${effectiveDate}`)
+  search(term: string, parishId: number, effectiveDate: string): Promise<Array<Student>> {
+    return this.http.get(`${this.studentsUrl}/search/${term}/${parishId}/${effectiveDate}`)
       .toPromise()
       .then((response) => {
         return response.json() as Array<Student>;

@@ -20,7 +20,7 @@ export class SponsorComponent implements OnInit {
     });
   }
 
-  addSponser(): void{
+  addSponser(): void {
     this.router.navigate(['./createsponsor']);
   }
 }

@@ -34,7 +34,7 @@ declare let jQuery: Object;
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    DashboardComponent,    
+    DashboardComponent,
     PageNotFoundComponent,
     HeaderComponent,
     FooterComponent
@@ -43,14 +43,14 @@ declare let jQuery: Object;
     BrowserModule,
     HttpModule,
     FormsModule,
-    ReactiveFormsModule,    
+    ReactiveFormsModule,
     StudentModule,
     SponsorModule,
     EnrollmentModule,
     ManageSponsorShipModule,
     AdminModule,
     AppRoutingModule,
-   
+
     /*InMemoryWebApiModule.forRoot(
       InMemoryDataService, { delay: 600  }
     ),*/ // https://angular.io/tutorial/toh-pt6,

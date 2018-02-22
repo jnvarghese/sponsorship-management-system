@@ -37,7 +37,7 @@ export class ParishDetailComponent implements OnInit {
     this.createForm();
     this.initService.getCenterList()
       .then(data => this.centers = data)
-      .catch(err => console.log(err))
+      .catch(err => console.log(err));
     // this.chosenCenter = false;
     this.route.params.forEach((params: Params) => {
       if (params['id'] !== undefined) {
@@ -86,9 +86,10 @@ export class ParishDetailComponent implements OnInit {
       const form = Object.assign({}, this.parishForm.value, {
         projects: this.parishForm.value.projectsList.map((s, i) => {
           return {
-            id: this.iniitalProjectList[i].projectId,
-            selected: s == true ? 1 : 0
-          }
+            ppId: this.iniitalProjectList[i].ppId,
+            projectId: this.iniitalProjectList[i].projectId,
+            selected: s === true ? 1 : 0
+          };
         })
       });
       this.adminService
@@ -106,7 +107,7 @@ export class ParishDetailComponent implements OnInit {
 
   get projectsLists(): FormArray {
     return this.parishForm.get('projectsList') as FormArray;
-  };
+  }
 
   buildProjects() {
     let arr = [];
@@ -114,7 +115,7 @@ export class ParishDetailComponent implements OnInit {
     if (this.iniitalProjectList) {
       arr = this.iniitalProjectList.map(s => {
         return this.fb.control(s.selected);
-      })
+      });
     }
     return this.fb.array(arr);
   }

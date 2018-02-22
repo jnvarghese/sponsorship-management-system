@@ -14,9 +14,16 @@ export class SponsorService<T> {
 
   constructor(private http: Http) { }
 
-  /** GET heroes from the server */
   getSponsors(): Promise<Array<T>> {
     return this.http.get(`${this.sponsorUrl}/list`).toPromise()
+      .then((response) => {
+        return response.json() as T[];
+      })
+      .catch(this.handleError);
+  }
+
+  getSponsorsByParishId(id: number): Promise<Array<T>> {
+    return this.http.get(`${this.sponsorUrl}/listbyparish/${id}`).toPromise()
       .then((response) => {
         return response.json() as T[];
       })
@@ -31,8 +38,7 @@ export class SponsorService<T> {
       .catch(this.handleError);
   }
 
-  save(sponsor: Sponsor, id: number, parishId: number): Promise<Sponsor> {
-    sponsor.parishId = parishId
+  save(sponsor: Sponsor, id: number): void {
     if (id) {
       sponsor.id = id;
       return this.put(sponsor);
@@ -41,22 +47,23 @@ export class SponsorService<T> {
   }
 
   // Add new Student
-  private post(sponsor: Sponsor): Promise<Sponsor> {
+  private post(sponsor: Sponsor): void {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http
+    console.log('Sponsor before add ', JSON.stringify(sponsor));
+    this.http
       .post(`${this.sponsorUrl}/add`, JSON.stringify(sponsor), { headers: headers })
       .toPromise()
-      .then(() => sponsor)
+      .then((data) => console.log(data))
       .catch(this.handleError);
   }
 
   // Update existing Student
-  private put(sponsor: Sponsor): Promise<Sponsor> {
+  private put(sponsor: Sponsor): void {
     const url = `${this.sponsorUrl}/modify/${sponsor.id}`;
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http
+    this.http
       .put(url, JSON.stringify(sponsor), { headers: headers })
       .toPromise()
       .then(() => sponsor)

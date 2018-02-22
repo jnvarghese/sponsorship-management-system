@@ -1,45 +1,82 @@
-<form class="form-horizontal" [formGroup]="sponsorEnrollForm" 
-(ngSubmit)="navigate(sponsorEnrollForm.value)" style="margin-top:90px">
+<form class="form-horizontal" [formGroup]="sponsorEnrollForm" (ngSubmit)="navigate(sponsorEnrollForm.value)" style="margin-top:90px">
   <h4>Select Sponsor</h4>
   <p>Please search a sponsor using following selector.</p>
-  <div class="input-group" style="margin-bottom:10px">
-    <input class="form-control" #sponsorSearchBox required="required" type="text" (keyup)="searchSponsor(sponsorSearchBox.value)"
-      placeholder="Search" />
-    <div class="input-group-btn">
-      <button class="btn btn-default" (click)="searchSponsor(sponsorSearchBox.value)" type="button">
-        <i class="glyphicon glyphicon-search"></i>
-      </button>
-    </div>
-  </div>
-  <ul class="list-group" *ngFor="let spn of sponsers | async">
-    <li class="list-group-item" (click)="selectSponsor(spn)">{{spn.firstName}} {{spn.lastName}}</li>
-  </ul>
-
-  <div class="container-fluid" *ngIf="hasAnySponsorSelected">
-    <p>{{enroll.sponsorName}}</p>
-    <div class="form-group">
-      <label>Payment Date</label>
-      <div>
-        <input type="text" class="form-control" formControlName="paymentDate" name="paymentDate" placeholder="MM/DD/YYYY" />
+  <div class="row-fluid" style="margin-bottom: 100px">
+    <div class="col-md-12">
+      <div class="form-group">
+        <div class="col-sm-5">
+          <label for="project">Center</label>
+          <select class="form-control" (change)="onCenterSelect($event.target.value)">
+            <option [value]="0" [selected]="true"> Please choose one </option>
+            <option *ngFor="let center of centers" [value]="center.id">{{center.regionName}} {{center.name}}</option>
+          </select>
+        </div>
+        <div class="col-sm-5">
+          <label for="project">Parish</label>
+          <select class="form-control" (change)="onParishSelect($event.target.value)">
+            <option [value]="0" [selected]="true"> Please choose one </option>
+            <option *ngFor="let parish of parishes" [value]="parish.id">{{parish.name}}</option>
+          </select>
+        </div>
       </div>
     </div>
-    <div class="form-group">
-      <label>Contribution Amount</label>
-      <div>
-        <input id="contributionAmount" 
-        class="form-control" 
-        formControlName="contributionAmount" 
-        type="text" name="contributionAmount"
+  </div>
+  <div *ngIf="sponsors?.length > 0" class="row-fluid">
+    <div class="col-md-10">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Nick Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let sponsor of sponsors" (click)="selectSponsor(sponsor)">
+            <td>{{ sponsor.firstName }}</td>
+            <td>{{ sponsor.lastName }}</td>
+            <td>{{ sponsor.nickName }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div *ngIf="sponsors?.length == 0" class="row-fluid">
+    <div class="col-md-10">
+        <p>No Sponsors found.</p>
+    </div>
+  </div>
+  <div class="row-fluid" *ngIf="hasAnySponsorSelected">
+    <div class="col-md-12">
+      <div class="form-group">
+        <div class="col-sm-3">
+          <label for="paymentDate">Payment Date</label>
+          <input type="text" class="form-control" formControlName="paymentDate" 
+          name="paymentDate" placeholder="MM/DD/YYYY" />
+        </div>
+        <div class="col-sm-3">
+          <label for="contributionAmount">Contribution Amount</label>
+          <input id="contributionAmount" class="form-control" formControlName="contributionAmount" 
+          type="text" name="contributionAmount"
           placeholder="Contribution Amount" />
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label>Effective Date</label>
-      <div>
-        <input type="text" class="form-control" formControlName="effectiveDate" name="effectiveDate" placeholder="MM/DD/YYYY" />
+        </div>
+        <div class="col-sm-3">
+          <label for="effectiveDate">Recent Acheviments</label>
+          <input type="text" class="form-control" formControlName="effectiveDate"
+           name="effectiveDate" placeholder="MM/DD/YYYY" />
+        </div>
+       
       </div>
     </div>
   </div>
-  <button type="submit" class="btn btn-primary btn-sm pull-right" [disabled]="sponsorEnrollForm.invalid">Next</button>
+  <div class="row-fluid">
+    <div class="col-md-12">
+      <div class="form-group">
+        <div class="col-sm-10">
+          <button type="submit" class="btn btn-primary btn-sm pull-right" [disabled]="sponsorEnrollForm.invalid">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
 </form>

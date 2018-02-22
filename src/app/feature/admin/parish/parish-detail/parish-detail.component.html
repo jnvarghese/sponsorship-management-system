@@ -14,18 +14,18 @@
     <div class="row-fluid">
       <div class="col-md-12">
         <input type="hidden" formControlName="id">
-        <div class="form-group">
-          <div class="col-sm-3" [ngClass]="{'error': code?.invalid && code?.touched}">
+         <div class="form-group">
+          <div class="col-sm-3" [ngClass]="{'error': parishForm.get('code')?.invalid && parishForm.get('code')?.touched}">
             <label for="code">Code</label>
-            <input formControlName="code" id="code" class="form-control" placeholder="Code" />
+            <input formControlName="code" id="code" class="form-control" placeholder="Code" [maxLength]=10 />
             <em *ngIf="parishForm.get('code').invalid && parishForm.get('code').touched">Required</em>
           </div>
-          <div class="col-sm-3" [ngClass]="{'error': name?.invalid && name?.touched}">
+          <div class="col-sm-3" [ngClass]="{'error': parishForm.get('name')?.invalid && parishForm.get('name')?.touched}">
             <label for="name">Name</label>
             <input formControlName="name" id="name" class="form-control" placeholder="Name" />
             <em *ngIf="parishForm.get('name').invalid && parishForm.get('name').touched">Required</em>
           </div>
-          <div class="col-sm-4" [ngClass]="{'error': city?.invalid && city?.touched}">
+          <div class="col-sm-4" [ngClass]="{'error': parishForm.get('city')?.invalid && parishForm.get('city')?.touched}">
             <label for="city">City</label>
             <input formControlName="city" id="city" class="form-control" placeholder="City" />
             <em *ngIf="parishForm.get('city').invalid && parishForm.get('city').touched">Required</em>
@@ -36,7 +36,7 @@
     <div class="row-fluid">
       <div class="col-md-12">
         <div class="form-group">
-          <div class="col-sm-3" [ngClass]="{'error': status?.invalid && status?.touched}">
+          <div class="col-sm-3" [ngClass]="{'error': parishForm.get('status')?.invalid && parishForm.get('status')?.touched}">
             <label for="status">Status</label>
             <select class="form-control" formControlName="status">
               <option [value]="1">Active</option>
@@ -45,7 +45,7 @@
             <em *ngIf="parishForm.get('status').invalid && parishForm.get('status').touched">Required</em>
           </div>
 
-          <div class="col-sm-7" [ngClass]="{'error': centerId?.invalid && centerId?.touched}">
+          <div class="col-sm-7" [ngClass]="{'error': parishForm.get('centerId')?.invalid && parishForm.get('centerId')?.touched}">
             <label for="gender">Center</label>
             <select class="form-control" formControlName="centerId">
               <option *ngFor="let center of centers" [value]="center.id" 

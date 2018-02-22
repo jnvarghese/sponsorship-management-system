@@ -20,13 +20,14 @@ export class ReviewComponent implements OnInit {
     if (this.sponData) {
       this.enroll = new Enrollment(
         this.sponData.sponsorId,
+        this.sponData.parishId,
         this.sponData.sponsorName,
         this.sponData.paymentDate,
         this.sponData.effectiveDate,
         this.sponData.contributionAmount,
         this.sponData.miscAmount,
         this.sponData.sponsees);
-    }
+    }   
   }
 
   submit(){

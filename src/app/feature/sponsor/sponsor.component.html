@@ -13,6 +13,7 @@
           <tr>
             <th>First Name</th>
             <th>Last Name</th>
+            <th>Nick Name</th>
             <th>Parish</th>
             <th>State</th>          
           </tr>
@@ -21,6 +22,7 @@
           <tr *ngFor="let sponsor of sponsors" [routerLink]="['/sponsor/modify',  sponsor.id]">
             <td>{{ sponsor.firstName }}</td>
             <td>{{ sponsor.lastName }}</td>
+            <td>{{ sponsor.nickName }}</td>
             <td>{{ sponsor.parishName }}</td>
             <td>{{ sponsor.state}}</td>         
           </tr>

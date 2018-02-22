@@ -1,4 +1,4 @@
-import { ParishProject } from "./index";
+import { ParishProject } from './index';
 
 export class Parish {
          id: number;

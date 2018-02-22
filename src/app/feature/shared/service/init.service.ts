@@ -16,7 +16,7 @@ export class InitService {
     constructor(private http: Http) { }
 
     getCenterList(): Promise<Array<Center>> {
-        let initializer = new Initializer();
+        const initializer = new Initializer();
         return this.http.get(`${this.apiurl}/center`).toPromise()
             .then((response) => {
                 return response.json() as Array<Center>;
@@ -25,7 +25,7 @@ export class InitService {
     }
 
     getInitializerData(): Promise<Initializer> {
-        let initializer = new Initializer();
+        const initializer = new Initializer();
         return this.http.get(this.apiurl).toPromise()
             .then((response) => {
 

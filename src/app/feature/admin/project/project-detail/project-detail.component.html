@@ -8,13 +8,13 @@
     <div class="col-md-12">
       <input type="hidden" formControlName="id">
       <div class="form-group">
-        <div class="col-sm-5" [ngClass]="{'error': code?.invalid && code?.touched}">
+        <div class="col-sm-5" [ngClass]="{'error': projectForm.get('code')?.invalid && projectForm.get('code')?.touched}">
           <label for="code">Code</label>
-          <input formControlName="code" id="code" class="form-control" placeholder="Code" [maxLength]=5 />
+          <input formControlName="code" id="code" class="form-control" placeholder="Code" [maxLength]=10 />
           <em *ngIf="projectForm.get('code').invalid && projectForm.get('code').touched">Required</em>
         </div>
         <div class="form-group">
-          <div class="col-sm-5" [ngClass]="{'error': name?.invalid && name?.touched}">
+          <div class="col-sm-5" [ngClass]="{'error': projectForm.get('name')?.invalid && projectForm.get('name')?.touched}">
             <label for="name">Name</label>
             <input formControlName="name" id="name" class="form-control" placeholder="Name" />
             <em *ngIf="projectForm.get('name').invalid && projectForm.get('name').touched">Required</em>
@@ -52,7 +52,7 @@
   <div class="row-fluid">
     <div class="col-md-12">
       <div class="form-group">
-        <div class="col-sm-5" [ngClass]="{'error': agencyId?.invalid && agencyId?.touched}">
+        <div class="col-sm-5" [ngClass]="{'error': projectForm.get('agencyId')?.invalid && projectForm.get('agencyId')?.touched}">
             <label for="agencyId">Agency</label>
             <select class="form-control" formControlName="agencyId">
               <option *ngFor="let agency of agencies" [value]="agency.id">{{agency.name}}</option>

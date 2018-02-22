@@ -10,7 +10,7 @@
       <div class="form-group">
         <div class="col-sm-10" [ngClass]="{'error': code?.invalid && code?.touched}">
           <label for="code">Code</label>
-          <input formControlName="code" id="code" class="form-control" placeholder="Code" [maxLength]=5 />
+          <input formControlName="code" id="code" class="form-control" placeholder="Code" [maxLength]=10 />
           <em *ngIf="agencyForm.get('code').invalid && agencyForm.get('code').touched">Required</em>
         </div>
       </div>

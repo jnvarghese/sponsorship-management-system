@@ -31,13 +31,13 @@ export class ProjectDetailComponent implements OnInit {
     .then(data => this.agencies = data)
     .catch(this.handleError);
 
-    let projectId = this.route.snapshot.params['id'];
+    const projectId = this.route.snapshot.params['id'];
     if (projectId !== undefined) {
       const id = +projectId;
       this.navigated = true;
       this.populateForm(id);
     } else {
-      this.navigated = false;       
+      this.navigated = false;
     }
   }
   createForm() {
@@ -45,18 +45,18 @@ export class ProjectDetailComponent implements OnInit {
       id: '',
       code: [null, Validators.required],
       name: [null, Validators.required],
-      address: '', 
-      contactNumber: '', 
-      emailAddress: '', 
-      status: '',  
-      agencyId: ''   
+      address: '',
+      contactNumber: '',
+      emailAddress: '',
+      status: '',
+      agencyId: ''
     });
   }
   populateForm(id: number){
     this.adminService.find('/api/admin/projects', id)
     .then(project => {
-      console.log(' Populate - project ',project);
-      this.projectId = project.id;            ;
+      console.log(' Populate - project ', project);
+      this.projectId = project.id;
       return this.projectForm.setValue({
         id: project.id,
         code: project.code,
@@ -69,21 +69,21 @@ export class ProjectDetailComponent implements OnInit {
       });
     });
   }
-  saveProject(){ 
+  saveProject() {
     if (this.projectForm.valid) {
       this.adminService
         .save('/api/admin/projects',this.projectForm.value, this.projectId)
         .then(res => {
           this.isProjectSaved = true;
         })
-       .catch(this.handleError); 
+       .catch(this.handleError);
     }
   }
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error);
     return Promise.reject(error.message || error);
   }
-  cancel(){
+  cancel() {
     this.router.navigate(['/admin/project/list']);
   }
 

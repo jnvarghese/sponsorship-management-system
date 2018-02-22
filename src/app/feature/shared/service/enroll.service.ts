@@ -24,22 +24,9 @@ export class EnrollService {
             .then(() => enrollment)
             .catch(this.handleError);
     }
-
-
+    
     private handleError(error: any): Promise<any> {
         console.error('An error occurred', error);
         return Promise.reject(error.message || error);
-    }
-
-    /*setup(data: any): void {
-        this.enrollment.next(data);
-    } 
-
-    getData(): Observable<any> {
-        return this.enrollment.asObservable();
-    }
-
-    clearData() {
-        this.enrollment.next();
-    }*/
+    }    
 }

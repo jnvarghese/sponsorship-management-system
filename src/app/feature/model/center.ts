@@ -1,4 +1,4 @@
-export class Center{
+export class Center {
     id: number;
     code: string;
     name: string;

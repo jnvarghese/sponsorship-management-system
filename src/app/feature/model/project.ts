@@ -1,7 +1,8 @@
-import { Agency } from "./agency";
+import { Agency } from './agency';
+
 export class Project {
-    id: number; 
-    name: string; 
+    id: number;
+    name: string;
     code: string;
     address: string;
     selected: boolean;

@@ -2,10 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminRoutingModule } from './admin.routing.module';
 import { 
-  ProjectComponent, 
-  ParishComponent, 
-  AgencyComponent, 
-  ParishprojectassignComponent, 
+  ProjectComponent,
+  ParishComponent,
+  AgencyComponent,
   ParishDetailComponent,
   AgencyDetailComponent,
   ProjectDetailComponent
@@ -16,13 +15,12 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    AdminRoutingModule 
+    AdminRoutingModule
   ],
   declarations: [
     AgencyComponent,
     ProjectComponent,
     ParishComponent,
-    ParishprojectassignComponent,
     ParishDetailComponent,
     AgencyDetailComponent,
     ProjectDetailComponent
