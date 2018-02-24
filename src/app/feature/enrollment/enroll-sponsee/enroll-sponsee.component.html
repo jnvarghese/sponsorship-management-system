@@ -4,6 +4,12 @@
   <div class="alert alert-info" role="alert" *ngIf="addMore">
     <strong>You could add more student! </strong>{{message}}
   </div>
+  <div class="alert alert-warning" role="alert" *ngIf="studentExceedMessage">
+    <strong>Warning! </strong>{{studentExceedMessage}}
+  </div>
+  <div class="alert alert-info" role="alert" *ngIf="duplicateStudentMessage">
+    <strong>Sorry! </strong>{{duplicateStudentMessage}}
+  </div>  
   <div class="row-fluid" style="margin-bottom: 100px">
     <div class="col-md-12">
       <div class="form-group">
@@ -17,7 +23,6 @@
       </div>
     </div>
   </div>
-  {{addMore}}
   <div *ngIf="students?.length > 0" class="row-fluid">
     <div class="col-md-7">
       <table class="table table-hover">
@@ -53,7 +58,8 @@
       <div class="form-group">
         <div class="col-sm-10">
           <button class="btn btn-primary nextBtn" (click)="previous()" type="button">Previous</button>
-          <button class="btn btn-primary nextBtn" (click)="next()" type="button">Next</button>
+          <button class="btn btn-primary nextBtn" (click)="reset()" [disabled]="!hasAnyStudentSelected" type="button">Reset Selection</button>
+          <button class="btn btn-primary nextBtn" (click)="next()" [disabled]="!hasAnyStudentSelected" type="button">Next</button>
         </div>
       </div>
     </div>

@@ -4,6 +4,7 @@ import { SponsorService, EnrollService, InitService, AdminService } from '../../
 import { Enrollment, Sponsor, Parish, Center } from '../../model/index';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import * as moment from 'moment';
 
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/catch';
@@ -87,9 +88,9 @@ export class EnrollSponsorComponent implements OnInit,OnChanges {
       parishId: '',
       sponsorName: '',
       sponsee: '',
-      paymentDate: [null, Validators.required],
+      paymentDate: [moment(new Date()).format("MM/DD/YYYY"), Validators.required],
       contributionAmount:[null, Validators.required],
-      effectiveDate: [null, Validators.required]
+      effectiveDate: [moment(new Date()).format("MM/DD/YYYY"), Validators.required]
     });
   }
   selectSponsor(sponsor: Sponsor) {
