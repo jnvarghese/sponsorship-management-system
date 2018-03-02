@@ -39,7 +39,7 @@ export class AgencyDetailComponent implements OnInit {
       id: '',
       code: [null, Validators.required],
       name: [null, Validators.required],
-      status: '',     
+      status: 1,     
     });
   }
   populateForm(id: number){
@@ -65,9 +65,12 @@ export class AgencyDetailComponent implements OnInit {
        .catch(this.handleError); 
     }
   }
-  private handleError(error: any): Promise<any> {
-    console.error('An error occurred', error);
-    return Promise.reject(error.message || error);
+  private handleError(err): any {
+    let errorMessage = err.json();
+    if(errorMessage.exception.includes('DuplicateKeyException')){
+     this.error = 'Code exists, please try again.!';
+    //  return Promise.reject('DuplicateKeyException');
+    }
   }
   cancel(){
     this.router.navigate(['/admin/agency/list']);

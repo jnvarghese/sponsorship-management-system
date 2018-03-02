@@ -30,7 +30,8 @@
       <div class="form-group">
         <div class="col-sm-3" [ngClass]="{'error': studentForm.get('dateOfBirth')?.invalid && studentForm.get('dateOfBirth')?.touched}">
           <label for="dateOfBirth">Date of Birth</label>
-          <input formControlName="dateOfBirth" id="dateOfBirth" class="form-control" placeholder="Date of Birth" />
+          <input formControlName="dateOfBirth" id="dateOfBirth" dateInputFormatter maxlength="10"
+          class="form-control" placeholder="Date of Birth" />
           <em *ngIf="studentForm.get('dateOfBirth').invalid && studentForm.get('dateOfBirth').touched">Required</em>
         </div>
 

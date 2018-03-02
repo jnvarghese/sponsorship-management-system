@@ -12,6 +12,7 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';
 import { Router } from '@angular/router';
+import { ValidatorService } from '../../../shared/validator.service';
 
 @Component({
   selector: 'app-enroll-sponsor',
@@ -38,7 +39,8 @@ export class EnrollSponsorComponent implements OnInit,OnChanges {
     private initService: InitService,
     private fb : FormBuilder,
     private adminService: AdminService<Parish>,
-    private router: Router) {
+    private router: Router,
+    private validatorService: ValidatorService) {
 
       this.createForm();
      }
@@ -88,9 +90,9 @@ export class EnrollSponsorComponent implements OnInit,OnChanges {
       parishId: '',
       sponsorName: '',
       sponsee: '',
-      paymentDate: [moment(new Date()).format("MM/DD/YYYY"), Validators.required],
+      paymentDate: [moment(new Date()).format("MM/DD/YYYY"), [Validators.required, this.validatorService.validateDate]],
       contributionAmount:[null, Validators.required],
-      effectiveDate: [moment(new Date()).format("MM/DD/YYYY"), Validators.required]
+      effectiveDate: [moment(new Date()).format("MM/DD/YYYY"), [Validators.required, this.validatorService.validateDate]]
     });
   }
   selectSponsor(sponsor: Sponsor) {

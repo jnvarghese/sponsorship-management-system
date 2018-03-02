@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Enrollment } from '../../model/index';
 import { EnrollService } from '../../index';
 import { DateFormatPipe } from '../../../shared/date.format.pipe';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-enroll-review',
@@ -12,8 +13,12 @@ export class ReviewComponent implements OnInit {
 
   @Input() sponData;
   enroll: Enrollment;
+  error;
 
-  constructor(private enrollService: EnrollService, private datePipe: DateFormatPipe) { }
+  constructor(
+    private router: Router,
+    private enrollService: EnrollService, 
+    private datePipe: DateFormatPipe) { }
 
   ngOnInit() {
     console.log('Review Component oninit spondata', this.sponData)
@@ -34,9 +39,10 @@ export class ReviewComponent implements OnInit {
   this.enroll.effectiveDate = this.datePipe.transform(this.enroll.effectiveDate, 'toDB');
   this.enroll.paymentDate = this.datePipe.transform(this.enroll.paymentDate, 'toDB');
    this.enrollService.save(this.enroll).then(data =>{
-    console.log(data);
+    this.router.navigate(['/']);
    }).catch(err =>{
     console.log(err);
+    this.error = err;
    })
   }
 }

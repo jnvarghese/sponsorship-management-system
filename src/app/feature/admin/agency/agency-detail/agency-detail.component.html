@@ -4,6 +4,9 @@
   </div>
   <h2>Create Agency</h2>
   <p>Please enter following details to successfuly create a agency.</p>
+  <div class="alert alert-danger" role="alert" *ngIf="error">
+    <strong>Error ! </strong>{{error}}
+  </div>  
   <div class="row-fluid">
     <div class="col-md-12">
       <input type="hidden" formControlName="id">

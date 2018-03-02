@@ -26,11 +26,13 @@ import { InitResolve } from './feature/shared/resolver/init.resolve';
 import { DateFormatPipe } from './shared/date.format.pipe';
 import { DashboardService } from './feature/shared/service/dashboard.service';
 import { AdminModule } from './feature/admin/admin.module';
+import { PageDateFormatPipe } from './shared/page-date-format.pipe';
+
 
 declare let jQuery: Object;
 
 @NgModule({
-  declarations: [
+  declarations: [    
     AppComponent,
     HeaderComponent,
     FooterComponent,
@@ -43,23 +45,19 @@ declare let jQuery: Object;
     BrowserModule,
     HttpModule,
     FormsModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule, 
     StudentModule,
     SponsorModule,
     EnrollmentModule,
     ManageSponsorShipModule,
     AdminModule,
     AppRoutingModule,
-
-    /*InMemoryWebApiModule.forRoot(
-      InMemoryDataService, { delay: 600  }
-    ),*/ // https://angular.io/tutorial/toh-pt6,
-
   ],
   providers: [
     AdminService,
     DashboardService,
     DateFormatPipe,
+    PageDateFormatPipe,
     StudentService,
     SponsorService,
     EnrollService,

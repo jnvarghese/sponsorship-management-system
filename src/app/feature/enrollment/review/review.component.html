@@ -3,6 +3,9 @@
     <p class="mb-0">Review the enrollment
     </p>
   </blockquote>
+  <div class="alert alert-danger" role="alert" *ngIf="error">
+    <strong>Error ! </strong>{{error}}
+  </div>  
   <div class="row">
     <div class="col-md-8">
       <div class="row">
@@ -23,7 +26,6 @@
     <div class="col-md-8" style="margin-top:20px">
       <p>Sponsee Details</p>
     </div>
-    {{enroll.sponsees}}
     <div class="col-md-8" style="margin-top:5px">
       <table class="table table-hover">
         <thead>

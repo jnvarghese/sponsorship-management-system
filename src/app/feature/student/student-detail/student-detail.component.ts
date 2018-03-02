@@ -4,6 +4,7 @@ import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { StudentService } from '../../shared/service/student.service';
 import { Student, Project } from '../../model/index';
 import { AdminService } from '../../shared/service/admin.service';
+import { ValidatorService } from '../../../shared/validator.service';
 
 @Component({
   selector: 'app-student-detail',
@@ -32,7 +33,7 @@ export class StudentDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private studentService: StudentService,
     private commonService: AdminService<Project>,
-    private fb: FormBuilder) {
+    private fb: FormBuilder, private validatorService: ValidatorService) {
   }
   // https://angular.io/guide/reactive-forms
   ngOnInit() {
@@ -62,7 +63,7 @@ export class StudentDetailComponent implements OnInit {
       status: '',
       middleName: '',
       lastName: [null, Validators.required],
-      dateOfBirth: [null, Validators.required],
+      dateOfBirth: [null, [Validators.required, this.validatorService.validateDate]],
       address: '',
       gender: [null, Validators.required],
       projectId: [null, Validators.required],

@@ -49,10 +49,12 @@
   <div class="row-fluid" *ngIf="hasAnySponsorSelected">
     <div class="col-md-12">
       <div class="form-group">
-        <div class="col-sm-3">
+  
+        <div class="col-sm-3" [ngClass]="{'error': sponsorEnrollForm.get('paymentDate')?.invalid && sponsorEnrollForm.get('paymentDate')?.touched}">
           <label for="paymentDate">Payment Date</label>
-          <input type="text" class="form-control" formControlName="paymentDate" 
-          name="paymentDate" placeholder="MM/DD/YYYY" />
+          <input type="text" class="form-control" formControlName="paymentDate" dateInputFormatter
+          name="paymentDate" placeholder="MM/DD/YYYY" maxlength="10" />
+          <em *ngIf="sponsorEnrollForm.get('city')?.invalid && sponsorEnrollForm.get('paymentDate')?.touched">Required</em>
         </div>
         <div class="col-sm-3">
           <label for="contributionAmount">Contribution Amount</label>
@@ -61,9 +63,9 @@
           placeholder="Contribution Amount" />
         </div>
         <div class="col-sm-3">
-          <label for="effectiveDate">Recent Acheviments</label>
-          <input type="text" class="form-control" formControlName="effectiveDate"
-           name="effectiveDate" placeholder="MM/DD/YYYY" />
+          <label for="effectiveDate">Effective Date</label>
+          <input type="text" class="form-control" formControlName="effectiveDate" dateInputFormatter
+           name="effectiveDate" placeholder="MM/DD/YYYY" maxlength="10"/>
         </div>
        
       </div>
