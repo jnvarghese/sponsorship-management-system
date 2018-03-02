@@ -21,6 +21,6 @@ export class SponsorComponent implements OnInit {
   }
 
   addSponser(): void {
-    this.router.navigate(['./createsponsor']);
+    this.router.navigate(['/sponsor/add']);
   }
 }

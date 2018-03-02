@@ -21,7 +21,7 @@ export class StudentComponent implements OnInit {
   }
 
   addStudent() {
-    this.router.navigate(['./createStudent']);
+    this.router.navigate(['/student/add']);
   }
 
 }
