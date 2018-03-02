@@ -99,6 +99,6 @@ export class SponsorDetailComponent implements OnInit {
     }
   }
   cancel() {
-    this.router.navigate(['/sponsors']);
+    this.router.navigate(['/sponsor/list']);
   }
 }

@@ -110,6 +110,6 @@ export class StudentDetailComponent implements OnInit {
       this.fileToUpload = files.item(0);
   }
   cancel() {
-    this.router.navigate(['/students']);
+    this.router.navigate(['/student/list']);
   }
 }
