@@ -1,8 +1,8 @@
 <form [formGroup]="agencyForm" (ngSubmit)="saveAgency(agencyForm.value)" style="margin-top:90px">
   <div class="alert alert-success" *ngIf="(isAgencySaved) && (agencyForm.valid)">
-    <strong>Success!</strong> Added new Agency
+    <strong>Success!</strong> Added new agency
   </div>
-  <h2>Create Agency</h2>
+  <h3>{{pageHeader}}</h3>
   <p>Please enter following details to successfuly create a agency.</p>
   <div class="alert alert-danger" role="alert" *ngIf="error">
     <strong>Error ! </strong>{{error}}
@@ -11,7 +11,7 @@
     <div class="col-md-12">
       <input type="hidden" formControlName="id">
       <div class="form-group">
-        <div class="col-sm-10" [ngClass]="{'error': code?.invalid && code?.touched}">
+        <div class="col-sm-10" [ngClass]="{'error': agencyForm.get('code')?.invalid && agencyForm.get('code')?.touched}">
           <label for="code">Code</label>
           <input formControlName="code" id="code" class="form-control" placeholder="Code" [maxLength]=10 />
           <em *ngIf="agencyForm.get('code').invalid && agencyForm.get('code').touched">Required</em>
@@ -22,7 +22,7 @@
   <div class="row-fluid">
     <div class="col-md-12">
       <div class="form-group">
-        <div class="col-sm-10" [ngClass]="{'error': name?.invalid && name?.touched}">
+        <div class="col-sm-10" [ngClass]="{'error': agencyForm.get('name')?.invalid && agencyForm.get('name')?.touched}">
           <label for="name">Name</label>
           <input formControlName="name" id="name" class="form-control" placeholder="Name" />
           <em *ngIf="agencyForm.get('name').invalid && agencyForm.get('name').touched">Required</em>

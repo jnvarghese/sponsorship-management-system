@@ -11,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class AgencyDetailComponent implements OnInit {
 
+  pageHeader: string;
   agencyForm: FormGroup;
   isAgencySaved: boolean;
   error: any;
@@ -24,9 +25,11 @@ export class AgencyDetailComponent implements OnInit {
     private adminService: AdminService<Agency>)  { }
 
   ngOnInit() {
+    this.pageHeader = 'Add new agency';
     this.createForm();
     let agencyId = this.route.snapshot.params['id'];
     if (agencyId !== undefined) {
+      this.pageHeader = 'Modify agency';
       const id = +agencyId;
       this.navigated = true;
       this.populateForm(id);

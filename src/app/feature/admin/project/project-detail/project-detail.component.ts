@@ -11,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class ProjectDetailComponent implements OnInit {
 
+  pageHeader: string;
   projectForm: FormGroup;
   isProjectSaved: boolean;
   error: any;
@@ -26,6 +27,7 @@ export class ProjectDetailComponent implements OnInit {
     private agencyService: AdminService<Agency>)  { }
 
   ngOnInit() {
+    this.pageHeader = 'Add new project';
     this.createForm();
     this.agencyService.get('/api/admin/agencies')
     .then(data => this.agencies = data)
@@ -33,6 +35,7 @@ export class ProjectDetailComponent implements OnInit {
 
     const projectId = this.route.snapshot.params['id'];
     if (projectId !== undefined) {
+      this.pageHeader = 'Modify project';
       const id = +projectId;
       this.navigated = true;
       this.populateForm(id);
@@ -48,8 +51,8 @@ export class ProjectDetailComponent implements OnInit {
       address: '',
       contactNumber: '',
       emailAddress: '',
-      status: '',
-      agencyId: ''
+      status: 1,
+      agencyId: ['', Validators.required]
     });
   }
   populateForm(id: number){

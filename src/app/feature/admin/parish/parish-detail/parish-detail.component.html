@@ -1,15 +1,11 @@
 <div class="container" style="margin-top:70px">
   <form [formGroup]="parishForm" (ngSubmit)="saveParish(parishForm.value)">
     <div class="alert alert-success" *ngIf="(isParishSaved) && (parishForm.valid)">
-      <strong>Success!</strong> Added new student
+      <strong>Success!</strong> Parish details saved.
     </div>
-    <div *ngIf="addingParish">
-      <h2>Create Parish</h2>
-      <p>Please enter following details to successfuly create a parish.</p>
-    </div>
-    <div *ngIf="!addingParish">
-      <h2>Modify Parish</h2>
-      <p>Please enter following details to successfuly modify a parish.</p>
+    <div>
+      <h3>{{pageHeader}}</h3>
+      <p>Please enter following details to successfuly update a parish.</p>
     </div>
     <div class="row-fluid">
       <div class="col-md-12">

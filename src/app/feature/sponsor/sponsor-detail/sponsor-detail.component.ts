@@ -12,10 +12,11 @@ import { AdminService } from '../../shared/service/admin.service';
 })
 export class SponsorDetailComponent implements OnInit {
 
+  pageHeader: string;
   @Input() sponser: Sponsor;
   error: any;
   navigated = false; // true if navigated here
-  isSponsorSaved: boolean;
+  isSponsorSaved: boolean = false;
   public sponsorForm: FormGroup;
   public address: FormGroup;
   parishes: Array<Parish>;
@@ -31,9 +32,11 @@ export class SponsorDetailComponent implements OnInit {
   // http://plnkr.co/edit/mWhYtc2nf8hSHFbLWlEx?p=preview
 
   ngOnInit() {
+    this.pageHeader = 'Add new sponsor';
     this.createForm();
     const sponsorId = this.route.snapshot.params['id'];
     if (sponsorId !== undefined) {
+      this.pageHeader = 'Modify sponsor'
       const id = +sponsorId;
       this.navigated = true;
       this.sponsorService.findSponsor(id)
@@ -57,12 +60,12 @@ export class SponsorDetailComponent implements OnInit {
       middleInitial: '',
       lastName: ['', Validators.required],
       nickName: '',
-      dayOfBirth: ['', Validators.required],
-      monthOfBirth: ['', Validators.required],
+      dayOfBirth: 1,
+      monthOfBirth: 1,
       emailAddress: [''],
       coSponserName: '',
       parishId:  [null, Validators.required],
-      sponsorStatus: '',
+      sponsorStatus: 0,
       street: '',
       appartmentNumber: '',
       city: '',
@@ -94,11 +97,17 @@ export class SponsorDetailComponent implements OnInit {
     if (this.sponsorForm.valid) {
       console.log('save in component', this.sponsorForm.value);
       this.sponsorService
-        .save(this.sponsorForm.value, this.sponser.id);
-
+        .save(this.sponsorForm.value, this.sponser.id).then(res => {
+          this.isSponsorSaved = true;
+        })
+       .catch(this.handleError); 
     }
   }
   cancel() {
     this.router.navigate(['/sponsor/list']);
+  }
+  private handleError(error: any): Promise<any> {
+    console.error('An error occurred', error);
+    return Promise.reject(error.message || error);
   }
 }

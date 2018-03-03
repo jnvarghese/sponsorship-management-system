@@ -17,10 +17,10 @@ export class StudentDetailComponent implements OnInit {
   studentForm: FormGroup;
   error: any;
   navigated = false; // true if navigated here
+  filesToUpload: File;
   selectedProjectId: any;
   selectedGender: any;
   projects: Array<Project>;
-  fileToUpload: File = null;
   isStudentSaved = false;
   genders = [
     { value: 'M', label: 'Male' },
@@ -60,7 +60,7 @@ export class StudentDetailComponent implements OnInit {
     this.studentForm = this.fb.group({
       id: '',
       firstName: [null, Validators.required],
-      status: '',
+      status: 0,
       middleName: '',
       lastName: [null, Validators.required],
       dateOfBirth: [null, [Validators.required, this.validatorService.validateDate]],
@@ -96,20 +96,50 @@ export class StudentDetailComponent implements OnInit {
     });
   }
   saveStudent(): void {
-    console.log('fileToUpload ', this.fileToUpload);
     if (this.studentForm.valid) {
       this.studentService
-        .save(this.studentForm.value)
+        .save(this.studentForm.value, this.filesToUpload)
         .then(response => {
+          this.student = response
         })
         .catch(error => this.error = error); // TODO: Display error message
       this.isStudentSaved = true;
     }
   }
-  handleFileInput(files: FileList) {
-      this.fileToUpload = files.item(0);
+  handleFileInput(fileInput: any) {
+    this.filesToUpload = fileInput.target.files[0]; 
+    var pattern = /image-*/;
+    var reader = new FileReader();
+
+    if (!this.filesToUpload.type.match(pattern)) {
+        console.error('File is not an image');
+        //of course you can show an alert message here
+        this.filesToUpload = null;
+        return;
+    }
   }
+  upload(){
+    let studentId: string = this.student.id.toString();
+    this.studentService.uploadImage(this.filesToUpload, studentId)
+      .subscribe(
+        response  => this.handleSuccess(response),
+        error =>  this.handleError(error)
+      );
+  }
+
   cancel() {
     this.router.navigate(['/student/list']);
   }
+
+  private handleSuccess(response) {
+    console.log('Successfully uploaded image');
+    //provide your own implementation of handling the response from API
+  }
+  
+  private handleError(errror) {
+    console.error('Error uploading image')
+    //provide your own implementation of displaying the error message
+  }
 }
+// Upload Image
+// https://embed.plnkr.co/nO1C1lImOw8q7uQkrvRT/

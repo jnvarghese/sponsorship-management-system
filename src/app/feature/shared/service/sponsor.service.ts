@@ -38,7 +38,7 @@ export class SponsorService<T> {
       .catch(this.handleError);
   }
 
-  save(sponsor: Sponsor, id: number): void {
+  save(sponsor: Sponsor, id: number): Promise<T> {
     if (id) {
       sponsor.id = id;
       return this.put(sponsor);
@@ -47,11 +47,11 @@ export class SponsorService<T> {
   }
 
   // Add new Student
-  private post(sponsor: Sponsor): void {
+  private post(sponsor: Sponsor): Promise<T> {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     console.log('Sponsor before add ', JSON.stringify(sponsor));
-    this.http
+    return this.http
       .post(`${this.sponsorUrl}/add`, JSON.stringify(sponsor), { headers: headers })
       .toPromise()
       .then((data) => console.log(data))
@@ -59,11 +59,11 @@ export class SponsorService<T> {
   }
 
   // Update existing Student
-  private put(sponsor: Sponsor): void {
+  private put(sponsor: Sponsor): Promise<T> {
     const url = `${this.sponsorUrl}/modify/${sponsor.id}`;
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    this.http
+    return this.http
       .put(url, JSON.stringify(sponsor), { headers: headers })
       .toPromise()
       .then(() => sponsor)

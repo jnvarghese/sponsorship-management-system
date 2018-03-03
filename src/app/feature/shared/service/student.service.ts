@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http, Response } from '@angular/http';
+import { Headers, Http, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 // import { of } from 'rxjs/observable/of';
 // import { catchError, map, tap } from 'rxjs/operators';
@@ -32,19 +32,19 @@ export class StudentService {
 
   }
 
-  save(student: Student): Promise<Student> {
+  save(student: Student, filesToUpload: File): Promise<Student> {
     if (student.id) {
-      return this.put(student);
+      return this.put(student, filesToUpload);
     }
     student.id = new Date().getMilliseconds();
-    return this.post(student);
+    return this.post(student, filesToUpload);
   }
 
   // Add new Student
-  private post(student: Student): Promise<Student> {
+  private post(student: Student, filesToUpload: File): Promise<Student> {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-
+    console.log('filesToUpload  ',filesToUpload);
     return this.http
       .post(`${this.studentsUrl}/add`, JSON.stringify(student), { headers: headers })
       .toPromise()
@@ -53,7 +53,7 @@ export class StudentService {
   }
 
   // Update existing Student
-  private put(student: Student): Promise<Student> {
+  private put(student: Student, filesToUpload: File): Promise<Student> {
 
     const url = `${this.studentsUrl}/modify/${student.id}`;
     console.log('  url ', url);
@@ -80,4 +80,29 @@ export class StudentService {
       })
       .catch(this.handleError);
   }
+
+  uploadImage(filesToUpload: File, studentId: string): Observable<any>{
+    let headers = new Headers();
+    headers.set('id', studentId);
+    headers.set('Content-Type', 'application/octet-stream');
+    headers.set('Upload-Content-Type', filesToUpload.type)
+    let options = new RequestOptions({ headers });
+    return this.http.post(this.studentsUrl+'/image', filesToUpload, options)
+                    .map(this.extractData)
+                    .catch(this.extractError);
+  }
+
+  /**
+   * Extracts the response from the API response.
+   */ 
+  private extractData (res: Response) {
+    let body = res.json();
+    return body.response || { };
+}
+
+private extractError (res: Response) {
+    let errMsg = 'Error received from the API';
+    return errMsg;
+}
+
 }

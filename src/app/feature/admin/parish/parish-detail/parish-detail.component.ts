@@ -11,6 +11,7 @@ import { Project, Center, Parish } from '../../../model/index';
 })
 export class ParishDetailComponent implements OnInit {
 
+  pageHeader: string;
   parishId: number;
   isParishSaved: boolean;
   parishForm: FormGroup;
@@ -30,7 +31,7 @@ export class ParishDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.pageHeader = 'Add new parish';
     this.selectedProjects = [];
     this.iniitalProjectList = this.route.snapshot.data.projects;
     console.log(' Resolve snapshot data ', this.iniitalProjectList);
@@ -41,13 +42,12 @@ export class ParishDetailComponent implements OnInit {
     // this.chosenCenter = false;
     this.route.params.forEach((params: Params) => {
       if (params['id'] !== undefined) {
+        this.pageHeader = 'Modify parish';     
         const id = +params['id'];
         console.log('OnInit route param id ', id);
-
         this.populateForm(id);
       }
     });
-
   }
 
   createForm() {
@@ -76,7 +76,7 @@ export class ParishDetailComponent implements OnInit {
           city: data.city || '',
           status: +data.status || '',
           centerId: +data.centerId || '',
-          projectsList: this.buildProjects()
+          projectsList: [this.buildProjects()]
         });
       });
   }

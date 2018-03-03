@@ -100,11 +100,16 @@
       </div>
     </div>
   </div>
-  <div class="row-fluid">
-    <div class="col-md-12">
+  <div class="row-fluid" *ngIf="(isStudentSaved)">
+    <div class="col-md-5">
       <div class="form-group">
         <label for="file">Choose File</label>
-        <input type="file" id="file" (change)="handleFileInput($event.target.files)">
+        <input type="file" accept="image/*" (change)="handleFileInput($event)" placeholder="Upload picture..." />
+      </div>
+    </div>
+    <div class="col-md-5">
+      <div class="form-group">
+        <button type="button" (click)="upload()" class="btn btn-primary btn-sm">Upload</button>
       </div>
     </div>
   </div>
