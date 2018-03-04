@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AdminService } from '../../../index';
-import { Agency } from '../../../model/index';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit } from "@angular/core";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { Router, ActivatedRoute } from "@angular/router";
+import { AdminService } from "../../..";
+import { Agency } from "../../../model";
 
 @Component({
   selector: 'app-agency-detail',
@@ -22,7 +22,7 @@ export class AgencyDetailComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private adminService: AdminService<Agency>)  { }
+    private adminService: AdminService<Agency>) { }
 
   ngOnInit() {
     this.pageHeader = 'Add new agency';
@@ -34,7 +34,7 @@ export class AgencyDetailComponent implements OnInit {
       this.navigated = true;
       this.populateForm(id);
     } else {
-      this.navigated = false;       
+      this.navigated = false;
     }
   }
   createForm() {
@@ -42,40 +42,43 @@ export class AgencyDetailComponent implements OnInit {
       id: '',
       code: [null, Validators.required],
       name: [null, Validators.required],
-      status: 1,     
+      status: 1,
     });
   }
-  populateForm(id: number){
+  populateForm(id: number) {
     this.adminService.find('/api/admin/agencies', id)
-    .then(agency => {
-      console.log(' Populate - agency ',agency);
-      this.agecnyId = agency.id;            ;
-      return this.agencyForm.setValue({
-        id: agency.id,
-        code: agency.code,
-        name: agency.name || '' ,
-        status: agency.status     
-      });
-    });
+      .subscribe(
+        agency => {
+          console.log(' Populate - agency ', agency);
+          this.agecnyId = agency.id;;
+          return this.agencyForm.setValue({
+            id: agency.id,
+            code: agency.code,
+            name: agency.name || '',
+            status: agency.status
+          });
+        }, err => this.handleError);
   }
-  saveAgency(){ 
+  saveAgency() {
     if (this.agencyForm.valid) {
       this.adminService
-        .save('/api/admin/agencies',this.agencyForm.value, this.agecnyId)
-        .then(res => {
-          this.isAgencySaved = true;
-        })
-       .catch(this.handleError); 
+        .save('/api/admin/agencies', this.agencyForm.value, this.agecnyId)
+        .subscribe(
+          res => {
+            this.isAgencySaved = true;
+          },
+          err => this.handleError);
     }
   }
   private handleError(err): any {
     let errorMessage = err.json();
-    if(errorMessage.exception.includes('DuplicateKeyException')){
-     this.error = 'Code exists, please try again.!';
-    //  return Promise.reject('DuplicateKeyException');
+    if (errorMessage.exception.includes('DuplicateKeyException')) {
+      this.error = 'Code exists, please try again.!';
+      //  return Promise.reject('DuplicateKeyException')
+      ;
     }
   }
-  cancel(){
+  cancel() {
     this.router.navigate(['/admin/agency/list']);
   }
 }

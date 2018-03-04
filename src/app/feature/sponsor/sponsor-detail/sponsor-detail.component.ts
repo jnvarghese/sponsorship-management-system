@@ -40,18 +40,23 @@ export class SponsorDetailComponent implements OnInit {
       const id = +sponsorId;
       this.navigated = true;
       this.sponsorService.findSponsor(id)
-        .then(res => {
-          this.sponser = res;
-          this.pupulateForm(this.sponser);
-        });
+        .subscribe(
+          res => {
+            this.sponser = res;
+            this.pupulateForm(this.sponser);
+          },
+          err => this.handleError
+        );
     } else {
       this.navigated = false;
       this.sponser = new Sponsor();
     }
 
     this.adminService.get('/api/admin/parishes')
-    .then(data => this.parishes = data)
-    .catch(err => console.log(err));
+      .subscribe(
+        data => this.parishes = data,
+        err => this.handleError
+      );
   }
 
   createForm() {
@@ -64,7 +69,7 @@ export class SponsorDetailComponent implements OnInit {
       monthOfBirth: 1,
       emailAddress: [''],
       coSponserName: '',
-      parishId:  [null, Validators.required],
+      parishId: [null, Validators.required],
       sponsorStatus: 0,
       street: '',
       appartmentNumber: '',
@@ -97,10 +102,11 @@ export class SponsorDetailComponent implements OnInit {
     if (this.sponsorForm.valid) {
       console.log('save in component', this.sponsorForm.value);
       this.sponsorService
-        .save(this.sponsorForm.value, this.sponser.id).then(res => {
-          this.isSponsorSaved = true;
-        })
-       .catch(this.handleError); 
+        .save(this.sponsorForm.value, this.sponser.id).subscribe(
+          res =>
+          this.isSponsorSaved = true,
+          err => this.handleError
+        );
     }
   }
   cancel() {

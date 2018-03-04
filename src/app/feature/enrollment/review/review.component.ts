@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Enrollment } from '../../model/index';
 import { EnrollService } from '../../index';
 import { DateFormatPipe } from '../../../shared/date.format.pipe';
@@ -12,12 +12,13 @@ import { Router } from '@angular/router';
 export class ReviewComponent implements OnInit {
 
   @Input() sponData;
+  @Output() sponsee: EventEmitter<Enrollment> = new EventEmitter<Enrollment>();
   enroll: Enrollment;
-  error;
+  error: any;
 
   constructor(
     private router: Router,
-    private enrollService: EnrollService, 
+    private enrollService: EnrollService,
     private datePipe: DateFormatPipe) { }
 
   ngOnInit() {
@@ -32,17 +33,26 @@ export class ReviewComponent implements OnInit {
         this.sponData.contributionAmount,
         this.sponData.miscAmount,
         this.sponData.sponsees);
-    }   
+    }
   }
 
-  submit(){
-  this.enroll.effectiveDate = this.datePipe.transform(this.enroll.effectiveDate, 'toDB');
-  this.enroll.paymentDate = this.datePipe.transform(this.enroll.paymentDate, 'toDB');
-   this.enrollService.save(this.enroll).then(data =>{
-    this.router.navigate(['/']);
-   }).catch(err =>{
-    console.log(err);
-    this.error = err;
-   })
+  submit() {
+    this.enroll.effectiveDate = this.datePipe.transform(this.enroll.effectiveDate, 'toDB');
+    this.enroll.paymentDate = this.datePipe.transform(this.enroll.paymentDate, 'toDB');
+    this.enrollService.save(this.enroll).subscribe(
+      data => console.log(' Saved ') ,
+      err => this.handleError       
+    )
+  }
+//  this.router.navigate(['/'])
+  private handleError(error: any): Promise<any> {
+    this.error = error
+    console.error('An error occurred', error);
+    return Promise.reject(error.message || error);
+  }
+
+  previous() {
+    this.enroll.goto = 'toStudent';
+    this.sponsee.emit(this.enroll);
   }
 }

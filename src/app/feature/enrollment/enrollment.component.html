@@ -1,11 +1,15 @@
+
 <app-enroll-sponsor *ngIf="displaySponsor"
 [sponData]="sponsorData"
 (sponsor)="sponsorInfo($event)">
 </app-enroll-sponsor>
+
 <app-enroll-sponsee *ngIf="displaySponsee" 
 [sponData]="sponsorData"
 (sponsee)="sponseeInfo($event)">
 </app-enroll-sponsee>
+
 <app-enroll-review *ngIf="displayReview"
-[sponData]="sponsorData"   >
+[sponData]="sponsorData"   
+(sponsee)="sponseeInfo($event)">
 </app-enroll-review>

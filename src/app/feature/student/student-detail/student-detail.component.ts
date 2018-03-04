@@ -25,7 +25,7 @@ export class StudentDetailComponent implements OnInit {
   genders = [
     { value: 'M', label: 'Male' },
     { value: 'F', label: 'Female' },
-    { value: 'O', label: 'Other'}
+    { value: 'O', label: 'Other' }
   ];
 
   constructor(
@@ -35,25 +35,23 @@ export class StudentDetailComponent implements OnInit {
     private commonService: AdminService<Project>,
     private fb: FormBuilder, private validatorService: ValidatorService) {
   }
-  // https://angular.io/guide/reactive-forms
+
   ngOnInit() {
-      this.commonService.get(`/api/admin//projects`)
-        .then(data  => {
-          this.projects = data;
-        })
-        .catch(err => {
-          console.log(' Error ', err);
-        });
-      this.createForm();
-      const studentId = this.route.snapshot.params['id'];
-      if (studentId !== undefined) {
-        const id = +studentId;
-        this.navigated = true;
-        this.populateForm(id);
-      } else {
-        this.navigated = false;
-        this.student = new Student();
-      }
+    this.commonService.get(`/api/admin//projects`)
+      .subscribe(
+        data => this.projects = data,
+        error => error => this.handleError
+      );
+    this.createForm();
+    const studentId = this.route.snapshot.params['id'];
+    if (studentId !== undefined) {
+      const id = +studentId;
+      this.navigated = true;
+      this.populateForm(id);
+    } else {
+      this.navigated = false;
+      this.student = new Student();
+    }
   }
 
   createForm() {
@@ -74,56 +72,61 @@ export class StudentDetailComponent implements OnInit {
   }
   populateForm(id: number) {
     this.studentService.findStudent(id)
-    .then(student => {
-      console.log(' edit - student ', student);
-      this.student = student;
-      this.selectedProjectId = this.student.projectId;
-      this.selectedGender = this.student.gender;
-      return this.studentForm.setValue({
-        id: this.student.id,
-        firstName: this.student.firstName,
-        middleName: this.student.middleName || '',
-        lastName: this.student.lastName || '',
-        dateOfBirth: this.student.dateOfBirth || '',
-        address: this.student.address || '',
-        status: this.student.status || '',
-        gender: this.student.gender,
-        projectId: this.student.projectId,
-        hobbies: this.student.hobbies || '',
-        talent: this.student.talent || '',
-        recentAchivements: this.student.recentAchivements || '',
-      });
-    });
+      .subscribe(
+        student => {
+          console.log(' edit - student ', student);
+          this.student = student;
+          this.selectedProjectId = this.student.projectId;
+          this.selectedGender = this.student.gender;
+          return this.studentForm.setValue({
+            id: this.student.id,
+            firstName: this.student.firstName,
+            middleName: this.student.middleName || '',
+            lastName: this.student.lastName || '',
+            dateOfBirth: this.student.dateOfBirth || '',
+            address: this.student.address || '',
+            status: this.student.status || '',
+            gender: this.student.gender,
+            projectId: this.student.projectId,
+            hobbies: this.student.hobbies || '',
+            talent: this.student.talent || '',
+            recentAchivements: this.student.recentAchivements || '',
+          });
+        },
+        error => error => this.handleError
+      );
   }
   saveStudent(): void {
     if (this.studentForm.valid) {
       this.studentService
-        .save(this.studentForm.value, this.filesToUpload)
-        .then(response => {
-          this.student = response
-        })
-        .catch(error => this.error = error); // TODO: Display error message
-      this.isStudentSaved = true;
+        .save(this.studentForm.value)
+        .subscribe(
+          response => {
+            this.isStudentSaved = true;
+            this.student = response
+          },
+          error => error => this.handleError
+        );      
     }
   }
   handleFileInput(fileInput: any) {
-    this.filesToUpload = fileInput.target.files[0]; 
+    this.filesToUpload = fileInput.target.files[0];
     var pattern = /image-*/;
     var reader = new FileReader();
 
     if (!this.filesToUpload.type.match(pattern)) {
-        console.error('File is not an image');
-        //of course you can show an alert message here
-        this.filesToUpload = null;
-        return;
+      console.error('File is not an image');
+      //of course you can show an alert message here
+      this.filesToUpload = null;
+      return;
     }
   }
-  upload(){
+  upload() {
     let studentId: string = this.student.id.toString();
     this.studentService.uploadImage(this.filesToUpload, studentId)
       .subscribe(
-        response  => this.handleSuccess(response),
-        error =>  this.handleError(error)
+        response => this.handleSuccess(response),
+        error => this.handleError
       );
   }
 
@@ -135,10 +138,11 @@ export class StudentDetailComponent implements OnInit {
     console.log('Successfully uploaded image');
     //provide your own implementation of handling the response from API
   }
-  
-  private handleError(errror) {
-    console.error('Error uploading image')
-    //provide your own implementation of displaying the error message
+
+  private handleError(error: any): Promise<any> {
+    console.error('An error occurred', error);
+    this.error = error
+    return Promise.reject(error.message || error);
   }
 }
 // Upload Image

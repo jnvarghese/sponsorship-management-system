@@ -15,12 +15,19 @@ export class SponsorComponent implements OnInit {
   constructor(private router: Router, private sponsorService: SponsorService<Sponsor>) { }
 
   ngOnInit() {
-   this.sponsorService.getSponsors().then(data => {
-      this.sponsors = data;
-    });
+    this.sponsorService.getSponsors().subscribe(
+      data =>
+        this.sponsors = data,
+      err => this.handleError
+    );
   }
 
   addSponser(): void {
     this.router.navigate(['/sponsor/add']);
+  }
+
+  private handleError(error: any): Promise<any> {
+    console.error('An error occurred', error);
+    return Promise.reject(error.message || error);
   }
 }

@@ -1,19 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { Parish, Project, Center, ParishProject } from '../../model/index';
-import { AdminService, InitService } from '../../index';
-import { FormControl, FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
-import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
+import { Component, OnInit } from "@angular/core";
+import { Parish, Center, Project } from "../../model";
+import { AdminService, InitService } from "../..";
+import { FormBuilder } from "@angular/forms";
+import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'app-parish',
   templateUrl: './parish.component.html',
   styleUrls: ['./parish.component.css']
 })
-export class ParishComponent implements OnInit, OnDestroy {
+export class ParishComponent implements OnInit {
 
   parishes: Array<Parish>;
   centers: Array<Center>;
@@ -28,37 +24,34 @@ export class ParishComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.initService.getCenterList()
-      .then(data => this.centers = data)
-      .catch(err => console.log(err))
-    this.chosenCenter = false;   
-  }
-  
-  
-  ngOnDestroy() {
+    this.initService.getCenterList().subscribe(
+      data => this.centers = data,
+      err => console.log(err)
+    );
+    this.chosenCenter = false;
   }
 
   addParish() {
     this.router.navigate(['admin/parish/add']);
   }
 
-  cancel() {
-    
-  }
+  cancel() {}
 
   selectParish(value: any) {
-    if(value !== "0"){
+    if (value !== "0") {
       this.chosenCenter = true;
       this.adminService.getById('/api/admin/parishes', +value)
-        .then(data => this.parishes = data)
-        .catch(err => console.log(err));
-    }else{
+        .subscribe(
+          data => this.parishes = data,
+          err => console.log(err)
+        );
+    } else {
       this.chosenCenter = false;
     }
   }
 
   onSelect(parish: Parish) {
-    this.router.navigate(['/admin/parish/modify',  parish.id]);
+    this.router.navigate(['/admin/parish/modify', parish.id]);
   }
 
 }

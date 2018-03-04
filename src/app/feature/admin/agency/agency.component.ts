@@ -10,14 +10,16 @@ import { Router } from '@angular/router';
 export class AgencyComponent implements OnInit {
 
   agencies: Array<Agency>;
-  
+
   constructor(private adminService: AdminService<Agency>,
     private router: Router) { }
 
   ngOnInit() {
     this.adminService.get('/api/admin/agencies')
-      .then(data => this.agencies = data)
-      .catch(err => console.log(err));
+      .subscribe(
+        data => this.agencies = data,
+        err => console.log(err)
+      );
   }
 
   addAgency() {

@@ -15,13 +15,18 @@ export class StudentComponent implements OnInit {
   constructor(private router: Router, private studentService: StudentService) { }
 
   ngOnInit() {
-   this.studentService.getStudents().then(data => {
-      this.students = data;
-    });
+    this.studentService.getStudents().subscribe(
+      data => this.students = data,
+      err => this.handleError
+    );
   }
 
   addStudent() {
     this.router.navigate(['/student/add']);
   }
 
+  private handleError(error: any): Promise<any> {
+    console.error('An error occurred', error);
+    return Promise.reject(error.message || error);
+  }
 }

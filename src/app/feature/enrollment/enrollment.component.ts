@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Enrollment } from '../model/index';
 
 @Component({
@@ -12,33 +12,35 @@ export class EnrollmentComponent implements OnInit {
   displaySponsee: boolean;
   displaySponsor: boolean;
   sponsorData: any;
-  
+
   ngOnInit() {
     this.displaySponsor = true;
     this.displaySponsee = false;
     this.displayReview = false;
   }
-  
+
   sponsorInfo(formdata: any) {
-   this.displaySponsor = false;
-   this.displaySponsee = true;
-   this.displayReview = false;
-   this.sponsorData = formdata;
-   console.log('EnrollmentComponent.sponsorInfo ', formdata);
+    this.displaySponsor = false;
+    this.displaySponsee = true;
+    this.displayReview = false;
+    this.sponsorData = formdata;
+    console.log('EnrollmentComponent.sponsorInfo ', formdata);
   }
 
   sponseeInfo(e: Enrollment): void {
-    if(e.goto === 'toSponsor'){
+    if (e.goto === 'toSponsor') {
       this.displaySponsor = true;
       this.displaySponsee = false;
       this.displayReview = false;
-    } else if(e.goto === 'toReview'){
+    } else if (e.goto === 'toReview') {
       this.displaySponsor = false;
       this.displaySponsee = false;
       this.displayReview = true;
-    } else{
-
-    }  
-    this.sponsorData = e; 
+    } else if (e.goto === 'toStudent'){
+      this.displaySponsor = false;
+      this.displaySponsee = true;
+      this.displayReview = false;
+    }
+    this.sponsorData = e;
   }
 }

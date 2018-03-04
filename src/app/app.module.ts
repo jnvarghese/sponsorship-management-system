@@ -1,5 +1,4 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
@@ -27,6 +26,7 @@ import { DateFormatPipe } from './shared/date.format.pipe';
 import { DashboardService } from './feature/shared/service/dashboard.service';
 import { AdminModule } from './feature/admin/admin.module';
 import { PageDateFormatPipe } from './shared/page-date-format.pipe';
+import { HttpClientModule } from '@angular/common/http';
 
 
 declare let jQuery: Object;
@@ -43,7 +43,7 @@ declare let jQuery: Object;
   ],
   imports: [
     BrowserModule,
-    HttpModule,
+    HttpClientModule,
     FormsModule,
     ReactiveFormsModule, 
     StudentModule,

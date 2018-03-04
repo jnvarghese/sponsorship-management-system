@@ -1,5 +1,5 @@
 <form class="form-horizontal" [formGroup]="sponsorForm" novalidate (ngSubmit)="saveSponsorDetails(sponsorForm.value)" style="margin-top:90px">
-  <div class="alert alert-success" *ngIf="isSponsorSaved">
+  <div class="alert alert-success" *ngIf="isSponsorSaved | async">
     <strong>Success!</strong> Added new sponsor 
   </div>
   <h3>{{pageHeader}}</h3>

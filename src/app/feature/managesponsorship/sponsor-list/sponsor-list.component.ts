@@ -18,7 +18,7 @@ export class SponsorListComponent implements OnInit {
   constructor(private sponsorService: SponsorService<Sponsor>) {}
 
   ngOnInit() {
-    this.sponsers = this.searchTerms
+    /*this.sponsers = this.searchTerms
     .debounceTime(300)        // wait for 300ms pause in events
     .distinctUntilChanged()   // ignore if next search term is same as previous
     .switchMap(term => term   // switch to new observable each time
@@ -30,7 +30,7 @@ export class SponsorListComponent implements OnInit {
       // TODO: real error handling
       console.log(`Error in component ... ${error}`);
       return Observable.of<Array<Sponsor>>([]);
-    });
+    });*/
   }
   searchSponsor(term: string): void {
     // Push a search term into the observable stream.

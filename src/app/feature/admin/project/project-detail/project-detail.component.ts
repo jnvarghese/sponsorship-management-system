@@ -24,14 +24,14 @@ export class ProjectDetailComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private adminService: AdminService<Project>,
-    private agencyService: AdminService<Agency>)  { }
+    private agencyService: AdminService<Agency>) { }
 
   ngOnInit() {
     this.pageHeader = 'Add new project';
     this.createForm();
     this.agencyService.get('/api/admin/agencies')
-    .then(data => this.agencies = data)
-    .catch(this.handleError);
+      .subscribe(
+        data => this.agencies = data, err => this.handleError);
 
     const projectId = this.route.snapshot.params['id'];
     if (projectId !== undefined) {
@@ -55,31 +55,34 @@ export class ProjectDetailComponent implements OnInit {
       agencyId: ['', Validators.required]
     });
   }
-  populateForm(id: number){
+  populateForm(id: number) {
     this.adminService.find('/api/admin/projects', id)
-    .then(project => {
-      console.log(' Populate - project ', project);
-      this.projectId = project.id;
-      return this.projectForm.setValue({
-        id: project.id,
-        code: project.code,
-        name: project.name,
-        address: project.address || '' ,
-        contactNumber: project.contactNumber || '' ,
-        emailAddress: project.contactEmail || '' ,
-        status: project.status,
-        agencyId: project.agencyId
-      });
-    });
+      .subscribe(
+        project => {
+          console.log(' Populate - project ', project);
+          this.projectId = project.id;
+          return this.projectForm.setValue({
+            id: project.id,
+            code: project.code,
+            name: project.name,
+            address: project.address || '',
+            contactNumber: project.contactNumber || '',
+            emailAddress: project.contactEmail || '',
+            status: project.status,
+            agencyId: project.agencyId
+          });
+        },
+        err => this.handleError);
   }
   saveProject() {
     if (this.projectForm.valid) {
       this.adminService
-        .save('/api/admin/projects',this.projectForm.value, this.projectId)
-        .then(res => {
-          this.isProjectSaved = true;
-        })
-       .catch(this.handleError);
+        .save('/api/admin/projects', this.projectForm.value, this.projectId)
+        .subscribe(
+          res => {
+            this.isProjectSaved = true;
+          },
+          err => this.handleError);
     }
   }
   private handleError(error: any): Promise<any> {

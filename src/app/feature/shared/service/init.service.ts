@@ -1,41 +1,20 @@
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
-import { Http, Headers } from '@angular/http';
-
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/throw';
-import { Initializer, Center } from '../../model/index';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Center, Initializer } from "../../model";
 
 @Injectable()
 export class InitService {
 
-    private apiurl = 'api/init';
+    private apiurl = 'api/dashboard';
 
-    constructor(private http: Http) { }
+    constructor(private httpClient: HttpClient) { }
 
-    getCenterList(): Promise<Array<Center>> {
-        const initializer = new Initializer();
-        return this.http.get(`${this.apiurl}/center`).toPromise()
-            .then((response) => {
-                return response.json() as Array<Center>;
-            })
-            .catch(this.handleError);
+    getCenterList() {
+        return this.httpClient.get<Array<Center>>(`${this.apiurl}/center`);
     }
 
-    getInitializerData(): Promise<Initializer> {
-        const initializer = new Initializer();
-        return this.http.get(this.apiurl).toPromise()
-            .then((response) => {
-
-                return initializer;
-            })
-            .catch(this.handleError);
+    getInitializerData() {
+        return this.httpClient.get<Initializer>(this.apiurl);
     }
 
-    private handleError(error: any): Promise<any> {
-        console.error('An error occurred', error);
-        return Promise.reject(error.message || error);
-    }
 }

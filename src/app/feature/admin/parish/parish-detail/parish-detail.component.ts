@@ -36,13 +36,13 @@ export class ParishDetailComponent implements OnInit {
     this.iniitalProjectList = this.route.snapshot.data.projects;
     console.log(' Resolve snapshot data ', this.iniitalProjectList);
     this.createForm();
-    this.initService.getCenterList()
-      .then(data => this.centers = data)
-      .catch(err => console.log(err));
-    // this.chosenCenter = false;
+    this.initService.getCenterList().subscribe(
+      data => this.centers = data,
+      err => console.log(err)
+    );
     this.route.params.forEach((params: Params) => {
       if (params['id'] !== undefined) {
-        this.pageHeader = 'Modify parish';     
+        this.pageHeader = 'Modify parish';
         const id = +params['id'];
         console.log('OnInit route param id ', id);
         this.populateForm(id);
@@ -64,21 +64,23 @@ export class ParishDetailComponent implements OnInit {
 
   populateForm(parishId: number) {
     this.adminService.find('/api/admin/parishes', parishId)
-      .then(data => {
-        this.editingParish = true;
-        console.log(' edit - parish ', data);
-        this.selectedCenterId = data.centerId;
-        this.parishId = data.id;
-        return this.parishForm.setValue({
-          id: data.id || '',
-          code: data.code || '',
-          name: data.name || '',
-          city: data.city || '',
-          status: +data.status || '',
-          centerId: +data.centerId || '',
-          projectsList: [this.buildProjects()]
-        });
-      });
+      .subscribe(
+        data => {
+          this.editingParish = true;
+          console.log(' edit - parish ', data);
+          this.selectedCenterId = data.centerId;
+          this.parishId = data.id;
+          return this.parishForm.setValue({
+            id: data.id || '',
+            code: data.code || '',
+            name: data.name || '',
+            city: data.city || '',
+            status: +data.status || '',
+            centerId: +data.centerId || '',
+            projectsList: [this.buildProjects()]
+          });
+        },
+        err => this.handleError);
   }
 
   saveParish() {
@@ -94,10 +96,11 @@ export class ParishDetailComponent implements OnInit {
       });
       this.adminService
         .save('/api/admin/parishes', form, this.parishId)
-        .then(res => {
-          this.isParishSaved = true;
-        })
-        .catch(this.handleError);
+        .subscribe(
+          res => {
+            this.isParishSaved = true;
+          },
+          err => this.handleError);
     }
   }
 

@@ -16,7 +16,7 @@ export class SponsorActionComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe((params: { id: string }) => {
-      this.sponsorService.getSponsorShipInfo(+params.id).then((info) => {
+      this.sponsorService.getSponsorShipInfo(+params.id).subscribe((info) => {
         this.info = info[0];
       });
     });

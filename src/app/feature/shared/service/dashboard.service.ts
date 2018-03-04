@@ -1,27 +1,16 @@
+import { Enrollment, Dashboard, Initializer } from '../../model/index';
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
-import { Enrollment, Dashboard } from '../../model/index';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/throw';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class DashboardService {
 
-    private apiurl = 'api';  // URL to web api
+    private apiurl = 'api';
 
-    constructor(private http: Http) { }
+    constructor(private http: HttpClient) { }
 
-    getDashboardInfo(): Promise<any> {
-    return this.http.get(`${this.apiurl}/dashboard`).toPromise()
-      .then((response) => {
-        return response.json() as any;
-      })
-      .catch(this.handleError);
+    getDashboardInfo() {
+      return this.http.get<Initializer>(`${this.apiurl}/dashboard`);
     }
 
-    private handleError(error: any): Promise<any> {
-        console.error('An error occurred', error);
-        return Promise.reject(error.message || error);
-      }
 }

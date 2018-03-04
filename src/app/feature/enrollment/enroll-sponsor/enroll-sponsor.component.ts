@@ -1,25 +1,17 @@
-import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { SponsorService, EnrollService, InitService, AdminService } from '../../index';
-import { Enrollment, Sponsor, Parish, Center } from '../../model/index';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges } from "@angular/core";
+import { Enrollment, Sponsor, Parish, Center } from "../../model";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { SponsorService, EnrollService, AdminService, InitService } from "../..";
+import { Router } from "@angular/router";
+import { ValidatorService } from "../../../shared/validator.service";
 import * as moment from 'moment';
-
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/switchMap';
-import { Router } from '@angular/router';
-import { ValidatorService } from '../../../shared/validator.service';
 
 @Component({
   selector: 'app-enroll-sponsor',
   templateUrl: './enroll-sponsor.component.html',
   styleUrls: ['./enroll-sponsor.component.css']
 })
-export class EnrollSponsorComponent implements OnInit,OnChanges {
+export class EnrollSponsorComponent implements OnInit {
 
   hasAnySponsorSelected: boolean = false;
   enroll: Enrollment;
@@ -37,41 +29,39 @@ export class EnrollSponsorComponent implements OnInit,OnChanges {
     private sponsorService: SponsorService<Sponsor>,
     private enrollService: EnrollService,
     private initService: InitService,
-    private fb : FormBuilder,
+    private fb: FormBuilder,
     private adminService: AdminService<Parish>,
     private router: Router,
     private validatorService: ValidatorService) {
 
-      this.createForm();
-     }
+    this.createForm();
+  }
 
   ngOnInit() {
-  
-     if(this.sponData){     
+
+    if (this.sponData) {
       this.enroll = new Enrollment(
         this.sponData.sponsorId,
-        this.sponData.sponsorName, 
-        this.sponData.paymentDate, 
-        this.sponData.effectiveDate, 
+        this.sponData.sponsorName,
+        this.sponData.paymentDate,
+        this.sponData.effectiveDate,
         this.sponData.contributionAmount,
         0,
         this.sponData.sponsee);
-        this.pupulateForm(this.sponData);
-     }else{
+      this.pupulateForm(this.sponData);
+    } else {
       this.enroll = new Enrollment();
-     }
+    }
 
-     this.initService.getCenterList()
-     .then(data => this.centers = data)
-     .catch(err => console.log(err))
-     this.chosenCenter = false;  
-  }
-  ngOnChanges(changes: SimpleChanges) {
-    console.log('changes ', changes);
+    this.initService.getCenterList().subscribe(
+      data => this.centers = data,
+      err => console.log(err)
+    );
+    this.chosenCenter = false;
   }
 
-  pupulateForm(data: any){
-    console.log('EnrollSponsorComponent.pupulateForm ',data);
+  pupulateForm(data: any) {
+    console.log('EnrollSponsorComponent.pupulateForm ', data);
     this.hasAnySponsorSelected = true;
     this.sponsorEnrollForm.setValue({
       sponsorId: data.sponsorId,
@@ -91,14 +81,15 @@ export class EnrollSponsorComponent implements OnInit,OnChanges {
       sponsorName: '',
       sponsee: '',
       paymentDate: [moment(new Date()).format("MM/DD/YYYY"), [Validators.required, this.validatorService.validateDate]],
-      contributionAmount:[null, Validators.required],
+      contributionAmount: [null, Validators.required],
       effectiveDate: [moment(new Date()).format("MM/DD/YYYY"), [Validators.required, this.validatorService.validateDate]]
     });
   }
+  
   selectSponsor(sponsor: Sponsor) {
     console.log(' Enroll Sponsor - Select', sponsor);
     this.hasAnySponsorSelected = true;
-    let fullName = sponsor.firstName +' '+ sponsor.lastName;
+    let fullName = sponsor.firstName + ' ' + sponsor.lastName;
     this.enroll.sponsorId = sponsor.id;
     this.enroll.parishId = sponsor.parishId;
     this.enroll.sponsorName = fullName;
@@ -107,31 +98,32 @@ export class EnrollSponsorComponent implements OnInit,OnChanges {
     this.sponsorEnrollForm.controls['sponsorName'].setValue(fullName);
   }
 
-  navigate(){
-    console.log('sponsorEnrollForm.status '+this.sponsorEnrollForm.status);
+  navigate() {
+    console.log('sponsorEnrollForm.status ' + this.sponsorEnrollForm.status);
     const formModel = this.sponsorEnrollForm.value;
     this.sponsor.emit(formModel);
-    //this.enrollService.setup(formModel);
-    //this.router.navigate(['/enroll']);
   }
 
   onCenterSelect(value: any) {
-    if(value !== "0"){
+    if (value !== "0") {
       this.chosenCenter = true;
       this.adminService.getById('/api/admin/parishes', +value)
-        .then(data => this.parishes = data)
-        .catch(err => console.log(err));
-    }else{
+        .subscribe(
+          data => this.parishes = data,
+          err => console.log(err)
+        );
+    } else {
       this.chosenCenter = false;
     }
   }
   onParishSelect(value: any) {
-    if(value !== "0"){
+    if (value !== "0") {
       this.chosenParish = true;
       this.sponsorService.getSponsorsByParishId(+value)
-        .then(data => this.sponsors = data)
-        .catch(err => console.log(err));
-    }else{
+        .subscribe(data => this.sponsors = data,
+          err => console.log(err)
+        );
+    } else {
       this.chosenParish = false;
     }
   }

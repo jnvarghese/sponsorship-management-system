@@ -1,44 +1,30 @@
-import { Injectable } from '@angular/core';
-import { Headers, Http, Response } from '@angular/http';
-import { Sponsor } from '../../model/sponsor';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/throw';
-import { Enrollment } from '../../model/index';
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Sponsor, Enrollment } from "../../model";
+
+const headers = new HttpHeaders()
+            .set('Content-Type', 'application/json');
 
 @Injectable()
 export class SponsorService<T> {
 
   private sponsorUrl = 'api/sponsor';  // URL to web api
 
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
 
-  getSponsors(): Promise<Array<T>> {
-    return this.http.get(`${this.sponsorUrl}/list`).toPromise()
-      .then((response) => {
-        return response.json() as T[];
-      })
-      .catch(this.handleError);
+  getSponsors() {
+    return this.http.get<Array<T>>(`${this.sponsorUrl}/list`);
   }
 
-  getSponsorsByParishId(id: number): Promise<Array<T>> {
-    return this.http.get(`${this.sponsorUrl}/listbyparish/${id}`).toPromise()
-      .then((response) => {
-        return response.json() as T[];
-      })
-      .catch(this.handleError);
+  getSponsorsByParishId(id: number) {
+    return this.http.get<Array<T>>(`${this.sponsorUrl}/listbyparish/${id}`);
   }
 
-  findSponsor(id: number): Promise<T> {
-    return this.http.get(`${this.sponsorUrl}/find/${id}`).toPromise()
-      .then((response) => {
-        return response.json() as T;
-      })
-      .catch(this.handleError);
+  findSponsor(id: number) {
+    return this.http.get<T>(`${this.sponsorUrl}/find/${id}`);
   }
 
-  save(sponsor: Sponsor, id: number): Promise<T> {
+  save(sponsor: Sponsor, id: number) {
     if (id) {
       sponsor.id = id;
       return this.put(sponsor);
@@ -46,50 +32,21 @@ export class SponsorService<T> {
     return this.post(sponsor);
   }
 
-  // Add new Student
-  private post(sponsor: Sponsor): Promise<T> {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    console.log('Sponsor before add ', JSON.stringify(sponsor));
+  private post(sponsor: Sponsor) {
     return this.http
-      .post(`${this.sponsorUrl}/add`, JSON.stringify(sponsor), { headers: headers })
-      .toPromise()
-      .then((data) => console.log(data))
-      .catch(this.handleError);
+      .post<Sponsor>(`${this.sponsorUrl}/add`, JSON.stringify(sponsor), { headers });
   }
 
-  // Update existing Student
-  private put(sponsor: Sponsor): Promise<T> {
-    const url = `${this.sponsorUrl}/modify/${sponsor.id}`;
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    return this.http
-      .put(url, JSON.stringify(sponsor), { headers: headers })
-      .toPromise()
-      .then(() => sponsor)
-      .catch(this.handleError);
+  private put(sponsor: Sponsor) {
+    return this.http.put<Sponsor>(`${this.sponsorUrl}/modify/${sponsor.id}`, JSON.stringify(sponsor), { headers });
   }
 
-  search(term: string): Promise<Array<T>> {
-    return this.http.get(`${this.sponsorUrl}/search/${term}`)
-      .toPromise()
-      .then((response) => {
-        return response.json() as Array<T>;
-      })
-      .catch(this.handleError);
+  search(term: string) {
+    return this.http.get<Array<T>>(`${this.sponsorUrl}/search/${term}`);
   }
 
-  getSponsorShipInfo(id: number): Promise<Enrollment> {
-    return this.http.get(`api/sponsorshipDetails/?id=${id}`)
-      .toPromise()
-      .then((response) => {
-        return response.json().data as Enrollment;
-      })
-      .catch(this.handleError);
+  getSponsorShipInfo(id: number) {
+    return this.http.get<Enrollment>(`api/sponsorshipDetails/?id=${id}`);
   }
 
-  private handleError(error: any): Promise<any> {
-    console.error('An error occurred', error);
-    return Promise.reject(error.message || error);
-  }
 }

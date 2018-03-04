@@ -1,10 +1,6 @@
-import { Component, OnInit, OnDestroy, Input, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
-import { Enrollment, Student, Sponsee, Project } from '../../model/index';
-import { Subscription } from 'rxjs/Subscription';
-import { EnrollService, StudentService, AdminService } from '../../index';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { Enrollment, Project, Student, Sponsee } from "../../model";
+import { StudentService, AdminService } from "../..";
 
 @Component({
   selector: 'app-enroll-sponsee',
@@ -42,8 +38,7 @@ export class EnrollSponseeComponent implements OnInit {
       new Array<Sponsee>()
     );
     this.adminService.get('/api/admin/projects')
-      .then(data => this.projects = data)
-      .catch(err => console.log(err));
+      .subscribe(data => this.projects = data, err => console.log(err));
   }
   studentFilter = (studentId) => this.enroll.sponsees.find((s) => s.studentId === studentId);
 
@@ -123,8 +118,7 @@ export class EnrollSponseeComponent implements OnInit {
     if (value !== "0") {
       this.chosenProject = true;
       this.studentService.search(null, +value, this.enroll.effectiveDate)
-        .then(data => this.students = data)
-        .catch(err => console.log(err));
+        .subscribe(data => this.students = data, err => console.log(err));
     } else {
       this.chosenProject = false;
     }

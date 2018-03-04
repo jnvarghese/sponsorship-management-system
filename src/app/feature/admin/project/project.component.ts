@@ -11,14 +11,15 @@ import { Router } from '@angular/router';
 export class ProjectComponent implements OnInit {
 
   projects: Array<Project>;
-  
+
   constructor(private adminService: AdminService<Project>,
-     private router: Router) { }
+    private router: Router) { }
 
   ngOnInit() {
     this.adminService.get('/api/admin/projects')
-      .then(data => this.projects = data)
-      .catch(err => console.log(err));
+      .subscribe(
+        data => this.projects = data, err => console.log(err)
+      );
   }
 
   addProject() {
