@@ -1,7 +1,6 @@
 <div>
   <p>Please search a student in the search input.</p>
-
-  <div class="input-group">
+  <div class="input-group">    
     <input class="form-control" 
     #sponsorSearchBox 
     required="required" type="text" 
@@ -14,7 +13,7 @@
     </div>
   </div>
 
-  <ul class="list-group" *ngFor="let sponsor of sponsers | async" 
+  <ul class="list-group" *ngFor="let sponsor of students | async" 
       [routerLink]="['/manage-sponsor',{outlets:{'detail':[sponsor.id]}}]">
     <li class="list-group-item">{{sponsor.firstName}} {{sponsor.lastName}}</li>
   </ul>

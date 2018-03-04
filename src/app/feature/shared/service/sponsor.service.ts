@@ -1,6 +1,6 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Sponsor, Enrollment } from "../../model";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Sponsor, Enrollment, SponsorshipInfo } from "../../model";
 
 const headers = new HttpHeaders()
             .set('Content-Type', 'application/json');
@@ -46,7 +46,7 @@ export class SponsorService<T> {
   }
 
   getSponsorShipInfo(id: number) {
-    return this.http.get<Enrollment>(`api/sponsorshipDetails/?id=${id}`);
+    return this.http.get<SponsorshipInfo>(`/api/manage/view/${id}`);
   }
 
 }

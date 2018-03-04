@@ -42,6 +42,10 @@ export class StudentService {
     return this.http.get<Array<Student>>(`${this.studentsUrl}/search/${term}/${parishId}/${effectiveDate}`);
   }
 
+  searchByName(term: string) {
+    return this.http.get<Array<Student>>(`${this.studentsUrl}/search/${term}`);
+  }
+
   uploadImage(filesToUpload: File, studentId: string): Observable<any>{
     let headers = new HttpHeaders();
     headers.set('id', studentId);
