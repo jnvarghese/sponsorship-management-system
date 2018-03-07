@@ -1,6 +1,6 @@
 export class Contribution {
-    id: number;
-    dateReceived: string;
-    amount: string;
-    status: string;
+    paymentDate: string;
+    maxOut: string;
+    contriAmount: string;
+    miscAmount: string;
 }
