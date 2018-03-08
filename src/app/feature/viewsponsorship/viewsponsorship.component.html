@@ -20,7 +20,7 @@
                 <td>{{ e.parishName }}</td>
                 <td>{{ e.paymentDate }}</td>
                 <td>{{ e.contribution }}</td>
-                <td (click)="generateReport(e.sponsorName)"> Receipt </td>
+                <td (click)="generateReport(e.sponsorName, e.enrollmentId)"> Receipt </td>
               </tr>     
             </tbody>
         </table>

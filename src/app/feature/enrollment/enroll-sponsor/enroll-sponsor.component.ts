@@ -120,7 +120,12 @@ export class EnrollSponsorComponent implements OnInit {
     if (value !== "0") {
       this.chosenParish = true;
       this.sponsorService.getSponsorsByParishId(+value)
-        .subscribe(data => this.sponsors = data,
+        .subscribe(data => { 
+          this.sponsors = data;
+          if(this.sponsors.length <= 0){
+            this.hasAnySponsorSelected = false;
+          }
+        },
           err => console.log(err)
         );
     } else {

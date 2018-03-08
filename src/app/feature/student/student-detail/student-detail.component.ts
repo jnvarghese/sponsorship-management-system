@@ -5,6 +5,8 @@ import { StudentService } from '../../shared/service/student.service';
 import { Student, Project } from '../../model/index';
 import { AdminService } from '../../shared/service/admin.service';
 import { ValidatorService } from '../../../shared/validator.service';
+import { Observable } from 'rxjs/Observable';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-student-detail',
@@ -17,6 +19,7 @@ export class StudentDetailComponent implements OnInit {
   studentForm: FormGroup;
   error: any;
   navigated = false; // true if navigated here
+  fileUploadStatus: boolean;
   filesToUpload: File;
   selectedProjectId: any;
   selectedGender: any;
@@ -102,11 +105,13 @@ export class StudentDetailComponent implements OnInit {
         .save(this.studentForm.value)
         .subscribe(
           response => {
+            console.log(' response ', response);
             this.isStudentSaved = true;
             this.student = response
           },
-          error => error => this.handleError
-        );      
+          error => this.handleError,
+          () => console.log("Subsribtion Completed !")
+        );
     }
   }
   handleFileInput(fileInput: any) {
@@ -125,11 +130,16 @@ export class StudentDetailComponent implements OnInit {
     let studentId: string = this.student.id.toString();
     this.studentService.uploadImage(this.filesToUpload, studentId)
       .subscribe(
-        response => this.handleSuccess(response),
-        error => this.handleError
+        event => {
+          if (event instanceof HttpResponse) {
+            this.fileUploadStatus = true;
+            console.log('File is completely uploaded!');
+            this.router.navigate(['/student/list']);
+          }
+        }
       );
+    this.filesToUpload = null;
   }
-
   cancel() {
     this.router.navigate(['/student/list']);
   }
@@ -139,10 +149,10 @@ export class StudentDetailComponent implements OnInit {
     //provide your own implementation of handling the response from API
   }
 
-  private handleError(error: any): Promise<any> {
+  private handleError(error: any): Observable<any> {
     console.error('An error occurred', error);
     this.error = error
-    return Promise.reject(error.message || error);
+    return Observable.throw(error.message || error);
   }
 }
 // Upload Image

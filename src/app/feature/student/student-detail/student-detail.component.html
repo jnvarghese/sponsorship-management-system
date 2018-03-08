@@ -2,7 +2,7 @@
   <div class="alert alert-success" *ngIf="(isStudentSaved) && (studentForm.valid)">
     <strong>Success!</strong> Added new student
   </div>
-  <h2>Create new Student</h2>
+  <h2>Create new student</h2>
   <p>Please enter following details to successfuly create a student.</p>
   <div class="row-fluid">
     <div class="col-md-12">
@@ -105,6 +105,7 @@
       <div class="form-group">
         <label for="file">Choose File</label>
         <input type="file" accept="image/*" (change)="handleFileInput($event)" placeholder="Upload picture..." />
+        {{fileUploadStatus}}
       </div>
     </div>
     <div class="col-md-5">

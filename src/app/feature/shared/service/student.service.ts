@@ -3,6 +3,8 @@ import { Injectable } from "@angular/core";
 import { Student } from "../../model";
 import { RequestOptions } from "@angular/http";
 import { Observable } from "rxjs/Observable";
+import { HttpEvent } from "@angular/common/http";
+import { HttpRequest } from "@angular/common/http";
 
 const headers = new HttpHeaders()
             .set('Content-Type', 'application/json');
@@ -22,23 +24,24 @@ export class StudentService {
     return this.http.get<Student>(`${this.studentsUrl}/find/${id}`);
   }
 
-  save(student: Student) {
+  save(student: Student): Observable<Student> {
     if (student.id) {
       return this.put(student);
     }
     return this.post(student);
   }
 
-  private post(student: Student) {
+  private post(student: Student): Observable<Student> {
     return this.http.post<Student>(`${this.studentsUrl}/add`, JSON.stringify(student), { headers });
   }
 
   // Update existing Student
-  private put(student: Student) {
+  private put(student: Student): Observable<Student> {
     return this.http.put<Student>(`${this.studentsUrl}/modify/${student.id}`, JSON.stringify(student), { headers });
   }
 
   search(term: string, parishId: number, effectiveDate: string) {
+    console.log( 'effectiveDate ', effectiveDate);
     return this.http.get<Array<Student>>(`${this.studentsUrl}/search/${term}/${parishId}/${effectiveDate}`);
   }
 
@@ -46,13 +49,16 @@ export class StudentService {
     return this.http.get<Array<Student>>(`${this.studentsUrl}/search/${term}`);
   }
 
-  uploadImage(filesToUpload: File, studentId: string): Observable<any>{
-    let headers = new HttpHeaders();
-    headers.set('id', studentId);
-    headers.set('Content-Type', 'application/octet-stream');
-    headers.set('Upload-Content-Type', filesToUpload.type)
-   // let options = new RequestOptions({ headers });
-    return this.http.post(this.studentsUrl+'/image', filesToUpload, {headers});
+  uploadImage(filesToUpload: File, studentId: string): Observable<HttpEvent<{}>>{
+    console.log( 'studentId ', studentId);
+    let formData = new FormData();
+    formData.append("file", filesToUpload, filesToUpload.name);
+
+    const req = new HttpRequest('POST', `${this.studentsUrl}/image/${studentId}`, formData, {
+      reportProgress: true,
+      responseType: 'text'
+    });    
+    return this.http.request(req);
   }
 
 }

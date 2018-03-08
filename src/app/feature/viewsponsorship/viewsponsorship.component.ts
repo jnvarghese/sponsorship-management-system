@@ -19,8 +19,8 @@ export class ViewSponsorshipComponent implements OnInit {
       err => console.log(err) );
   }
 
-  generateReport(fileName: string){
-    this.enrollService.generateReport().subscribe(
+  generateReport(fileName: string, enrollmentId: number){
+    this.enrollService.generateReport(enrollmentId).subscribe(
       blob => {
         importedSaveAs(blob, fileName+' - Light to Life - Sponsorship Information Document');
       }
