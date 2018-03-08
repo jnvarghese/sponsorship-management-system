@@ -12,3 +12,4 @@ export * from './parishproject';
 export * from './region';
 export * from './center';
 export * from './sponsorship-info';
+export * from './viewenrollment';

@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Enrollment } from '../../model/index';
+import { Enrollment, ViewEnroll } from '../../model/index';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { RequestOptions, ResponseContentType } from '@angular/http';
+import { HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
 const headers = new HttpHeaders()
             .set('Content-Type', 'application/json');
@@ -8,12 +11,23 @@ const headers = new HttpHeaders()
 @Injectable()
 export class EnrollService {
 
-    private sponsorUrl = 'api/enroll';
+    private apiUrl = 'api';
 
     constructor(private http: HttpClient) { }
 
     save(enrollment: Enrollment) {
-        return this.http.post<Enrollment>(`${this.sponsorUrl}/enroll`, JSON.stringify(enrollment), { headers });
+        return this.http.post<Enrollment>(`${this.apiUrl}/enroll`, JSON.stringify(enrollment), { headers });
+    }
+
+    listEnrollments(){
+        return this.http.get<Array<ViewEnroll>>(`${this.apiUrl}/view/enrollment`);
+    }
+
+    generateReport(): Observable<Blob>{
+     
+        return this.http.get(`${this.apiUrl}/enrollment/generatereport`, {
+            responseType: "blob"
+        });
     }
   
 }

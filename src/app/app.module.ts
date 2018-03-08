@@ -27,6 +27,7 @@ import { DashboardService } from './feature/shared/service/dashboard.service';
 import { AdminModule } from './feature/admin/admin.module';
 import { PageDateFormatPipe } from './shared/page-date-format.pipe';
 import { HttpClientModule } from '@angular/common/http';
+import { ViewSponsorshipComponent } from './feature/viewsponsorship/viewsponsorship.component';
 
 
 declare let jQuery: Object;
@@ -37,6 +38,7 @@ declare let jQuery: Object;
     HeaderComponent,
     FooterComponent,
     DashboardComponent,
+    ViewSponsorshipComponent,
     PageNotFoundComponent,
     HeaderComponent,
     FooterComponent
