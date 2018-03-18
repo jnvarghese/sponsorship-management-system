@@ -40,7 +40,10 @@ export class ReviewComponent implements OnInit {
     this.enroll.effectiveDate = this.datePipe.transform(this.enroll.effectiveDate, 'toDB');
     this.enroll.paymentDate = this.datePipe.transform(this.enroll.paymentDate, 'toDB');
     this.enrollService.save(this.enroll).subscribe(
-      data => console.log(' Saved ') ,
+      data => {
+        this.enroll.goto = 'home';
+        this.sponsee.emit(this.enroll);       
+      },
       err => this.handleError       
     )
   }

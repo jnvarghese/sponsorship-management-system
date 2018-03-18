@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { InitService } from '../index';
-import { Initializer } from '../../model/index';
-import { Subject } from 'rxjs/Subject';
+import { Initializer, Center } from '../../model/index';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/delay';
 
 @Injectable()
 export class InitResolve implements Resolve<Initializer> {

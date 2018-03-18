@@ -57,7 +57,7 @@ export class EnrollSponseeComponent implements OnInit {
       this.enroll.miscAmount = this.enroll.contributionAmount % 20;
       console.log('dateIncrementor ', dateIncrementor);
       console.log('misc amount ', this.enroll.miscAmount);
-      if (dateIncrementor > 12) {
+      if (dateIncrementor > 12 && this.students.length > 1) {
         this.message = `Mr ${this.enroll.sponsorName}'s, contribution $${this.enroll.contributionAmount}
        exceeds twelve months of sponsorship.
        Would you like to add a anothor student?`;

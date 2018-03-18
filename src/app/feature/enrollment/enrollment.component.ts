@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Enrollment } from '../model/index';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-enrollment',
@@ -12,6 +13,8 @@ export class EnrollmentComponent implements OnInit {
   displaySponsee: boolean;
   displaySponsor: boolean;
   sponsorData: any;
+
+  constructor(private router: Router) { }
 
   ngOnInit() {
     this.displaySponsor = true;
@@ -28,19 +31,23 @@ export class EnrollmentComponent implements OnInit {
   }
 
   sponseeInfo(e: Enrollment): void {
-    if (e.goto === 'toSponsor') {
-      this.displaySponsor = true;
-      this.displaySponsee = false;
-      this.displayReview = false;
-    } else if (e.goto === 'toReview') {
-      this.displaySponsor = false;
-      this.displaySponsee = false;
-      this.displayReview = true;
-    } else if (e.goto === 'toStudent'){
-      this.displaySponsor = false;
-      this.displaySponsee = true;
-      this.displayReview = false;
+    if (e) {
+      if (e.goto === 'toSponsor') {
+        this.displaySponsor = true;
+        this.displaySponsee = false;
+        this.displayReview = false;
+      } else if (e.goto === 'toReview') {
+        this.displaySponsor = false;
+        this.displaySponsee = false;
+        this.displayReview = true;
+      } else if (e.goto === 'toStudent') {
+        this.displaySponsor = false;
+        this.displaySponsee = true;
+        this.displayReview = false;
+      } else if (e.goto === 'home') {
+        this.router.navigate(['/']);
+      }
+      this.sponsorData = e;
     }
-    this.sponsorData = e;
   }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRoute, Params, ActivatedRouteSnapshot } from '@angular/router';
+import { Resolve, Params, ActivatedRouteSnapshot } from '@angular/router';
 import { AdminService } from '../index';
 import { Project } from '../../model/index';
 
@@ -8,7 +8,7 @@ export class CommonResolve<T> implements Resolve<Array<T>> {
 
   url: any;
 
-  constructor(private commonService: AdminService<T>, private route: ActivatedRoute) { }
+  constructor(private commonService: AdminService<T>) { }
 
   resolve(route: ActivatedRouteSnapshot) {
     const id = route.paramMap.get('id');

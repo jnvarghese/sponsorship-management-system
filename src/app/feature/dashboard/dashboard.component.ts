@@ -17,10 +17,10 @@ export class DashboardComponent implements OnInit {
   constructor(private route: ActivatedRoute, private dashboardService: DashboardService) { }
 
   ngOnInit() {
-    console.log(' this.route.snapshot.data ', this.route.snapshot.data);
+    this.dashboard = new Dashboard()
     this.data = this.route.snapshot.data.initdata;
-    console.log(' this.data ----- ', this.data);
-   /* this.dashboard.sponsorCount = data.sponsorCount;
-    this.dashboard.studentCount = data.studentCount;*/
+    this.dashboard.sponsorCount = this.data.sponsorCount;
+    this.dashboard.studentCount = this.data.studentCount;
+    this.dashboard.enrollmentCount = this.data.enrollmentCount;
   }
 }
