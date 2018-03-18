@@ -26,6 +26,7 @@ export class EnrollSponseeComponent implements OnInit {
 
   ngOnInit() {
     console.log('Sponsee Comp. init ', this.enroll);
+    console.log('Sponsee Comp. this.sponData ', this.sponData);
     this.addMore = false;
     this.enroll = new Enrollment(
       this.sponData.sponsorId,
@@ -37,7 +38,7 @@ export class EnrollSponseeComponent implements OnInit {
       0,
       new Array<Sponsee>()
     );
-    this.adminService.get('/api/admin/projects')
+    this.adminService.getById('/api/admin/parishprojects', this.sponData.parishId)
       .subscribe(data => this.projects = data, err => console.log(err));
   }
   studentFilter = (studentId) => this.enroll.sponsees.find((s) => s.studentId === studentId);

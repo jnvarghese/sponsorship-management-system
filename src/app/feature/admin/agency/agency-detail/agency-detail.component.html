@@ -1,6 +1,6 @@
 <form [formGroup]="agencyForm" (ngSubmit)="saveAgency(agencyForm.value)" style="margin-top:90px">
   <div class="alert alert-success" *ngIf="(isAgencySaved) && (agencyForm.valid)">
-    <strong>Success!</strong> Added new agency
+    <strong>Success!</strong> Agency details saved.
   </div>
   <h3>{{pageHeader}}</h3>
   <p>Please enter following details to successfuly create a agency.</p>

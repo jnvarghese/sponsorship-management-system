@@ -13,6 +13,7 @@ export class CommonResolve<T> implements Resolve<Array<T>> {
   resolve(route: ActivatedRouteSnapshot) {
     const id = route.paramMap.get('id');
     this.url = `/api/admin/projects/parish`;
+    //this.url = '/api/admin/parishes';
     console.log( `Resolving with URL ${this.url} and ${id}`);
     return this.commonService.getById(this.url, +id);
   }

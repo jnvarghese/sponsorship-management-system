@@ -1,6 +1,6 @@
 <form [formGroup]="projectForm" (ngSubmit)="saveProject(projectForm.value)" style="margin-top:90px">
   <div class="alert alert-success" *ngIf="(isProjectSaved) && (projectForm.valid)">
-    <strong>Success!</strong> Project Added.
+    <strong>Success!</strong> Project details saved.
   </div>
   <h3>{{pageHeader}}</h3>
   <p>Please enter following details to successfuly create a project.</p>
