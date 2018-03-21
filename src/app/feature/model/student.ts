@@ -2,8 +2,7 @@ import { Project, Contribution } from './index';
 
 export class Student {
   id: number;
-  firstName: string;
-  lastName: string;
+  studentName : string;
   gender: string;
   dateOfBirth: string;
   address: string;

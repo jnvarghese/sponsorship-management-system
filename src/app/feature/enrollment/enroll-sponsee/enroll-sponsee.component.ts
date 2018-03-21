@@ -75,7 +75,7 @@ export class EnrollSponseeComponent implements OnInit {
       let incremented = this.incrementDate(dateIncrementor, 'month', effectiveDate);
       console.log('incremented ', incremented);
       let expireDate = this.calculateExpiration(incremented);
-      let sponsee = new Sponsee(this.enroll.sponsorId, expireDate[0], expireDate[1], student.id, student.firstName);
+      let sponsee = new Sponsee(this.enroll.sponsorId, expireDate[0], expireDate[1], student.id, student.studentName);
 
       this.enroll.sponsees.push(sponsee);
 

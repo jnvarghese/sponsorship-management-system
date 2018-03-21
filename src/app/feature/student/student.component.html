@@ -12,8 +12,7 @@
           <table class="table table-hover">
               <thead>
                 <tr>
-                  <th>First Name</th>
-                  <th>Last Name</th>
+                  <th>Student Name</th>
                   <th>Gender</th>
                   <th>Project</th>
                   <th>Agency</th>
@@ -21,8 +20,7 @@
               </thead>
               <tbody>
                 <tr *ngFor="let student of students" [routerLink]="['/student/modify',  student.id]">
-                  <td>{{ student.firstName }}</td>
-                  <td>{{ student.lastName }}</td>
+                  <td>{{ student.studentName }}</td>
                   <td>{{ student.gender }}</td>
                   <td>{{ student.projectName }}</td>
                   <td>{{ student.agencyName}}</td>

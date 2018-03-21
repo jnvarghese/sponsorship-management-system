@@ -1,0 +1,37 @@
+<div class="container" style="margin-top:70px">
+    <h2>Upload File</h2>
+    <div class="row-fluid">
+        <div class="col-md-6">
+            <label for="gender">Agency</label>
+            <select class="form-control" (change)="onAgencySelect($event.target.value)">
+                <option [value]="0" [selected]="true"> Please choose one </option>
+                <option *ngFor="let agency of agencies" [value]="agency.id">{{agency.code}} {{agency.name}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="col-md-6">
+            <label for="gender">Project</label>
+            <select class="form-control" (change)="onProjectSelect($event.target.value)">
+                <option [value]="0" [selected]="true"> Please choose one </option>
+                <option *ngFor="let project of projects" [value]="project.id">{{project.code}} {{project.name}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="row-fluid" *ngIf="projectChosen" style="margin-top:20px">
+        <div class="col-md-12">
+            <label for="file"> {{error}} Choose File</label>
+            <input type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" (change)="handleFileInput($event)"
+                placeholder="Upload data..." />
+        </div>
+    </div>
+    <div class="row-fluid" *ngIf="readyToUpload" style="padding-top:20px">
+        <div class="col-md-12">
+        </div>
+    </div>
+    <div class="row-fluid" *ngIf="readyToUpload" style="padding-top:20px">
+        <div class="col-md-6">
+            <button type="button" (click)="upload()" class="btn btn-primary btn-sm">Upload</button>
+        </div>
+    </div>
+</div>

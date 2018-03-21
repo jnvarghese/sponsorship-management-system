@@ -28,12 +28,13 @@ import { AdminModule } from './feature/admin/admin.module';
 import { PageDateFormatPipe } from './shared/page-date-format.pipe';
 import { HttpClientModule } from '@angular/common/http';
 import { ViewSponsorshipComponent } from './feature/viewsponsorship/viewsponsorship.component';
-
+import { UploadFileComponent } from './feature/upload-file/upload-file.component';
+import { UploadService } from './feature/shared/service/upload.service';
 
 declare let jQuery: Object;
 
 @NgModule({
-  declarations: [    
+  declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
@@ -41,13 +42,14 @@ declare let jQuery: Object;
     ViewSponsorshipComponent,
     PageNotFoundComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    UploadFileComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule, 
+    ReactiveFormsModule,
     StudentModule,
     SponsorModule,
     EnrollmentModule,
@@ -65,6 +67,7 @@ declare let jQuery: Object;
     EnrollService,
     InitResolve,
     InitService,
+    UploadService,
     JQUERY_PROVIDER
   ],
   bootstrap: [AppComponent]
