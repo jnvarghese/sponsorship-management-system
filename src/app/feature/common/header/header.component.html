@@ -11,7 +11,7 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li [routerLinkActive]="['active']">
-          <a [routerLink]="['/dashboard']">Home</a>
+          <a [routerLink]="['./dashboard']">Home</a>
         </li>
         <li class="dropdown" [routerLinkActive]="['active']">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">Administration
@@ -19,13 +19,13 @@
           </a>
           <ul class="dropdown-menu">
             <li>
-              <a [routerLink]="['/admin/agency/list']">Agency</a>
+              <a [routerLink]="['./admin/agency/list']">Agency</a>
             </li>
             <li>
-              <a [routerLink]="['/admin/project/list']">Project</a>
+              <a [routerLink]="['./admin/project/list']">Project</a>
             </li>
             <li>
-              <a [routerLink]="['/admin/parish/list']">Parish</a>
+              <a [routerLink]="['./admin/parish/list']">Parish</a>
             </li>
           
           </ul>
@@ -36,10 +36,10 @@
           </a>
           <ul class="dropdown-menu">
             <li>
-              <a [routerLink]="['/sponsor/add']">New sponsor</a>
+              <a [routerLink]="['./sponsor/add']">New sponsor</a>
             </li>
             <li>
-              <a [routerLink]="['/sponsor/list']">Manage sponsors</a>
+              <a [routerLink]="['./sponsor/list']">Manage sponsors</a>
             </li>
           </ul>
         </li>
@@ -49,24 +49,27 @@
           </a>
           <ul class="dropdown-menu">
             <li>
-              <a [routerLink]="['/student/add']">New Student</a>
+              <a [routerLink]="['./student/add']">New Student</a>
             </li>
             <li>
-              <a [routerLink]="['/student/list']">Manage Students</a>
+              <a [routerLink]="['./student/list']">Manage Students</a>
             </li>
           </ul>
         </li>
         <li [routerLinkActive]="['active']">
-          <a [routerLink]="['/enroll']" >Enroll</a>
+          <a [routerLink]="['./enroll']" >Enroll</a>
         </li>
         <li [routerLinkActive]="['active']">
-          <a [routerLink]="['/view-enroll']">View Enrollment</a>
+          <a [routerLink]="['./view-enroll']">View Enrollment</a>
         </li>
         <li [routerLinkActive]="['active']">
-          <a [routerLink]="['/manage-sponsor']">Manage Sponsorship</a>
+          <a [routerLink]="['./manage-sponsor']">Manage Sponsorship</a>
         </li>
         <li [routerLinkActive]="['active']">
-          <a [routerLink]="['/uploadfile']">Upload Sheet</a>
+          <a [routerLink]="['./uploadfile']">Upload Sheet</a>
+        </li>
+        <li [routerLinkActive]="['active']">
+          <a [routerLink]="['/login']">Logout</a>
         </li>
       </ul>
       <!--
@@ -91,6 +94,7 @@
         </li>
       </ul>
     -->
+  
     </div>
   </div>
 </nav>

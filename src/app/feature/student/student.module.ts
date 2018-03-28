@@ -1,7 +1,7 @@
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { studentRoutes, studentRoutingComponents } from './routes';
+import { studentRoutingComponents } from './routes';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared/shared.module';
 
@@ -10,7 +10,7 @@ import { SharedModule } from '../../shared/shared.module';
     CommonModule,
     ReactiveFormsModule,
     SharedModule,
-    RouterModule.forChild(studentRoutes),
+    RouterModule,
   ],
   declarations: [studentRoutingComponents],
   providers: []

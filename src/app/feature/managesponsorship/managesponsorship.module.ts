@@ -6,7 +6,7 @@ import { manageSponsorRoutes, manageSponsorRoutingComponents } from './routes';
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild(manageSponsorRoutes),
+    RouterModule
   ],
   declarations: [manageSponsorRoutingComponents],
   providers: []
