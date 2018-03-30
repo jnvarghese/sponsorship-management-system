@@ -8,7 +8,6 @@ import {
 import { EnrollmentComponent } from './feature/enrollment/enrollment.component';
 import { InitResolve } from './feature/shared/resolver/init.resolve';
 import { ViewSponsorshipComponent } from './feature/viewsponsorship/viewsponsorship.component';
-import { UploadFileComponent } from './feature/upload-file/upload-file.component';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { StudentService } from '../shared/service/student.service';
 import { Student } from '../model/student';
 import { Router } from '@angular/router';
+import { Project } from '../model';
+import { AdminService } from './../shared/service/admin.service';
 
 @Component({
   selector: 'app-student',
@@ -11,18 +13,49 @@ import { Router } from '@angular/router';
 export class StudentComponent implements OnInit {
 
   public students: Array<Student>;
+  public projects: Array<Project>;
+  public selectedProjectId: number;
+  public chosenProject: boolean;
 
-  constructor(private router: Router, private studentService: StudentService) { }
+  constructor(private router: Router,
+    private commonService: AdminService<Project>,
+    private studentService: StudentService) { }
 
   ngOnInit() {
-    this.studentService.getStudents().subscribe(
-      data => this.students = data,
-      err => this.handleError
-    );
+    this.commonService.get(`/api/admin//projects`)
+      .subscribe(
+        data => this.projects = data,
+        error => error => this.handleError
+      );
   }
 
   addStudent() {
-    this.router.navigate(['/student/add']);
+    this.router.navigate(['/home/student/add']);
+  }
+  /*
+  selectParish(value: any) {
+    if (value !== "0") {
+      this.chosenCenter = true;
+      this.adminService.getById('/api/admin/parishes', +value)
+        .subscribe(
+          data => this.parishes = data,
+          err => console.log(err)
+        );
+    } else {
+      this.chosenCenter = false;
+    }
+  }*/
+
+  onProjectSelect(value: any) {
+    if (value !== "0") {
+      this.chosenProject = true;
+      this.studentService.getStudentsByProjectId(+value).subscribe(
+        data => this.students = data,
+        err => this.handleError
+      );
+    } else {
+      this.chosenProject = false;
+    }
   }
 
   private handleError(error: any): Promise<any> {

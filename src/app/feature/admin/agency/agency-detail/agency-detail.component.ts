@@ -79,6 +79,6 @@ export class AgencyDetailComponent implements OnInit {
     }
   }
   cancel() {
-    this.router.navigate(['/admin/agency/list']);
+    this.router.navigate(['/home/admin/agency/list']);
   }
 }

@@ -18,7 +18,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let project of projects" [routerLink]="['/admin/project/modify',  project.id]">
+              <tr *ngFor="let project of projects" [routerLink]="['/home/admin/project/modify',  project.id]">
                 <td>{{ project.agencyCode }}</td>
                 <td>{{ project.agencyName }}</td>
                 <td>{{ project.code }}</td>

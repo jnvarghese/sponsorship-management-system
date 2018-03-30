@@ -23,7 +23,7 @@ export class SponsorComponent implements OnInit {
   }
 
   addSponser(): void {
-    this.router.navigate(['/sponsor/add']);
+    this.router.navigate(['/home/sponsor/add']);
   }
 
   private handleError(error: any): Promise<any> {

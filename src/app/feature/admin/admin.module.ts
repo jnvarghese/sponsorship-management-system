@@ -10,6 +10,7 @@ import {
 } from './index';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { CommonResolve } from '../shared/resolver/common.resolve';
 
 @NgModule({
   imports: [
@@ -25,7 +26,9 @@ import { RouterModule } from '@angular/router';
     AgencyDetailComponent,
     ProjectDetailComponent
   ],
-  providers: []
+  providers: [
+    CommonResolve
+  ]
 })
 
 export class AdminModule { }

@@ -130,14 +130,14 @@ export class StudentDetailComponent implements OnInit {
           if (event instanceof HttpResponse) {
             this.fileUploadStatus = true;
             console.log('File is completely uploaded!');
-            this.router.navigate(['/student/list']);
+            this.router.navigate(['/home/student/list']);
           }
         }
       );
     this.filesToUpload = null;
   }
   cancel() {
-    this.router.navigate(['/student/list']);
+    this.router.navigate(['/home/student/list']);
   }
 
   private handleSuccess(response) {

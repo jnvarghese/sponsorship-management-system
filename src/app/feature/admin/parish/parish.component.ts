@@ -32,7 +32,7 @@ export class ParishComponent implements OnInit {
   }
 
   addParish() {
-    this.router.navigate(['admin/parish/add']);
+    this.router.navigate(['/home/admin/parish/add']);
   }
 
   cancel() {}
@@ -51,7 +51,7 @@ export class ParishComponent implements OnInit {
   }
 
   onSelect(parish: Parish) {
-    this.router.navigate(['/admin/parish/modify', parish.id]);
+    this.router.navigate(['/home/admin/parish/modify', parish.id]);
   }
 
 }

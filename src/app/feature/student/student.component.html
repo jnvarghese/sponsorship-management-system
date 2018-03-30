@@ -7,6 +7,14 @@
           <button type="submit" (click)="addStudent()" class="btn btn-primary btn-xs">Add Student</button>
         </div> 
     </div>
+    <div class="row" style="margin-top:20px">
+      <div class="col-sm-12">
+        <select class="form-control" (change)="onProjectSelect($event.target.value)">
+          <option [value]="0" [selected]="true"> Please choose one </option>
+          <option *ngFor="let project of projects" [value]="project.id"> {{project.name}}</option>
+        </select>
+      </div>
+    </div>
     <div class="row">
         <div class="col-sm-12">
           <table class="table table-hover">
@@ -19,7 +27,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let student of students" [routerLink]="['/student/modify',  student.id]">
+                <tr *ngFor="let student of students" [routerLink]="['/home/student/modify',  student.id]">
                   <td>{{ student.studentName }}</td>
                   <td>{{ student.gender }}</td>
                   <td>{{ student.projectName }}</td>

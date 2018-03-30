@@ -90,7 +90,7 @@ export class ProjectDetailComponent implements OnInit {
     return Promise.reject(error.message || error);
   }
   cancel() {
-    this.router.navigate(['/admin/project/list']);
+    this.router.navigate(['/home/admin/project/list']);
   }
 
 }

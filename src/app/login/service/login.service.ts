@@ -26,17 +26,15 @@ export class LoginService {
   }
 
   login(username: string, password: string) {
-    console.log('login1' ,username);
-    console.log('login 2' , JSON.stringify({ username: username, password: password }));
     return this.http.post<any>('/api/token/generate-token', JSON.stringify({ username: username, password: password }), { headers })
-        .map(user => {
-          console.log(' user' , user);
+        .map(user => {        
             // login successful if there's a jwt token in the response
             if (user && user.credentials) {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 localStorage.setItem('token', user.credentials);
-                localStorage.setItem('currentUser', JSON.stringify(user));
-            }
+                localStorage.setItem('userId', user.userId);
+                localStorage.setItem('currentUser', JSON.stringify(user));              
+               }
 
             return user;
         })

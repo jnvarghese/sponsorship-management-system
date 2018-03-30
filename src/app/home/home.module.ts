@@ -11,12 +11,14 @@ import { EnrollmentModule } from '../feature/enrollment/enrollment.module';
 import { ManageSponsorShipModule } from '../feature/managesponsorship/managesponsorship.module';
 import { AdminModule } from '../feature/admin/admin.module';
 import { ViewSponsorshipComponent } from '../feature/viewsponsorship/viewsponsorship.component';
-import { UploadFileComponent } from '../feature/upload-file/upload-file.component';
+
 import { DashboardService } from '../feature/shared/service/dashboard.service';
 import { DateFormatPipe } from '../shared/date.format.pipe';
 import { PageDateFormatPipe } from '../shared/page-date-format.pipe';
 import { InitResolve } from '../feature/shared/resolver/init.resolve';
 import { UploadService } from '../feature/shared/service/upload.service';
+import { UploadFileListComponent } from '../feature/upload-file/upload-file-list.component';
+import { UploadFileComponent } from '../feature/upload-file/upload-file/upload-file.component';
 
 @NgModule({
     imports: [
@@ -37,6 +39,7 @@ import { UploadService } from '../feature/shared/service/upload.service';
       ViewSponsorshipComponent,
       PageNotFoundComponent,
       UploadFileComponent,
+      UploadFileListComponent
     ],
     providers: [
       AdminService,

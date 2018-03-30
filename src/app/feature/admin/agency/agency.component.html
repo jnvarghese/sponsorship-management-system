@@ -16,7 +16,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let agency of agencies" [routerLink]="['/admin/agency/modify',  agency.id]">
+          <tr *ngFor="let agency of agencies" [routerLink]="['/home/admin/agency/modify',  agency.id]">
             <td>{{ agency.code }}</td>
             <td>{{ agency.name }}</td>
           </tr>

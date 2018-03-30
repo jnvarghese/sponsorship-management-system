@@ -23,6 +23,6 @@ export class ProjectComponent implements OnInit {
   }
 
   addProject() {
-    this.router.navigate(['admin/project/add']);
+    this.router.navigate(['/home/admin/project/add']);
   }
 }

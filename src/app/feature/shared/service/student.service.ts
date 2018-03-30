@@ -16,6 +16,10 @@ export class StudentService {
 
   constructor(private http: HttpClient) { }
 
+  getStudentsByProjectId(id: number) {
+    return this.http.get<Array<Student>>(`${this.studentsUrl}/list/byproject/${id}`);
+  }
+
   getStudents() {
     return this.http.get<Array<Student>>(`${this.studentsUrl}/list`);
   }

@@ -23,7 +23,7 @@ export class AgencyComponent implements OnInit {
   }
 
   addAgency() {
-    this.router.navigate(['admin/agency/add']);
+    this.router.navigate(['/home/admin/agency/add']);
   }
 
 }

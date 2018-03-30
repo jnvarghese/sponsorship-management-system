@@ -110,7 +110,7 @@ export class SponsorDetailComponent implements OnInit {
     }
   }
   cancel() {
-    this.router.navigate(['/sponsor/list']);
+    this.router.navigate(['/home/sponsor/list']);
   }
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error);

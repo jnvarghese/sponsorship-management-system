@@ -22,7 +22,7 @@
         <div class="col-sm-3" [ngClass]="{'error': studentForm.get('dateOfBirth')?.invalid && studentForm.get('dateOfBirth')?.touched}">
           <label for="dateOfBirth">Date of Birth</label>
           <input formControlName="dateOfBirth" id="dateOfBirth" dateInputFormatter maxlength="10"
-          class="form-control" placeholder="Date of Birth" />
+          class="form-control" placeholder="MM/DD/YYYY" />
           <em *ngIf="studentForm.get('dateOfBirth').invalid && studentForm.get('dateOfBirth').touched">Required</em>
         </div>
 
@@ -110,7 +110,7 @@
     <div class="col-md-12">
       <div class="form-group">
         <div class="col-sm-offset-8 col-sm-1">
-          <button type="submit" class="btn btn-primary btn-sm" [disabled]="studentForm.invalid">Submit</button>
+          <button type="submit" class="btn btn-primary btn-sm" [disabled]="studentForm.invalid || isStudentSaved">Submit</button>
         </div>
         <div class="col-sm-1">
           <button type="button" (click)="cancel()" class="btn btn-primary btn-sm">Cancel</button>

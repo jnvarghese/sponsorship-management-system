@@ -105,7 +105,7 @@ export class ParishDetailComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['admin/parish/list']);
+    this.router.navigate(['/home/admin/parish/list']);
   }
 
   get projectsLists(): FormArray {

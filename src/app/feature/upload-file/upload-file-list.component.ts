@@ -7,10 +7,10 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-upload-file',
-  templateUrl: './upload-file.component.html',
-  styleUrls: ['./upload-file.component.css']
+  templateUrl: './upload-file-list.component.html',
+  styleUrls: ['./upload-file-list.component.css']
 })
-export class UploadFileComponent implements OnInit {
+export class UploadFileListComponent implements OnInit {
 
   agencies: Array<Agency>;
   agencyChosen: boolean;
@@ -71,15 +71,22 @@ export class UploadFileComponent implements OnInit {
 
   }
   upload() {
-    this.uploadService.uploadFile(this.filesToUpload, this.agencyId, this.projectId)
-      .subscribe(
-        event => {
-          if (event instanceof HttpResponse) {
-            this.fileUploadStatus = true;
-            console.log('File is completely uploaded!');
-            this.router.navigate(['/upload/list']);
+
+    let userId = localStorage.getItem('userId')
+    console.log(' userdata ', userId)
+    if (userId) {
+      this.uploadService.uploadFile(this.filesToUpload, this.agencyId, this.projectId, +userId)
+        .subscribe(
+          event => {
+            if (event instanceof HttpResponse) {
+              this.fileUploadStatus = true;
+              console.log('File is completely uploaded!');
+              this.router.navigate(['/home/uploadfilelist']);
+            }
           }
-        }
-      );
+        );
+    } else {
+      alert(' Please Login Again ');
+    }
   }
 }
