@@ -61,6 +61,7 @@ export class StudentDetailComponent implements OnInit {
     this.studentForm = this.fb.group({
       id: '',
       studentName: [null, Validators.required],
+      studentCode: [null, Validators.required],
       status: 0,
       dateOfBirth: [null, [Validators.required, this.validatorService.validateDate]],
       address: '',
@@ -82,6 +83,7 @@ export class StudentDetailComponent implements OnInit {
           return this.studentForm.setValue({
             id: this.student.id,
             studentName: this.student.studentName,
+            studentCode: this.student.studentCode,
             dateOfBirth: this.student.dateOfBirth || '',
             address: this.student.address || '',
             status: this.student.status || '',

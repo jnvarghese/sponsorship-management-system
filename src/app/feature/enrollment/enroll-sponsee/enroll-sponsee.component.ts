@@ -35,6 +35,8 @@ export class EnrollSponseeComponent implements OnInit {
       this.sponData.paymentDate,
       this.sponData.effectiveDate,
       this.sponData.contributionAmount,
+      this.sponData.expirationMonth,
+      this.sponData.expirationYear,
       0,
       new Array<Sponsee>()
     );

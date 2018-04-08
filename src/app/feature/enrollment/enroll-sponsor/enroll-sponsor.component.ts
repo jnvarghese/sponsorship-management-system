@@ -80,6 +80,8 @@ export class EnrollSponsorComponent implements OnInit {
       parishId: '',
       sponsorName: '',
       sponsee: '',
+      expirationMonth: ['', [Validators.required]],
+      expirationYear: ['', [Validators.required]],
       paymentDate: [moment(new Date()).format("MM/DD/YYYY"), [Validators.required, this.validatorService.validateDate]],
       contributionAmount: [null, Validators.required],
       effectiveDate: [moment(new Date()).format("MM/DD/YYYY"), [Validators.required, this.validatorService.validateDate]]
@@ -131,5 +133,11 @@ export class EnrollSponsorComponent implements OnInit {
     } else {
       this.chosenParish = false;
     }
+  }
+
+  reset(){
+    this.hasAnySponsorSelected = false;
+    this.createForm();
+    this.enroll = new Enrollment();
   }
 }

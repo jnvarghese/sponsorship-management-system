@@ -1,6 +1,6 @@
 <form class="form-horizontal" [formGroup]="sponsorForm" novalidate (ngSubmit)="saveSponsorDetails(sponsorForm.value)" style="margin-top:90px">
   <div class="alert alert-success" *ngIf="isSponsorSaved">
-    <strong>Success!</strong> Added new sponsor 
+    <strong>Success!</strong> Added new sponsor
   </div>
   <h3>{{pageHeader}}</h3>
   <p>Please enter following details to successfuly add a sponsor.</p>
@@ -25,9 +25,75 @@
         </div>
 
         <div class="col-sm-2">
-            <label for="nickName">Last Name</label>
-            <input formControlName="nickName" id="nickName" class="form-control" type="text" placeholder="Nick Name" />
-          </div>
+          <label for="nickName">Nick Name</label>
+          <input formControlName="nickName" id="nickName" class="form-control" type="text" placeholder="Nick Name" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row-fluid">
+    <div class="col-md-12">
+      <div class="form-group">
+        <div class="col-sm-8" [ngClass]="{'error': sponsorForm.get('street')?.invalid && sponsorForm.get('street')?.touched}">
+          <label for="address">Address</label>
+          <input formControlName="street" id="street" class="form-control" type="text" placeholder="Street" />
+          <em *ngIf="sponsorForm.get('street')?.invalid && sponsorForm.get('street')?.touched">Required</em>
+        </div>
+        <div class="col-sm-2">
+          <label for="address">Appt. No.</label>
+          <input formControlName="appartmentNumber" id="appartmentNumber" class="form-control" type="text" placeholder="Appartment #"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row-fluid">
+    <div class="col-md-12">
+      <div class="form-group">
+        <div class="col-sm-4" [ngClass]="{'error': sponsorForm.get('city')?.invalid && sponsorForm.get('city')?.touched}">
+          <label for="city">City</label>
+          <input formControlName="city" id="city" class="form-control" type="text" placeholder="City" />
+          <em *ngIf="sponsorForm.get('city')?.invalid && sponsorForm.get('city')?.touched">Required</em>
+        </div>
+        <div class="col-sm-4" [ngClass]="{'error': sponsorForm.get('state')?.invalid && sponsorForm.get('state')?.touched}">
+          <label for="state">State</label>
+          <input formControlName="state" id="state" class="form-control" type="text" placeholder="State" />
+          <em *ngIf="sponsorForm.get('state')?.invalid && sponsorForm.get('state')?.touched">Required</em>
+        </div>
+        <div class="col-sm-2" [ngClass]="{'error': sponsorForm.get('postalCode')?.invalid && sponsorForm.get('postalCode')?.touched}">
+          <label for="postalCode">Zip Code</label>
+          <input formControlName="postalCode" id="postalCode" maxlength="5" class="form-control" type="text" placeholder="Zip Code"
+          />
+          <em *ngIf="sponsorForm.get('postalCode')?.invalid && sponsorForm.get('postalCode')?.touched">Required</em>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row-fluid">
+    <div class="col-md-12">
+      <div class="form-group">
+        <div class="col-sm-3" [ngClass]="{'error': sponsorForm.get('centerId')?.invalid && sponsorForm.get('centerId')?.touched}">
+          <label for="project">Center</label>
+          <select class="form-control" formControlName="centerId" (change)="onCenterSelect($event.target.value)">
+            <option [value]="0" [selected]="true"> Please choose one </option>
+            <option *ngFor="let center of centers" [value]="center.id">{{center.regionName}} {{center.name}}</option>
+          </select>
+          <em *ngIf="sponsorForm.get('centerId')?.invalid && sponsorForm.get('centerId')?.touched">Required</em>
+        </div>
+        <div class="col-sm-5"  [ngClass]="{'error': sponsorForm.get('parishId')?.invalid && sponsorForm.get('parishId')?.touched}">
+          <label for="lastName">Select Parish</label>
+          <select class="form-control" formControlName="parishId"  formControlName="parishId">
+            <option [value]="0" [selected]="true"> Please choose one </option>
+            <option *ngFor="let parish of parishes" [value]="parish.id" [selected]="selectedParishId === parish.id">{{parish.name}}</option>
+          </select>
+          <em *ngIf="sponsorForm.get('parishId')?.invalid && sponsorForm.get('parishId')?.touched">Required</em>
+        </div>
+        <div class="col-sm-2" [ngClass]="{'error': sponsorForm.get('sponsorCode')?.invalid && sponsorForm.get('sponsorCode')?.touched}">
+          <label for="sponsorCode">Code</label>
+          <input formControlName="sponsorCode" id="sponsorCode"  class="form-control" type="text" placeholder="Code" />
+          <em *ngIf="sponsorForm.get('sponsorCode')?.invalid && sponsorForm.get('sponsorCode')?.touched">Required</em>
+        </div>
       </div>
     </div>
   </div>
@@ -64,57 +130,6 @@
       </div>
     </div>
   </div>
-  <div class="row-fluid">
-    <div class="col-md-12">
-      <div class="form-group">
-        <div class="col-sm-8" [ngClass]="{'error': sponsorForm.get('street')?.invalid && sponsorForm.get('street')?.touched}">
-          <label for="address">Address</label>
-          <input formControlName="street" id="street" class="form-control" type="text" placeholder="Street" />
-          <em *ngIf="sponsorForm.get('street')?.invalid && sponsorForm.get('street')?.touched">Required</em>
-        </div>
-        <div class="col-sm-2">
-          <label for="address">Appt. No.</label>
-          <input formControlName="appartmentNumber" id="appartmentNumber" class="form-control" type="text" placeholder="Appartment #"
-          />
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row-fluid">
-    <div class="col-md-12">
-      <div class="form-group">
-        <div class="col-sm-4" [ngClass]="{'error': sponsorForm.get('city')?.invalid && sponsorForm.get('city')?.touched}">
-          <label for="city">City</label>
-          <input formControlName="city" id="city" class="form-control" type="text" placeholder="City" />
-          <em *ngIf="sponsorForm.get('city')?.invalid && sponsorForm.get('city')?.touched">Required</em>
-        </div>
-        <div class="col-sm-4">
-          <label for="state">State</label>
-          <input formControlName="state" id="state" class="form-control" type="text" placeholder="State" />
-          <em *ngIf="sponsorForm.get('state')?.invalid && sponsorForm.get('state')?.touched">Required</em>
-        </div>
-        <div class="col-sm-2">
-          <label for="postalCode">Zip Code</label>
-          <input formControlName="postalCode" id="postalCode" maxlength="5"
-          class="form-control" type="text" placeholder="Zip Code" />
-          <em *ngIf="sponsorForm.get('postalCode')?.invalid && sponsorForm.get('postalCode')?.touched">Required</em>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row-fluid">
-    <div class="col-md-12">
-      <div class="form-group">
-        <div class="col-sm-10">
-          <label for="lastName">Select Parish</label>
-          <select class="form-control" formControlName="parishId">
-            <option *ngFor="let parish of parishes" [value]="parish.id" [selected]="selectedParishId === parish.id">{{parish.name}}</option>
-          </select>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <div class="row-fluid">
     <div class="col-md-12">
       <div class="form-group">

@@ -8,10 +8,15 @@
     <div class="col-md-12">
       <input type="hidden" formControlName="id">
       <div class="form-group">
-        <div class="col-sm-10" [ngClass]="{'error': studentForm.get('studentName')?.invalid && studentForm.get('studentName')?.touched}">
+        <div class="col-sm-8" [ngClass]="{'error': studentForm.get('studentName')?.invalid && studentForm.get('studentName')?.touched}">
           <label for="studentName">Student Name</label>
-          <input formControlName="studentName" id="studentName" class="form-control" placeholder="First Name" />
+          <input formControlName="studentName" id="studentName" class="form-control" placeholder="Student Full Name" />
           <em *ngIf="studentForm.get('studentName').invalid && studentForm.get('studentName').touched">Required</em>
+        </div>
+        <div class="col-sm-2" [ngClass]="{'error': studentForm.get('studentCode')?.invalid && studentForm.get('studentCode')?.touched}">
+          <label for="studentCode">Code</label>
+          <input formControlName="studentCode" id="studentCode" class="form-control" placeholder="Code" />
+          <em *ngIf="studentForm.get('studentCode').invalid && studentForm.get('studentCode').touched">Required</em>
         </div>        
       </div>
     </div>
@@ -29,6 +34,7 @@
         <div class="col-sm-3" [ngClass]="{'error': studentForm.get('gender')?.invalid && studentForm.get('gender')?.touched}">
           <label for="gender">Gender</label>
           <select class="form-control" formControlName="gender">
+            <option [value]="0" [selected]="true"> Please choose one </option>
             <option *ngFor="let g of genders" [value]="g.value" [selected]="selectedGender === g.value">{{g.label}}</option>
           </select>
           <em *ngIf="studentForm.get('gender').invalid && studentForm.get('gender').touched">Required</em>

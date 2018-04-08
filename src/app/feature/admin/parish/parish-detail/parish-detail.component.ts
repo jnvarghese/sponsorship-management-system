@@ -92,8 +92,10 @@ export class ParishDetailComponent implements OnInit {
             projectId: this.iniitalProjectList[i].projectId,
             selected: s === true ? 1 : 0
           };
-        })
+        }),
+        projectsList: ''
       });
+     
       this.adminService
         .save('/api/admin/parishes', form, this.parishId)
         .subscribe(

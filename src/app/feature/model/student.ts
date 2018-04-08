@@ -3,6 +3,7 @@ import { Project, Contribution } from './index';
 export class Student {
   id: number;
   studentName : string;
+  studentCode: string;
   gender: string;
   dateOfBirth: string;
   address: string;

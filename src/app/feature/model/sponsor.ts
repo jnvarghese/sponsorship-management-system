@@ -10,6 +10,7 @@ export class Sponsor {
     dayOfBirth: number;
     monthOfBirth: number;
     sponsorStatus: number;
+    sponsorCode: string;
     emailAddress: string;
     appartmentNumber: string;
     street: string;
@@ -20,6 +21,7 @@ export class Sponsor {
     parishId: number;
     parishName: string;
     parishCity: string;
+    centerId: number;
     coSponserName: string;
     coSponserFirstName: string;
     coSponserLastName: string;
