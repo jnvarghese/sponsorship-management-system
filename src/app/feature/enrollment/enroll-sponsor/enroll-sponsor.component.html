@@ -22,50 +22,124 @@
     </div>
   </div>
   <div class="row-fluid" *ngIf="hasAnySponsorSelected">
-    <div class="col-md-12" style="padding-top: 10px; padding-bottom: 10px">
-      Sponsor : {{enroll.sponsorName}}
-    </div>
-    <div class="col-md-12">
-      <div class="form-group">
+<!--[ngClass]="{'active': 'manual' === mode }"-->
+    <ul class="nav nav-tabs">
+      <li class="active">
+        <a data-toggle="tab" (click)="onModeSelect('manual')" href="#manual">Manual</a>
+      </li>
+      <li>
+        <a data-toggle="tab" (click)="onModeSelect('cruise')" href="#cruise">Cruise</a>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div id="manual" class="tab-pane fade in active">
 
-        <div class="col-sm-2" [ngClass]="{'error': sponsorEnrollForm.get('paymentDate')?.invalid && sponsorEnrollForm.get('paymentDate')?.touched}">
-          <label for="paymentDate">Payment Date</label>
-          <input type="text" class="form-control" formControlName="paymentDate" dateInputFormatter name="paymentDate" placeholder="MM/DD/YYYY"
-            maxlength="10" />
-          <em *ngIf="sponsorEnrollForm.get('city')?.invalid && sponsorEnrollForm.get('paymentDate')?.touched">Required</em>
+        <div class="col-md-12" style="padding-top: 10px; padding-bottom: 10px">
+          <h4>Sponsor : {{enroll.sponsorName}}</h4>
         </div>
-        <div class="col-sm-1">
-          <label for="contributionAmount">Amount</label>
-          <input id="contributionAmount" class="form-control" formControlName="contributionAmount" type="text" name="contributionAmount"
-            placeholder="$" />
-        </div>
-        <div class="col-sm-2">
-          <label for="effectiveDate">Effective Date</label>
-          <input type="text" class="form-control" formControlName="effectiveDate" dateInputFormatter name="effectiveDate" placeholder="MM/DD/YYYY"
-            maxlength="10" />
-        </div>
-        <div class="col-sm-2">
-            <label for="effectiveDate">Effective Until Month</label>
-            <input type="text" class="form-control" formControlName="expirationMonth" name="expirationMonth" placeholder="MM"
-              maxlength="2" />          
-          </div>
-          <div class="col-sm-2">
-              <label>Year</label>
-              <input type="text" class="form-control" formControlName="expirationYear" name="expirationYear" placeholder="YYYY"
-              maxlength="4"  />
+        <div class="col-md-12">
+          <div class="form-group">
+            <div class="col-sm-2" [ngClass]="{'error': sponsorEnrollForm.get('paymentDate')?.invalid && sponsorEnrollForm.get('paymentDate')?.touched}">
+              <label for="paymentDate">Payment Date</label>
+              <input type="text" class="form-control" formControlName="paymentDate" 
+              dateInputFormatter name="paymentDate" placeholder="MM/DD/YYYY"
+                maxlength="10" />
+              <em *ngIf="sponsorEnrollForm.get('city')?.invalid && sponsorEnrollForm.get('paymentDate')?.touched">Required</em>
             </div>
+            <div class="col-sm-1" [ngClass]="{'error': sponsorEnrollForm.get('contributionAmount')?.invalid && sponsorEnrollForm.get('contributionAmount')?.touched}">
+              <label for="contributionAmount">Amount</label>
+              <input id="contributionAmount" class="form-control" formControlName="contributionAmount" 
+              type="text" name="contributionAmount"
+                placeholder="$" />
+             <em *ngIf="sponsorEnrollForm.get('contributionAmount')?.invalid && sponsorEnrollForm.get('contributionAmount')?.touched">Required</em>
+            </div>
+            <div class="col-sm-2" [ngClass]="{'error': sponsorEnrollForm.get('effectiveDate')?.invalid && sponsorEnrollForm.get('effectiveDate')?.touched}">
+              <label for="effectiveDate">Starting Date</label>
+              <input type="text" class="form-control" formControlName="effectiveDate" 
+              dateInputFormatter name="effectiveDate" placeholder="MM/DD/YYYY"
+                maxlength="10" />
+              <em *ngIf="sponsorEnrollForm.get('effectiveDate')?.invalid && sponsorEnrollForm.get('effectiveDate')?.touched">Required</em>
+            </div>
+            <div class="col-sm-2" [ngClass]="{'error': sponsorEnrollForm.get('studentCount')?.invalid && sponsorEnrollForm.get('studentCount')?.touched}">
+                <label for="studentCount">No. of Students</label>
+                <input id="studentCount" class="form-control" formControlName="studentCount" 
+                type="text" name="studentCount" maxlength="3"
+                min="1" max="5"
+                  placeholder="# of students" />
+               <em *ngIf="sponsorEnrollForm.get('studentCount')?.invalid && sponsorEnrollForm.get('studentCount')?.touched">Required</em>
+            </div>
+            <div class="col-sm-2" [ngClass]="{'error': sponsorEnrollForm.get('expirationMonth')?.invalid && sponsorEnrollForm.get('expirationMonth')?.touched}">
+              <label for="effectiveDate">Expiring Month</label>
+              <input type="text" class="form-control" formControlName="expirationMonth" 
+              name="expirationMonth" placeholder="MM" maxlength="2" month
+              />
+              <em *ngIf="sponsorEnrollForm.get('expirationMonth')?.invalid && sponsorEnrollForm.get('expirationMonth')?.touched">
+                  {{sponsorEnrollForm.get('expirationMonth')?.errors['message']}}
+              </em>
+            </div>
+            <div class="col-sm-2"  [ngClass]="{'error': sponsorEnrollForm.get('expirationYear')?.invalid && sponsorEnrollForm.get('expirationYear')?.touched}">
+              <label>Expiring Year</label>
+              <input type="text" class="form-control" formControlName="expirationYear" 
+              name="expirationYear" placeholder="YYYY" maxlength="4" year/>
+              <em *ngIf="sponsorEnrollForm.get('expirationYear')?.invalid && sponsorEnrollForm.get('expirationYear')?.touched">
+                  {{sponsorEnrollForm.get('expirationYear')?.errors['message']}}
+              </em>
+             </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <div class="col-sm-offset-9 col-sm-1">
+              <button type="cancel" (click)="reset()" class="btn btn-primary btn-sm pull-right">Cancel</button>
+            </div>
+            <div class="col-sm-1">
+              <button type="submit" class="btn btn-primary btn-sm pull-right" [disabled]="sponsorEnrollForm.invalid">Next</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div id="cruise" class="tab-pane fade">
+
+        <div class="col-md-12" style="padding-top: 10px; padding-bottom: 10px">
+          <h4>Sponsor : {{enroll.sponsorName}}</h4>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+
+            <div class="col-sm-3" [ngClass]="{'error': sponsorEnrollForm.get('paymentDate')?.invalid && sponsorEnrollForm.get('paymentDate')?.touched}">
+              <label for="paymentDate">Payment Date</label>
+              <input type="text" class="form-control" formControlName="paymentDate" dateInputFormatter name="paymentDate" placeholder="MM/DD/YYYY"
+                maxlength="10" />
+              <em *ngIf="sponsorEnrollForm.get('city')?.invalid && sponsorEnrollForm.get('paymentDate')?.touched">Required</em>
+            </div>
+            <div class="col-sm-3">
+              <label for="contributionAmount">Amount</label>
+              <input id="contributionAmount" class="form-control" formControlName="contributionAmount" type="text" name="contributionAmount"
+                placeholder="$" />
+            </div>
+            <div class="col-sm-3">
+              <label for="effectiveDate">Effective Date</label>
+              <input type="text" class="form-control" formControlName="effectiveDate" dateInputFormatter name="effectiveDate" placeholder="MM/DD/YYYY"
+                maxlength="10" />
+            </div>
+
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <div class="col-sm-offset-7 col-sm-1">
+              <button type="cancel" (click)="reset()" class="btn btn-primary btn-sm pull-right">Cancel</button>
+            </div>
+            <div class="col-sm-1">
+              <button type="submit" class="btn btn-primary btn-sm pull-right" [disabled]="sponsorEnrollForm.invalid">Next</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="col-md-12">
-      <div class="form-group">
-        <div class="col-sm-offset-7 col-sm-1">
-          <button type="cancel" (click)="reset()" class="btn btn-primary btn-sm pull-right">Cancel</button>
-        </div>
-        <div class="col-sm-1">
-          <button type="submit" class="btn btn-primary btn-sm pull-right" [disabled]="sponsorEnrollForm.invalid">Next</button>
-        </div>
-      </div>
-    </div>
+
+
   </div>
   <div *ngIf="sponsors?.length > 0" class="row-fluid">
     <div class="col-md-10">

@@ -31,6 +31,10 @@ export class ReviewComponent implements OnInit {
         this.sponData.paymentDate,
         this.sponData.effectiveDate,
         this.sponData.contributionAmount,
+        this.sponData.mode,
+        this.sponData.studentCount,
+        this.sponData.expirationMonth,
+        this.sponData.expirationYear,
         this.sponData.miscAmount,
         this.sponData.sponsees);
     }

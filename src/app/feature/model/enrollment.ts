@@ -8,6 +8,8 @@ export class Enrollment {
         public paymentDate?: string,
         public effectiveDate?: string,
         public contributionAmount?: number,
+        public mode?: string,
+        public studentCount?: number,
         public expirationMonth?: number,
         public expirationYear?: number,
         public miscAmount?: number,

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, OnChanges } from "@angular/core";
 import { Enrollment, Sponsor, Parish, Center } from "../../model";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { SponsorService, EnrollService, AdminService, InitService } from "../..";
@@ -18,6 +18,7 @@ export class EnrollSponsorComponent implements OnInit {
   sponsorEnrollForm: FormGroup;
   @Input() sponData;
   @Output() sponsor = new EventEmitter();
+  mode: 'manual' | 'cruise' = 'manual';
 
   sponsors: Array<Sponsor>;
   parishes: Array<Parish>;
@@ -60,6 +61,29 @@ export class EnrollSponsorComponent implements OnInit {
     this.chosenCenter = false;
   }
 
+
+  onModeSelect(value: string) {
+    if (value === 'manual') {
+      this.mode= 'manual';
+      this.sponsorEnrollForm.get('expirationMonth').setValidators([Validators.required, Validators.minLength(1)]);
+      this.sponsorEnrollForm.get('expirationMonth').updateValueAndValidity();
+      this.sponsorEnrollForm.get('expirationYear').setValidators([Validators.required, Validators.minLength(4)]);
+      this.sponsorEnrollForm.get('expirationYear').updateValueAndValidity();
+      this.sponsorEnrollForm.get('studentCount').setValidators([Validators.required, Validators.minLength(1)]);
+      this.sponsorEnrollForm.get('studentCount').updateValueAndValidity();
+    } else if (value === 'cruise') {
+      this.mode= 'cruise';
+      this.sponsorEnrollForm.get('expirationMonth').clearValidators();
+      this.sponsorEnrollForm.get('expirationMonth').updateValueAndValidity();
+      this.sponsorEnrollForm.get('expirationYear').clearValidators();
+      this.sponsorEnrollForm.get('expirationYear').updateValueAndValidity();
+      this.sponsorEnrollForm.get('studentCount').clearValidators();
+      this.sponsorEnrollForm.get('studentCount').updateValueAndValidity();
+    } else {
+      console.log(' Non supporting mode selected. ')
+    }
+  }
+
   pupulateForm(data: any) {
     console.log('EnrollSponsorComponent.pupulateForm ', data);
     this.hasAnySponsorSelected = true;
@@ -70,8 +94,12 @@ export class EnrollSponsorComponent implements OnInit {
       paymentDate: data.paymentDate,
       contributionAmount: data.contributionAmount,
       effectiveDate: data.effectiveDate,
+      studentCount: data.studentCount,
+      expirationMonth: data.expirationMonth,
+      expirationYear: data.expirationYear,
       sponsee: data.sponsee || []
     });
+    this.onModeSelect(data.mode);
   }
 
   createForm() {
@@ -80,16 +108,18 @@ export class EnrollSponsorComponent implements OnInit {
       parishId: '',
       sponsorName: '',
       sponsee: '',
-      expirationMonth: ['', [Validators.required]],
-      expirationYear: ['', [Validators.required]],
+      studentCount: '',
+      expirationMonth: '',
+      expirationYear:  '',
       paymentDate: [moment(new Date()).format("MM/DD/YYYY"), [Validators.required, this.validatorService.validateDate]],
       contributionAmount: [null, Validators.required],
       effectiveDate: [moment(new Date()).format("MM/DD/YYYY"), [Validators.required, this.validatorService.validateDate]]
     });
   }
-  
+
   selectSponsor(sponsor: Sponsor) {
     console.log(' Enroll Sponsor - Select', sponsor);
+    this.onModeSelect('manual');
     this.hasAnySponsorSelected = true;
     let fullName = sponsor.firstName + ' ' + sponsor.lastName;
     this.enroll.sponsorId = sponsor.id;
@@ -103,6 +133,7 @@ export class EnrollSponsorComponent implements OnInit {
   navigate() {
     console.log('sponsorEnrollForm.status ' + this.sponsorEnrollForm.status);
     const formModel = this.sponsorEnrollForm.value;
+    formModel.mode = this.mode;
     this.sponsor.emit(formModel);
   }
 
@@ -122,9 +153,9 @@ export class EnrollSponsorComponent implements OnInit {
     if (value !== "0") {
       this.chosenParish = true;
       this.sponsorService.getSponsorsByParishId(+value)
-        .subscribe(data => { 
+        .subscribe(data => {
           this.sponsors = data;
-          if(this.sponsors.length <= 0){
+          if (this.sponsors.length <= 0) {
             this.hasAnySponsorSelected = false;
           }
         },
@@ -135,7 +166,7 @@ export class EnrollSponsorComponent implements OnInit {
     }
   }
 
-  reset(){
+  reset() {
     this.hasAnySponsorSelected = false;
     this.createForm();
     this.enroll = new Enrollment();

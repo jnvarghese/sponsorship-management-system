@@ -35,6 +35,8 @@ export class EnrollSponseeComponent implements OnInit {
       this.sponData.paymentDate,
       this.sponData.effectiveDate,
       this.sponData.contributionAmount,
+      this.sponData.mode,
+      this.sponData.studentCount,
       this.sponData.expirationMonth,
       this.sponData.expirationYear,
       0,
@@ -46,6 +48,21 @@ export class EnrollSponseeComponent implements OnInit {
   studentFilter = (studentId) => this.enroll.sponsees.find((s) => s.studentId === studentId);
 
   selectStudent(student: Student) {
+   if('manual' === this.enroll.mode){
+     if(this.enroll.sponsees.length == this.enroll.studentCount){
+      this.studentExceedMessage = `You have exceeded the total number of students for the enrollemnt.
+              Please modify the student count !!`;
+     }else{
+      this.selectStudentManualMode(student);
+     }   
+   }else if('cruise' === this.enroll.mode){
+     this.selectStudentCruiseMode(student);
+   }else{
+     console.log(' Unsupported Mode.');
+   }
+  }
+
+  selectStudentCruiseMode(student: Student){
     if (this.hasAnyStudentSelected && !this.addMore) {
       this.studentExceedMessage = `You have exceeded the total number of students for the enrollemnt.
               Please reset if you want to make changes. !!`;
@@ -117,6 +134,19 @@ export class EnrollSponseeComponent implements OnInit {
       }
     }
   }
+  selectStudentManualMode(student: Student){
+    if(this.studentFilter(student.id)){
+      this.duplicateStudentMessage= `Duplicate selection, please try a different student. !!`;
+    }else {
+      this.duplicateStudentMessage = '';
+      console.log('Sponsee Comp. selectStudent ', student);
+      this.hasAnyStudentSelected = true;
+      this.enroll.miscAmount = this.enroll.contributionAmount % 20;
+      let sponsee = new Sponsee(this.enroll.sponsorId, this.enroll.expirationMonth, this.enroll.expirationYear, student.id, student.studentName);
+      this.enroll.sponsees.push(sponsee);
+    }
+  }
+
   onProjectSelect(value: any) {
     if (value !== "0") {
       this.chosenProject = true;

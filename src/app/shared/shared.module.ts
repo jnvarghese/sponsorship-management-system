@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { DateInputDirective } from './date-input.directive';
 import { CommonModule } from '@angular/common';
 import { ValidatorService } from './validator.service';
+import { YearInputDirective } from './year-input.directive';
+import { MonthInputDirective } from './month-input.directive';
 
 
 @NgModule({
@@ -9,11 +11,15 @@ import { ValidatorService } from './validator.service';
         CommonModule
     ],
     declarations: [
-        DateInputDirective
+        DateInputDirective,
+        YearInputDirective,
+        MonthInputDirective
     ],
     providers: [ValidatorService],
     exports: [
-        DateInputDirective
+        DateInputDirective,
+        YearInputDirective,
+        MonthInputDirective
     ]
 })
 export class SharedModule{}
