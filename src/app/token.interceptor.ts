@@ -13,16 +13,17 @@ import { LoginService } from "./login/service/login.service";
 export class TokenInterceptor implements HttpInterceptor {
 
     private authService: LoginService;
-
+  
     constructor(private injector: Injector, private router: Router) {}
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
       
       this.authService = this.injector.get(LoginService); // get it here within intercept
-
+           
       request = request.clone({
         setHeaders: {
-          Authorization: `Bearer ${this.authService.getToken()}`
+          Authorization: `Bearer ${this.authService.getToken()}`,
+          userId: localStorage.getItem('userId') || '0'
         }
       });
       return next.handle(request).do(
