@@ -2,6 +2,7 @@ import { Sponsee } from './index';
 
 export class Enrollment {
     goto: string;
+    createdBy: number;
     constructor(public sponsorId?: number,
         public parishId?: number,
         public sponsorName?: string,

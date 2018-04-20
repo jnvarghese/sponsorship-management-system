@@ -5,4 +5,6 @@ export class Center {
     status: string;
     regionId: number;
     regionName: string;
+    createdBy: number;
+    updatedBy: number;
 }

@@ -29,4 +29,6 @@ export class Sponsor {
     paymentDate: string;
     contributionAmount: number;
     effectiveDate: string;
+    createdBy: number;
+    updatedBy: number;
 }

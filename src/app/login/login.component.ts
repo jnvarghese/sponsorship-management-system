@@ -42,7 +42,7 @@ login() {
         .subscribe(
             data => {               
                 //this.router.navigate([this.returnUrl]);
-                this.router.navigate(['/home']);
+                this.router.navigate(['/home/dashboard']);
             },
             error => {               
                 this.alertService.error(error);

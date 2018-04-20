@@ -12,4 +12,6 @@ export class Project {
     agencyId: number;
     agencyCode: string;
     agencyName: string;
+    createdBy: number;
+    updatedBy: number;
 }

@@ -10,4 +10,6 @@ export class Parish {
          centerName: string;
          parishProjects: Array<ParishProject>;
          status: string;
+         createdBy: number;
+         updatedBy: number;
 }

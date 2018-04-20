@@ -20,4 +20,6 @@ export class Student {
   middleName?: string;
   profilePicture?: string;
   contributions?: Contribution[];
+  createdBy: number;
+  updatedBy: number;
 }

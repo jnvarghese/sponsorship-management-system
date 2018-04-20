@@ -3,4 +3,6 @@ export class Region {
     code: string;
     name: string;
     status: string;
+    createdBy: number;
+    updatedBy: number;
 }
