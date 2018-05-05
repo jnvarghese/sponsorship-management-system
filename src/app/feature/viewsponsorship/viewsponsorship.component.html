@@ -1,7 +1,22 @@
 <div class="container" style="margin-top:70px">
   <h2>Enrollments List</h2>
 
+  <div class="row" style="margin-top:20px">
+      <div class="col-sm-6">
+        <select class="form-control" (change)="onParishSelect($event.target.value)">
+          <option [value]="0" [selected]="true"> View by Parish </option>
+          <option *ngFor="let parish of parishes" [value]="parish.id"> {{parish.name}}</option>
+        </select>
+      </div>
+      <div class="col-sm-6">
+          <select class="form-control" (change)="onCriteriaSelect($event.target.value)">
+            <option [value]="0" [selected]="true"> Select sort by </option>
+            <option [value]="1"> Sponsor Name </option>           
+          </select>
+        </div>
+    </div>
 
+    <br/>
   <div class="row">
       <div class="col-sm-12">
         <table class="table table-hover">

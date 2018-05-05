@@ -14,6 +14,7 @@ export class Student {
   softlocked = false;
   expirationMonth: number;
   expirationYear: number;
+  imageLinkRef?: string;
   hobbies?: string;
   talent?: string;
   recentAchivements?: string[];

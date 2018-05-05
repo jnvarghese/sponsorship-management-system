@@ -10,6 +10,8 @@ import {saveAs as importedSaveAs} from "file-saver";
 export class ViewSponsorshipComponent implements OnInit {
 
   viewEnrolls;
+  selectedParish: number;
+  selectedSortBy: number;
 
   constructor(private enrollService: EnrollService) { }
 
@@ -18,7 +20,13 @@ export class ViewSponsorshipComponent implements OnInit {
       data => this.viewEnrolls = data,
       err => console.log(err) );
   }
-
+  onParishSelect(parishId: number){
+   this.selectedParish = parishId;
+  
+  }
+  onCriteriaSelect(sortBy: number){
+    this.selectedSortBy = sortBy;
+  }
   generateReport(fileName: string, enrollmentId: number){
     this.enrollService.generateReport(enrollmentId).subscribe(
       blob => {

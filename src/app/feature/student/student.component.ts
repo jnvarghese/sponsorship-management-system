@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Project } from '../model';
 import { AdminService } from './../shared/service/admin.service';
 
+
 @Component({
   selector: 'app-student',
   templateUrl: './student.component.html',
@@ -32,19 +33,6 @@ export class StudentComponent implements OnInit {
   addStudent() {
     this.router.navigate(['/home/student/add']);
   }
-  /*
-  selectParish(value: any) {
-    if (value !== "0") {
-      this.chosenCenter = true;
-      this.adminService.getById('/api/admin/parishes', +value)
-        .subscribe(
-          data => this.parishes = data,
-          err => console.log(err)
-        );
-    } else {
-      this.chosenCenter = false;
-    }
-  }*/
 
   onProjectSelect(value: any) {
     if (value !== "0") {

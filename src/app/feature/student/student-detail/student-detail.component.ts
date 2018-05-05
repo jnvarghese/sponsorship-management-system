@@ -25,6 +25,11 @@ export class StudentDetailComponent implements OnInit {
   selectedGender: any;
   projects: Array<Project>;
   isStudentSaved = false;
+  pageHeader: string;
+  pageSubHeader: string;
+  displayUpload: boolean = false;
+  imageLinkRef: string;
+
   genders = [
     { value: 'M', label: 'Male' },
     { value: 'F', label: 'Female' },
@@ -40,7 +45,9 @@ export class StudentDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.commonService.get(`/api/admin//projects`)
+    this.pageHeader = 'Add new student';
+    this.pageSubHeader = 'create';
+    this.commonService.get(`/api/admin/projects`)
       .subscribe(
         data => this.projects = data,
         error => error => this.handleError
@@ -48,8 +55,11 @@ export class StudentDetailComponent implements OnInit {
     this.createForm();
     const studentId = this.route.snapshot.params['id'];
     if (studentId !== undefined) {
+      this.pageHeader = 'Modify student';
+      this.pageSubHeader = 'modify';
       const id = +studentId;
       this.navigated = true;
+      this.displayUpload = true;
       this.populateForm(id);
     } else {
       this.navigated = false;
@@ -61,14 +71,14 @@ export class StudentDetailComponent implements OnInit {
     this.studentForm = this.fb.group({
       id: '',
       studentName: [null, Validators.required],
-      studentCode: [null, Validators.required],
+      studentCode: new FormControl({value: null, disabled: true}, Validators.required),
       status: 0,
       dateOfBirth: [null, [Validators.required, this.validatorService.validateDate]],
       address: '',
       gender: [null, Validators.required],
       projectId: [null, Validators.required],
       hobbies: '',
-      talent: '',
+      talent: '',     
       recentAchivements: '',
     });
   }
@@ -80,6 +90,7 @@ export class StudentDetailComponent implements OnInit {
           this.student = student;
           this.selectedProjectId = this.student.projectId;
           this.selectedGender = this.student.gender;
+          this.imageLinkRef = this.student.imageLinkRef;
           return this.studentForm.setValue({
             id: this.student.id,
             studentName: this.student.studentName,
@@ -105,6 +116,7 @@ export class StudentDetailComponent implements OnInit {
           response => {
             console.log(' response ', response);
             this.isStudentSaved = true;
+            this.displayUpload = true;
             this.student = response
           },
           error => this.handleError,
@@ -126,7 +138,7 @@ export class StudentDetailComponent implements OnInit {
   }
   upload() {
     let studentId: string = this.student.id.toString();
-    this.studentService.uploadImage(this.filesToUpload, studentId)
+    this.studentService.uploadImage(this.filesToUpload, +studentId)
       .subscribe(
         event => {
           if (event instanceof HttpResponse) {

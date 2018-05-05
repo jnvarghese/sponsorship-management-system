@@ -23,6 +23,8 @@ export class EnrollService {
         return this.http.get<Array<ViewEnroll>>(`${this.apiUrl}/view/enrollment`);
     }
 
+    
+
     generateReport(enrollmentId: number): Observable<Blob>{     
         return this.http.get(`${this.apiUrl}/enrollment/generatereport/${enrollmentId}`, {
             responseType: "blob"

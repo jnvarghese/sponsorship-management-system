@@ -53,7 +53,7 @@ export class StudentService {
     return this.http.get<Array<Student>>(`${this.studentsUrl}/search/${term}`);
   }
 
-  uploadImage(filesToUpload: File, studentId: string): Observable<HttpEvent<{}>>{
+  uploadImage(filesToUpload: File, studentId: number): Observable<HttpEvent<{}>>{
     console.log( 'studentId ', studentId);
     let formData = new FormData();
     formData.append("file", filesToUpload, filesToUpload.name);

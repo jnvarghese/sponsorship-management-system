@@ -1,9 +1,9 @@
 <form [formGroup]="studentForm" (ngSubmit)="saveStudent(studentForm.value)" style="margin-top:90px">
   <div class="alert alert-success" *ngIf="(isStudentSaved) && (studentForm.valid)">
-    <strong>Success!</strong> Added new student
+    <strong>Success!</strong> Student details saved.
   </div>
-  <h2>Create new student</h2>
-  <p>Please enter following details to successfuly create a student.</p>
+  <h3>{{pageHeader}}</h3>
+  <p>Please enter following details to successfuly {{pageSubHeader}} a student.</p>
   <div class="row-fluid">
     <div class="col-md-12">
       <input type="hidden" formControlName="id">
@@ -97,17 +97,18 @@
       </div>
     </div>
   </div>
-  <div class="row-fluid" *ngIf="(isStudentSaved)">
+  <div class="row-fluid" *ngIf="(displayUpload)">
     <div class="col-md-5">
       {{error}}
       <div class="form-group">
-        <label for="file">Choose File</label>
-        <input type="file" accept="image/*" (change)="handleFileInput($event)" placeholder="Upload picture..." />
+        <label for="file">Choose File {{imageLinkRef}}</label>
+        <input type="file" accept="image/png" (change)="handleFileInput($event)" placeholder="Upload picture..." />
         {{fileUploadStatus}}
       </div>
     </div>
     <div class="col-md-5">
       <div class="form-group">
+        <label> </label>
         <button type="button" (click)="upload()" class="btn btn-primary btn-sm">Upload</button>
       </div>
     </div>
