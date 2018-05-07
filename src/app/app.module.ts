@@ -18,7 +18,7 @@ declare let jQuery: Object;
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent    
+    LoginComponent
   ],
   imports: [
     BrowserModule,

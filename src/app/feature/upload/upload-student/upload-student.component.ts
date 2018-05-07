@@ -1,17 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { Agency, Project } from '../model';
-import { AdminService } from '..';
-import { UploadService } from '../shared/service/upload.service';
-import { HttpResponse } from '@angular/common/http';
+import { Agency, Project } from '../../model';
+import { AdminService } from '../../shared/service/admin.service';
+import { UploadService } from '../shared/upload.service';
 import { Router } from '@angular/router';
+import { HttpResponse } from '@angular/common/http';
+import { Upload } from '../../model/upload';
 
 @Component({
-  selector: 'app-upload-file',
-  templateUrl: './upload-file-list.component.html',
-  styleUrls: ['./upload-file-list.component.css']
+  selector: 'app-upload-student',
+  templateUrl: './upload-student.component.html',
+  styleUrls: ['./upload-student.component.css']
 })
-export class UploadFileListComponent implements OnInit {
+export class UploadStudentComponent implements OnInit {
 
+  files: Array<Upload>;
+  uploadStudentFile: boolean;
+  uploadStudentList: true;
   agencies: Array<Agency>;
   agencyChosen: boolean;
   projectChosen: boolean;
@@ -31,10 +35,23 @@ export class UploadFileListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.agencyService.get('/api/admin/agencies').subscribe(
-      data => this.agencies = data,
-      err => console.log(err)
-    );
+    this.list('student');
+    if (this.uploadStudentFile) {
+      this.agencyService.get('/api/admin/agencies').subscribe(
+        data => this.agencies = data,
+        err => console.log(err)
+      );
+    }
+  }
+
+  list(type: string) {
+    this.uploadService.list(type)
+      .subscribe(data => {
+        this.files = data;
+      },
+        err => {
+          console.log('Error in listing the files', err)
+        });
   }
 
   onAgencySelect(value: any) {
@@ -71,22 +88,16 @@ export class UploadFileListComponent implements OnInit {
 
   }
   upload() {
-
-    let userId = localStorage.getItem('userId')
-    console.log(' userdata ', userId)
-    if (userId) {
-      this.uploadService.uploadFile(this.filesToUpload, this.agencyId, this.projectId, +userId)
-        .subscribe(
-          event => {
-            if (event instanceof HttpResponse) {
-              this.fileUploadStatus = true;
-              console.log('File is completely uploaded!');
-              this.router.navigate(['/home/uploadfilelist']);
-            }
+    this.uploadService.uploadFile(this.filesToUpload, 'student', this.agencyId, this.projectId, null)
+      .subscribe(
+        event => {
+          if (event instanceof HttpResponse) {
+            this.fileUploadStatus = true;
+            console.log('File is completely uploaded!');
+            this.router.navigate(['/upload/list']);
           }
-        );
-    } else {
-      alert(' Please Login Again ');
-    }
+        }
+      );
   }
+
 }

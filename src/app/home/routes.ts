@@ -5,8 +5,8 @@ import { InitResolve } from '../feature/shared/resolver/init.resolve';
 import { ViewSponsorshipComponent } from '../feature/viewsponsorship/viewsponsorship.component';
 import { adminRoutes } from '../feature/admin/routes';
 import { enrollmentRoutes } from '../feature/enrollment/routes';
-import { UploadFileComponent } from '../feature/upload-file/upload-file/upload-file.component';
-import { UploadFileListComponent } from '../feature/upload-file/upload-file-list.component';
+import { UploadSponsorComponent } from '../feature/upload/upload-sponsor/upload-sponsor.component';
+import { UploadStudentComponent } from '../feature/upload/upload-student/upload-student.component';
 
 export const routes: Routes = [
     {
@@ -15,8 +15,8 @@ export const routes: Routes = [
             { path: 'dashboard', component: DashboardComponent, resolve: { initdata: InitResolve } },
             { path: 'view-enroll', component: ViewSponsorshipComponent },
             { path: 'manage-sponsor', component: ManagesponsorshipComponent },
-            { path: 'uploadfilelist', component: UploadFileListComponent },
-            { path: 'uploadfile', component: UploadFileComponent},
+            { path: 'uploadsponsor', component: UploadSponsorComponent },
+            { path: 'uploadstudent', component: UploadStudentComponent},
             ...adminRoutes,
             ...enrollmentRoutes,
             ...manageSponsorRoutes,

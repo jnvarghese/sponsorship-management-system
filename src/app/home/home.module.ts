@@ -16,9 +16,10 @@ import { DashboardService } from '../feature/shared/service/dashboard.service';
 import { DateFormatPipe } from '../shared/date.format.pipe';
 import { PageDateFormatPipe } from '../shared/page-date-format.pipe';
 import { InitResolve } from '../feature/shared/resolver/init.resolve';
-import { UploadService } from '../feature/shared/service/upload.service';
-import { UploadFileListComponent } from '../feature/upload-file/upload-file-list.component';
-import { UploadFileComponent } from '../feature/upload-file/upload-file/upload-file.component';
+
+import { UploadSponsorComponent } from '../feature/upload/upload-sponsor/upload-sponsor.component';
+import { UploadStudentComponent } from '../feature/upload/upload-student/upload-student.component';
+import { UploadService } from '../feature/upload/shared/upload.service';
 
 @NgModule({
     imports: [
@@ -38,8 +39,8 @@ import { UploadFileComponent } from '../feature/upload-file/upload-file/upload-f
       DashboardComponent,
       ViewSponsorshipComponent,
       PageNotFoundComponent,
-      UploadFileComponent,
-      UploadFileListComponent
+      UploadSponsorComponent,
+      UploadStudentComponent
     ],
     providers: [
       AdminService,
