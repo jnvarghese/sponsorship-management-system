@@ -14,8 +14,8 @@ import { Upload } from '../../model/upload';
 export class UploadStudentComponent implements OnInit {
 
   files: Array<Upload>;
-  uploadStudentFile: boolean;
-  uploadStudentList: true;
+  uploadStudentFile: boolean = false;
+  uploadStudentList: boolean;
   agencies: Array<Agency>;
   agencyChosen: boolean;
   projectChosen: boolean;
@@ -35,13 +35,22 @@ export class UploadStudentComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.list('student');
-    if (this.uploadStudentFile) {
-      this.agencyService.get('/api/admin/agencies').subscribe(
-        data => this.agencies = data,
-        err => console.log(err)
-      );
-    }
+    this.uploadStudentList = true;
+    this.list('student');   
+  }
+
+  uploadDocument(){
+    this.uploadStudentList = false;
+    this.uploadStudentFile = true;
+    this.agencyService.get('/api/admin/agencies').subscribe(
+      data => this.agencies = data,
+      err => console.log(err)
+    );
+  }
+
+  cancel(){
+    this.uploadStudentList = true;
+    this.uploadStudentFile = false;
   }
 
   list(type: string) {

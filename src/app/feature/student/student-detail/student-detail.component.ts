@@ -71,7 +71,7 @@ export class StudentDetailComponent implements OnInit {
     this.studentForm = this.fb.group({
       id: '',
       studentName: [null, Validators.required],
-      studentCode: new FormControl({value: null, disabled: true}, Validators.required),
+      studentCode: new FormControl({value: null, disabled: true}),
       status: 0,
       dateOfBirth: [null, [Validators.required, this.validatorService.validateDate]],
       address: '',

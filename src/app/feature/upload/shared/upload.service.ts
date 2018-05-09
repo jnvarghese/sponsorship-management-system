@@ -13,7 +13,9 @@ export class UploadService {
   constructor(private httpClient: HttpClient) { }
 
   list(type: string){
-     headers.append('type', type);
+    let headers = new HttpHeaders()
+            .set('Content-Type', 'application/json')
+            .set('type', type);   
      return this.httpClient.get<Array<Upload>>(`${this.api}/list`, { headers });
   }
 
