@@ -4,6 +4,10 @@ export class Upload {
     agencyName: string;
     projectId: number;
     projectName: string;
+    centerId: number;
+    centerName: string;
+    parishId: number;
+    parishName: string;
     userId: number;
     uploadedBy: string;
     fileName: string;

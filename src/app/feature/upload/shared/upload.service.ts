@@ -19,17 +19,12 @@ export class UploadService {
      return this.httpClient.get<Array<Upload>>(`${this.api}/list`, { headers });
   }
 
-  uploadFile(filesToUpload: File, type: string, agencyId: number, projectId: number, parishId:number): Observable<HttpEvent<{}>>{
+  uploadFile(filesToUpload: File, type: string, id: number): Observable<HttpEvent<{}>>{
     let formData = new FormData();
     formData.append("file", filesToUpload, filesToUpload.name);
-    let url;
-    if('student' === type){
-      url= `${this.api}/upload/type/${agencyId}/${projectId}`;
-    }else if('sponsot' === type){
-      url= `${this.api}/upload/type/${parishId}`;
-    }else{
-      console.log(' Unsupported File Type');
-    }
+    formData.append("userId", localStorage.getItem('userId') || '0');
+    let url;   
+    url= `${this.api}/upload/${type}/${id}`;
     const req = new HttpRequest('POST', url, formData, {
       reportProgress: true,
       responseType: 'text'

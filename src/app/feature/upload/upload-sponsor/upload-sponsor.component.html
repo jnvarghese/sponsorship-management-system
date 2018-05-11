@@ -1,3 +1,73 @@
 <div class="container" style="margin-top:90px">
-  <h2>Upload Sponsor Document</h2>
+  <div *ngIf="uploadSponsorFile">
+      <h2>Upload Sponsor Document</h2>
+      <div class="row-fluid" style="margin-top:20px">
+          <div class="col-md-6">
+              <label for="gender">Center</label>
+              <select class="form-control" (change)="onCenterSelect($event.target.value)">
+                <option [value]="0" [selected]="true"> Please choose one </option>
+                <option *ngFor="let center of centers" [value]="center.id">{{center.regionName}} {{center.name}}</option>
+              </select>
+          </div>
+      </div>
+      <div class="row-fluid" style="margin-top:20px">
+          <div class="col-md-6">
+              <label for="gender">Parish</label>
+              <select class="form-control" (change)="onParishSelect($event.target.value)">
+                  <option [value]="0" [selected]="true"> Please choose one </option>
+                  <option *ngFor="let parish of parishes" [value]="parish.id">{{parish.code}} {{parish.name}}</option>
+              </select>
+          </div>
+      </div>
+      <div class="row-fluid" *ngIf="parishChosen" style="margin-top:100px;">
+          <div class="col-md-12" style="margin-bottom: 10px">
+              <label for="file"> {{error}} Choose Sponsor File</label>
+              <input type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" (change)="handleFileInput($event)"
+                  placeholder="Upload data..." />
+          </div>
+      </div>
+      <div class="row-fluid" style="margin-top:100px">
+          <div *ngIf="readyToUpload" class="col-md-6">
+              <button type="button" (click)="upload()" class="btn btn-primary btn-sm">Upload</button>
+          </div>
+          <div *ngIf="uploadSponsorFile" class="col-md-6">
+              <button type="button" (click)="cancel()" class="btn btn-primary btn-sm">Cancel</button>
+          </div>
+      </div>
+  </div>
+  <div *ngIf="uploadSponsorList">
+      <h2>Sponsor Document List</h2>
+      <p>This list displays the uploaded sponsor documents</p>
+
+      <div class="row">
+          <div class="col-sm-12">
+              <button type="submit" (click)="uploadDocument()" class="btn btn-primary btn-xs">Upload Document</button>
+          </div>
+      </div>
+
+      <div *ngIf="files" class="row">
+          <div class="col-sm-12">
+              <table class="table table-hover">
+                  <thead>
+                      <tr>
+                          <th>File Name</th>
+                          <th>Center</th>
+                          <th>Parish</th>
+                          <th>Uploaded By</th>
+                          <th>Uploaded Date</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let file of files">
+                          <td>{{ file.fileName }}</td>
+                          <td>{{ file.centerName }}</td>
+                          <td>{{ file.parishName }}</td>
+                          <td>{{ file.uploadedBy }}</td>
+                          <td>{{ file.createdDate }}</td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
 </div>

@@ -97,13 +97,13 @@ export class UploadStudentComponent implements OnInit {
 
   }
   upload() {
-    this.uploadService.uploadFile(this.filesToUpload, 'student', this.agencyId, this.projectId, null)
+    this.uploadService.uploadFile(this.filesToUpload, 'student', this.projectId)
       .subscribe(
         event => {
           if (event instanceof HttpResponse) {
             this.fileUploadStatus = true;
             console.log('File is completely uploaded!');
-            this.router.navigate(['/upload/list']);
+            this.router.navigate(['/home/upload/uploadstudent']);
           }
         }
       );
