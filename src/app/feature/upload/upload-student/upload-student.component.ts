@@ -103,7 +103,8 @@ export class UploadStudentComponent implements OnInit {
           if (event instanceof HttpResponse) {
             this.fileUploadStatus = true;
             console.log('File is completely uploaded!');
-            this.router.navigate(['/home/upload/uploadstudent']);
+            this.uploadStudentList = true;
+            this.uploadStudentFile = false;
           }
         }
       );

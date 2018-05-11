@@ -80,6 +80,12 @@ export class StudentDetailComponent implements OnInit {
       hobbies: '',
       talent: '',     
       recentAchivements: '',
+      nameOfGuardian: '',
+      occupationOfGuardian: '',
+      baseLanguage: '',
+      grade: '',
+      favColor: '',
+      favGame: ''
     });
   }
   populateForm(id: number) {
@@ -103,6 +109,12 @@ export class StudentDetailComponent implements OnInit {
             hobbies: this.student.hobbies || '',
             talent: this.student.talent || '',
             recentAchivements: this.student.recentAchivements || '',
+            nameOfGuardian: this.student.nameOfGuardian ||'',
+            occupationOfGuardian: this.student.occupationOfGuardian ||'',
+            baseLanguage: this.student.baseLanguage ||'',
+            grade: this.student.grade ||'',
+            favColor: this.student.favColor ||'',
+            favGame: this.student.favGame ||''
           });
         },
         error => error => this.handleError

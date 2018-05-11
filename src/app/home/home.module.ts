@@ -20,6 +20,7 @@ import { InitResolve } from '../feature/shared/resolver/init.resolve';
 import { UploadSponsorComponent } from '../feature/upload/upload-sponsor/upload-sponsor.component';
 import { UploadStudentComponent } from '../feature/upload/upload-student/upload-student.component';
 import { UploadService } from '../feature/upload/shared/upload.service';
+import { ClosableWellComponent } from '../feature/dashboard/closable-well.component';
 
 @NgModule({
     imports: [
@@ -37,6 +38,7 @@ import { UploadService } from '../feature/upload/shared/upload.service';
       HeaderComponent,
       FooterComponent,
       DashboardComponent,
+      ClosableWellComponent,
       ViewSponsorshipComponent,
       PageNotFoundComponent,
       UploadSponsorComponent,

@@ -14,6 +14,13 @@ export class Student {
   softlocked = false;
   expirationMonth: number;
   expirationYear: number;
+  nameOfGuardian: string;
+  occupationOfGuardian: string;
+  baseLanguage: string;
+  grade: string;
+  favColor: string; //50
+  favGame: string; //200
+  hasImageUploaded: boolean;
   imageLinkRef?: string;
   hobbies?: string;
   talent?: string;

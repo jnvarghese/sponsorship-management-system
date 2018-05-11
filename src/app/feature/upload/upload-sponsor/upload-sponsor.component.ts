@@ -104,7 +104,8 @@ export class UploadSponsorComponent implements OnInit {
           if (event instanceof HttpResponse) {
             this.fileUploadStatus = true;
             console.log('File is completely uploaded!');
-            this.router.navigate(['/home/upload/uploadsponsor']);
+            this.uploadSponsorList = true;
+            this.uploadSponsorFile = false;
           }
         }
       );

@@ -14,7 +14,7 @@ export class InitService {
     getCenterList() {
         return this.http.get<Array<Center>>(`${this.apiurl}/center`);
     }
-
+   
     getInitializerData() {
         return this.http.get<Initializer>(this.apiurl);
     }
