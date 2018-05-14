@@ -33,7 +33,14 @@ export class ViewSponsorshipComponent implements OnInit {
         importedSaveAs(blob, fileName+' - Light to Life - Sponsorship Information Document');
       }
     );
+  }
 
+  generateReceipt(fileName: string, enrollmentId: number){
+    this.enrollService.generateReceipt(enrollmentId).subscribe(
+      blob => {
+        importedSaveAs(blob, fileName+' - Light to Life - Receipt');
+      }
+    );
   }
 
 }

@@ -26,7 +26,8 @@
                 <th>Parish Name</th>
                 <th>Payment Date</th>
                 <th>Contribution</th>
-                <th></th>
+                <th>Sponsor Document</th>
+                <th>Sponsor Receipt</th>
               </tr>
             </thead>
             <tbody>
@@ -35,7 +36,8 @@
                 <td>{{ e.parishName }}</td>
                 <td>{{ e.paymentDate }}</td>
                 <td>{{ e.contribution }}</td>
-                <td (click)="generateReport(e.sponsorName, e.enrollmentId)"> Receipt </td>
+                <td (click)="generateReport(e.sponsorName, e.enrollmentId)">Document </td>
+                <td (click)="generateReceipt(e.sponsorName, e.enrollmentId)">Receipt </td>
               </tr>     
             </tbody>
         </table>

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse navbar-fixed-top ">
+<nav *ngIf="userId" class="navbar navbar-inverse navbar-fixed-top ">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -8,7 +8,7 @@
       </button>
       <a class="navbar-brand" href="#"></a>
     </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
+    <div *ngIf="userId != 5" class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li [routerLinkActive]="['active']">
           <a [routerLink]="['./dashboard']">Home</a>
@@ -27,9 +27,9 @@
             <li>
               <a [routerLink]="['./admin/parish/list']">Parish</a>
             </li>
-          
+
           </ul>
-        </li>       
+        </li>
         <li class="dropdown" [routerLinkActive]="['active']">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">Sponsor
             <span class="caret"></span>
@@ -57,12 +57,12 @@
           </ul>
         </li>
         <li [routerLinkActive]="['active']">
-          <a [routerLink]="['./enroll']" >Enroll</a>
+          <a [routerLink]="['./enroll']">Enroll</a>
         </li>
         <li [routerLinkActive]="['active']">
           <a [routerLink]="['./view-enroll']">View Enrollment</a>
         </li>
-       <!-- <li [routerLinkActive]="['active']">
+        <!-- <li [routerLinkActive]="['active']">
           <a [routerLink]="['./manage-sponsor']">Manage Sponsorship</a>
         </li>-->
         <li class="dropdown" [routerLinkActive]="['active']">
@@ -77,7 +77,7 @@
               <a [routerLink]="['./uploadstudent']">Upload Student Document</a>
             </li>
           </ul>
-        </li>       
+        </li>
         <li [routerLinkActive]="['active']">
           <a [routerLink]="['/login']">Logout</a>
         </li>
@@ -104,7 +104,20 @@
         </li>
       </ul>
     -->
-  
+
+    </div>
+    <div *ngIf="userId == 5" class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li [routerLinkActive]="['active']">
+          <a [routerLink]="['./dashboard']">Home</a>
+        </li>
+        <li [routerLinkActive]="['active']">
+          <a [routerLink]="['./view-enroll']">View Enrollment</a>
+        </li>
+        <li [routerLinkActive]="['active']">
+          <a [routerLink]="['/login']">Logout</a>
+        </li>
+      </ul>
     </div>
   </div>
 </nav>

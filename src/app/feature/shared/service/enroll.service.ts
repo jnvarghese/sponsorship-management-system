@@ -30,5 +30,11 @@ export class EnrollService {
             responseType: "blob"
         });
     }
+
+    generateReceipt(enrollmentId: number): Observable<Blob>{     
+        return this.http.get(`${this.apiUrl}/enrollment/generatereceipt/${enrollmentId}`, {
+            responseType: "blob"
+        });
+    }
   
 }

@@ -9,6 +9,7 @@ export class Upload {
     parishId: number;
     parishName: string;
     userId: number;
+    initiativeId: number;
     uploadedBy: string;
     fileName: string;
     status: boolean;

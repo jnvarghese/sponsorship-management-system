@@ -49,6 +49,7 @@ export class LoginService {
 
 logout() {
     // remove user from local storage to log user out
+    localStorage.removeItem('userId');
     localStorage.removeItem('token');
     localStorage.removeItem('currentUser');
 }
