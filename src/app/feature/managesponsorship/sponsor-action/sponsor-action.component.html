@@ -1,21 +1,15 @@
 <div class="container-fluid">
-<!--
-    <div class="row">
-        <div class="col-sm-6">
-            <p>{{info?.sponser?.firstName}} {{info?.sponser?.lastName}}</p>
-        </div>
-        <div class="col-sm-6">
-            <p>{{info?.isActive}}</p>
-        </div>
-    </div> -->
 
+    <div *ngIf="message" class="alert alert-info" role="alert">
+        <strong>No enrollment!</strong> {{message}}.
+      </div>
     <div class="panel-group" id="accordion">
         <div class="panel panel-default" *ngFor="let e of infos">
             <div class="panel-heading">
                 <h4 class="panel-title">
                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" 
                         href="#student{{e.spId}}" (click)="showContributionDetail(e.spId)">
-                        {{e.spFn}}  {{e.spFn}}  -  <span> Contribution : {{e.totalContribution}}</span>
+                        {{e.spFn}}  {{e.spLn}}  -  <span> Contribution : {{e.totalContribution}}</span>
                     </a>
                 </h4>
             </div>

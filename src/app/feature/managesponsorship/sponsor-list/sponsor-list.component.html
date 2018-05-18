@@ -13,8 +13,8 @@
     </div>
   </div>
 
-  <ul class="list-group" *ngFor="let sponsor of students | async" 
-      [routerLink]="['/manage-sponsor',{outlets:{'detail':[sponsor.id]}}]">
-    <li class="list-group-item">{{sponsor.firstName}} {{sponsor.lastName}}</li>
+  <ul class="list-group" *ngFor="let student of students | async" 
+      [routerLink]="['/home/manage-sponsor',{outlets:{'detail':[student.id]}}]">
+    <li class="list-group-item">{{student.studentName}}</li>
   </ul>
 </div>

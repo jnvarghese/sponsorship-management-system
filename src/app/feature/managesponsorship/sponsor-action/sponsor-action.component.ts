@@ -13,6 +13,7 @@ export class SponsorActionComponent implements OnInit {
   infos: any;
   contributions: any;
   selectedStudentId: number;
+  message: string;
 
   constructor(private route: ActivatedRoute, private sponsorService: SponsorService<Sponsor>) { }
 
@@ -22,8 +23,12 @@ export class SponsorActionComponent implements OnInit {
         this.selectedStudentId = +params.id;
         this.sponsorService.getSponsorShipInfo(this.selectedStudentId)
           .subscribe((info) => {
-            if (info) {
+            if (info.length > 0) {
+              this.message = null;
               this.infos = info;
+            }else{
+              this.infos = null;
+             this.message = 'No Sponsorship records found!.';
             }
           });
       }

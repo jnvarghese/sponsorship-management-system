@@ -11,7 +11,7 @@ export class ManagesponsorshipComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
-    this.router.navigate(['manage-sponsor', { outlets: { 'list': ['sponsor-manage-list'], 'detail': ['none'] } }]);
+    this.router.navigate(['/home/manage-sponsor', { outlets: { 'list': ['sponsor-manage-list'], 'detail': ['none'] } }]);
   }
 
 }
