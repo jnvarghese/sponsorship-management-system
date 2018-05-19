@@ -65,7 +65,7 @@ export class EnrollSponseeComponent implements OnInit {
   selectStudentCruiseMode(student: Student){
     if (this.hasAnyStudentSelected && !this.addMore) {
       this.studentExceedMessage = `You have exceeded the total number of students for the enrollemnt.
-              Please reset if you want to make changes. !!`;
+              Please reset if you want to make changes or click next bottom of the page. !!`;
     }else if(this.studentFilter(student.id)){
       this.duplicateStudentMessage= `Duplicate selection, please try a different student. !!`;
     }else {

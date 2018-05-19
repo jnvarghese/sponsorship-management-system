@@ -14,7 +14,7 @@
     <div class="col-md-6">
       <div *ngFor="let i of maxOutList">
         <closable-well [maxOut]="i">
-          <div *ngFor="let imax of i.data" style="margin-bottom: 10px;">
+          <div   class="card card-body" *ngFor="let imax of i.data" style="margin-bottom: 10px;">
             {{imax.sponsorName}} -  {{imax.parishName}}, <b>Due On:</b> {{imax.maxOut}}
           </div>
         </closable-well>
@@ -24,3 +24,4 @@
 
   </div>
 </div>
+<!--https://getbootstrap.com/docs/4.0/components/collapse/-->

@@ -1,12 +1,16 @@
 <form class="form-horizontal" [formGroup]="sponsorForm" novalidate (ngSubmit)="saveSponsorDetails(sponsorForm.value)" style="margin-top:90px">
-  <div class="alert alert-success" *ngIf="isSponsorSaved">
-    <strong>Success!</strong> Added new sponsor
+  <div id="message" class="alert alert-success" *ngIf="isSponsorSaved">
+    <strong>Success!</strong> {{message}}
+  </div>
+  <div class="alert alert-danger" *ngIf="error">
+    <strong>Error!</strong> {{error}}
   </div>
   <h3>{{pageHeader}}</h3>
   <p>Please enter following details to successfuly add a sponsor.</p>
   <div class="row-fluid">
     <div class="col-md-10">
       <div class="form-group">
+        <input type="hidden" formControlName="id"/>
         <div class="col-sm-4" [ngClass]="{'error': sponsorForm.get('firstName')?.invalid && sponsorForm.get('firstName')?.touched}">
           <label for="firstName">First Name</label>
           <input formControlName="firstName" id="firstName" class="form-control" type="text" placeholder="First Name" />
@@ -83,7 +87,7 @@
         </div>
         <div class="col-sm-5"  [ngClass]="{'error': sponsorForm.get('parishId')?.invalid && sponsorForm.get('parishId')?.touched}">
           <label for="lastName">Select Parish</label>
-          <select class="form-control" formControlName="parishId"  formControlName="parishId">
+          <select class="form-control" formControlName="parishId"  formControlName="parishId" (change)="onParishSelect($event.target.value)">
             <option [value]="0" [selected]="true"> Please choose one </option>
             <option *ngFor="let parish of parishes" [value]="parish.id" [selected]="selectedParishId === parish.id">{{parish.name}}</option>
           </select>

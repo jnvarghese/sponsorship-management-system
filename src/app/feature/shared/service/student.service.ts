@@ -24,6 +24,10 @@ export class StudentService {
     return this.http.get<Array<Student>>(`${this.studentsUrl}/list`);
   }
 
+  getSequence(id: number) {
+    return this.http.get(`${this.studentsUrl}/sequence/${id}`);
+  }
+
   findStudent(id: number) {
     return this.http.get<Student>(`${this.studentsUrl}/find/${id}`);
   }

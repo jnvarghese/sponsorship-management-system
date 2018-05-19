@@ -20,13 +20,16 @@ export class SponsorService<T> {
     return this.http.get<Array<T>>(`${this.sponsorUrl}/listbyparish/${id}`);
   }
 
+  getSequence(id: number) {
+    return this.http.get(`${this.sponsorUrl}/sequence/${id}`);
+  }
+
   findSponsor(id: number) {
     return this.http.get<T>(`${this.sponsorUrl}/find/${id}`);
   }
 
-  save(sponsor: Sponsor, id: number) {
-    if (id) {
-      sponsor.id = id;
+  save(sponsor: Sponsor) {
+    if (sponsor.id) {
       return this.put(sponsor);
     }
     return this.post(sponsor);

@@ -2,35 +2,33 @@
   <div class="alert alert-success" *ngIf="(isStudentSaved) && (studentForm.valid)">
     <strong>Success!</strong> Student details saved.
   </div>
+  <div class="alert alert-danger" *ngIf="error">
+    <strong>Error!</strong> {{error}}
+  </div>
   <h3>{{pageHeader}}</h3>
   <p>Please enter following details to successfuly {{pageSubHeader}} a student.</p>
   <div class="row-fluid">
     <div class="col-md-12">
       <input type="hidden" formControlName="id">
       <div class="form-group">
-        <div class="col-sm-8" [ngClass]="{'error': studentForm.get('studentName')?.invalid && studentForm.get('studentName')?.touched}">
+        <div class="col-sm-7" [ngClass]="{'error': studentForm.get('studentName')?.invalid && studentForm.get('studentName')?.touched}">
           <label for="studentName">Student Name</label>
           <input formControlName="studentName" id="studentName" class="form-control" placeholder="Student Full Name" />
           <em *ngIf="studentForm.get('studentName').invalid && studentForm.get('studentName').touched">Required</em>
         </div>
-        <div class="col-sm-2" [ngClass]="{'error': studentForm.get('studentCode')?.invalid && studentForm.get('studentCode')?.touched}">
-          <label for="studentCode">Code</label>
-          <input formControlName="studentCode" id="studentCode" class="form-control" placeholder="Code" />
-          <em *ngIf="studentForm.get('studentCode').invalid && studentForm.get('studentCode').touched">Required</em>
-        </div>        
+
+        <div class="col-sm-3" [ngClass]="{'error': studentForm.get('dateOfBirth')?.invalid && studentForm.get('dateOfBirth')?.touched}">
+          <label for="dateOfBirth">Date of Birth</label>
+          <input formControlName="dateOfBirth" id="dateOfBirth" dateInputFormatter maxlength="10" class="form-control" placeholder="MM/DD/YYYY"
+          />
+          <em *ngIf="studentForm.get('dateOfBirth').invalid && studentForm.get('dateOfBirth').touched">Required</em>
+        </div>
       </div>
     </div>
   </div>
   <div class="row-fluid">
     <div class="col-md-12">
       <div class="form-group">
-        <div class="col-sm-3" [ngClass]="{'error': studentForm.get('dateOfBirth')?.invalid && studentForm.get('dateOfBirth')?.touched}">
-          <label for="dateOfBirth">Date of Birth</label>
-          <input formControlName="dateOfBirth" id="dateOfBirth" dateInputFormatter maxlength="10"
-          class="form-control" placeholder="MM/DD/YYYY" />
-          <em *ngIf="studentForm.get('dateOfBirth').invalid && studentForm.get('dateOfBirth').touched">Required</em>
-        </div>
-
         <div class="col-sm-3" [ngClass]="{'error': studentForm.get('gender')?.invalid && studentForm.get('gender')?.touched}">
           <label for="gender">Gender</label>
           <select class="form-control" formControlName="gender">
@@ -39,15 +37,18 @@
           </select>
           <em *ngIf="studentForm.get('gender').invalid && studentForm.get('gender').touched">Required</em>
         </div>
-
-        <div class="col-sm-4" [ngClass]="{'error': studentForm.get('projectId')?.invalid && studentForm.get('projectId')?.touched}">
+        <div class="col-sm-5" [ngClass]="{'error': studentForm.get('projectId')?.invalid && studentForm.get('projectId')?.touched}">
           <label for="project">Project</label>
-          <select class="form-control" formControlName="projectId">
+          <select class="form-control" formControlName="projectId" (change)="onProjectSelect($event.target.value)">
             <option *ngFor="let project of projects" [value]="project.id" [selected]="selectedProjectId === project.id">{{project.name}}</option>
           </select>
           <em *ngIf="studentForm.get('projectId').invalid && studentForm.get('projectId').touched">Required</em>
         </div>
-
+        <div class="col-sm-2" [ngClass]="{'error': studentForm.get('studentCode')?.invalid && studentForm.get('studentCode')?.touched}">
+          <label for="studentCode">Code</label>
+          <input formControlName="studentCode" id="studentCode" class="form-control" placeholder="Code" />
+          <em *ngIf="studentForm.get('studentCode').invalid && studentForm.get('studentCode').touched">Required</em>
+        </div>
       </div>
     </div>
   </div>
@@ -138,8 +139,7 @@
       {{error}}
       <div class="form-group">
         <label for="file">Choose File {{imageLinkRef}}</label>
-        <input type="file" accept="image/png" (change)="handleFileInput($event)" placeholder="Upload picture..." />
-        {{fileUploadStatus}}
+        <input type="file" accept="image/png" (change)="handleFileInput($event)" placeholder="Upload picture..." /> {{fileUploadStatus}}
       </div>
     </div>
     <div class="col-md-5">

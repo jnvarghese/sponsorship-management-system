@@ -29,6 +29,8 @@ export class StudentDetailComponent implements OnInit {
   pageSubHeader: string;
   displayUpload: boolean = false;
   imageLinkRef: string;
+  chosenProject: boolean = false;
+  sequence: number;
 
   genders = [
     { value: 'M', label: 'Male' },
@@ -71,14 +73,14 @@ export class StudentDetailComponent implements OnInit {
     this.studentForm = this.fb.group({
       id: '',
       studentName: [null, Validators.required],
-      studentCode: new FormControl({value: null, disabled: true}),
+      studentCode: [null, Validators.required],//new FormControl({value: null, disabled: true}),
       status: 0,
       dateOfBirth: [null, [Validators.required, this.validatorService.validateDate]],
       address: '',
       gender: [null, Validators.required],
       projectId: [null, Validators.required],
       hobbies: '',
-      talent: '',     
+      talent: '',
       recentAchivements: '',
       nameOfGuardian: '',
       occupationOfGuardian: '',
@@ -94,6 +96,7 @@ export class StudentDetailComponent implements OnInit {
         student => {
           console.log(' edit - student ', student);
           this.student = student;
+          this.getSequence(+this.student.projectId, false);
           this.selectedProjectId = this.student.projectId;
           this.selectedGender = this.student.gender;
           this.imageLinkRef = this.student.imageLinkRef;
@@ -109,12 +112,12 @@ export class StudentDetailComponent implements OnInit {
             hobbies: this.student.hobbies || '',
             talent: this.student.talent || '',
             recentAchivements: this.student.recentAchivements || '',
-            nameOfGuardian: this.student.nameOfGuardian ||'',
-            occupationOfGuardian: this.student.occupationOfGuardian ||'',
-            baseLanguage: this.student.baseLanguage ||'',
-            grade: this.student.grade ||'',
-            favColor: this.student.favColor ||'',
-            favGame: this.student.favGame ||''
+            nameOfGuardian: this.student.nameOfGuardian || '',
+            occupationOfGuardian: this.student.occupationOfGuardian || '',
+            baseLanguage: this.student.baseLanguage || '',
+            grade: this.student.grade || '',
+            favColor: this.student.favColor || '',
+            favGame: this.student.favGame || ''
           });
         },
         error => error => this.handleError
@@ -122,18 +125,25 @@ export class StudentDetailComponent implements OnInit {
   }
   saveStudent(): void {
     if (this.studentForm.valid) {
-      this.studentService
-        .save(this.studentForm.value)
-        .subscribe(
-          response => {
-            console.log(' response ', response);
-            this.isStudentSaved = true;
-            this.displayUpload = true;
-            this.student = response
-          },
-          error => this.handleError,
-          () => console.log("Subsribtion Completed !")
-        );
+      let stdCode = +this.studentForm.get('studentCode').value;
+      if (stdCode > this.sequence) {
+        this.studentService
+          .save(this.studentForm.value)
+          .subscribe(
+            response => {
+              console.log(' response ', response);
+              this.isStudentSaved = true;
+              this.displayUpload = true;
+              this.student = response
+            },
+            error => this.handleError,
+            () => console.log("Subsribtion Completed !")
+          );
+      } else {
+        this.error = `Student code should be greater than ${this.sequence}`;
+        console.error('err');
+      }
+
     }
   }
   handleFileInput(fileInput: any) {
@@ -148,6 +158,29 @@ export class StudentDetailComponent implements OnInit {
       return;
     }
   }
+  onProjectSelect(value: any) {
+    if (value !== "0") {
+      this.chosenProject = true;
+      this.getSequence(+value, true);
+    } else {
+      this.chosenProject = false;
+    }
+  }
+
+  getSequence(parishId: number, increment: boolean) {
+    this.studentService.getSequence(parishId)
+      .subscribe(
+        (data: any) => {
+          this.sequence = data.sequence;
+          if(increment){
+           this.studentForm.get('studentCode').setValue(this.sequence + 1);
+          }
+        },
+        err => console.error(err)
+      );
+  }
+
+
   upload() {
     let studentId: string = this.student.id.toString();
     this.studentService.uploadImage(this.filesToUpload, +studentId)

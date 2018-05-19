@@ -16,6 +16,7 @@ export class SponsorDetailComponent implements OnInit {
   pageHeader: string;
   @Input() sponser: Sponsor;
   error: any;
+  message: string;
   navigated = false; // true if navigated here
   isSponsorSaved: boolean = false;
   public sponsorForm: FormGroup;
@@ -25,6 +26,7 @@ export class SponsorDetailComponent implements OnInit {
   chosenCenter: boolean;
   chosenParish: boolean;
   selectedParishId: number;
+  sequence: number;
 
   constructor(
     private router: Router,
@@ -48,6 +50,7 @@ export class SponsorDetailComponent implements OnInit {
         .subscribe(
           res => {
             this.sponser = res;
+            this.getSequence(this.sponser.parishId, false);
             this.pupulateForm(this.sponser);
           },
           err => this.handleError
@@ -61,20 +64,21 @@ export class SponsorDetailComponent implements OnInit {
       err => console.log(err)
     );
     this.chosenCenter = false;
-   /* this.adminService.get('/api/admin/parishes')
-      .subscribe(
-        data => this.parishes = data,
-        err => this.handleError
-      );*/
+    /* this.adminService.get('/api/admin/parishes')
+       .subscribe(
+         data => this.parishes = data,
+         err => this.handleError
+       );*/
   }
 
   createForm() {
     this.sponsorForm = this.fb.group({
+      id: [''],
       firstName: ['', Validators.required],
       middleInitial: '',
       lastName: ['', Validators.required],
       nickName: '',
-      sponsorCode: new FormControl({value: null, disabled: true}),
+      sponsorCode: ['', Validators.required], //new FormControl({value: null, disabled: true}),
       dayOfBirth: 1,
       monthOfBirth: 1,
       emailAddress: ['', Validators.required],
@@ -93,6 +97,7 @@ export class SponsorDetailComponent implements OnInit {
     this.onCenterSelect(sponser.centerId);
     this.selectedParishId = sponser.parishId;
     this.sponsorForm.setValue({
+      id: sponser.id,
       firstName: sponser.firstName,
       middleInitial: sponser.middleInitial || '',
       lastName: sponser.lastName,
@@ -101,9 +106,9 @@ export class SponsorDetailComponent implements OnInit {
       sponsorStatus: sponser.sponsorStatus,
       dayOfBirth: sponser.dayOfBirth || '',
       monthOfBirth: sponser.monthOfBirth || '',
-      emailAddress: sponser.emailAddress,     
+      emailAddress: sponser.emailAddress,
       centerId: sponser.centerId,
-      parishId: sponser.parishId, 
+      parishId: sponser.parishId,
       coSponserName: sponser.coSponserName || '',
       street: sponser.street,
       appartmentNumber: sponser.appartmentNumber || '',
@@ -125,15 +130,50 @@ export class SponsorDetailComponent implements OnInit {
       this.chosenCenter = false;
     }
   }
+  onParishSelect(value: any) {
+    if (value !== "0") {
+      this.chosenParish = true;
+      this.getSequence(+value, true);
+    } else {
+      this.chosenParish = false;
+    }
+  }
+
+  getSequence(parishId: number, increment: boolean) {
+    this.sponsorService.getSequence(parishId)
+      .subscribe(
+        (data: any) => {
+          this.sequence = data.sequence;
+          if(increment){
+             this.sponsorForm.get('sponsorCode').setValue(this.sequence + 1);
+          }
+        },
+        err => console.error(err)
+      );
+  }
+
   saveSponsorDetails(sponsorFormvalue) {
     if (this.sponsorForm.valid) {
-      console.log('save in component', this.sponsorForm.value);
-      this.sponsorService
-        .save(this.sponsorForm.value, this.sponser.id).subscribe(
-          res =>
-          this.isSponsorSaved = true,
-          err => this.handleError
-        );
+      let sponsCode = +this.sponsorForm.get('sponsorCode').value;
+      if (sponsCode > this.sequence) {
+        this.sponsorService
+          .save(this.sponsorForm.value).subscribe(
+            (res: Sponsor) => {
+              this.isSponsorSaved = true;
+              if (this.sponsorForm.get('id').value) {
+                this.message = 'Sponsor has been modified.';
+              } else {
+                this.message = 'New Sponsor has been added.';
+              }
+              this.pupulateForm(res);
+             // document.getElementById("message").focus();
+            },
+            err => this.handleError
+          );
+      } else {
+        this.error = `Sponsor code should be greater than ${this.sequence}`;
+        console.error('err');
+      }
     }
   }
   cancel() {
