@@ -24,7 +24,8 @@
                   <th>Student Code</th>
                   <th>Gender</th>
                   <th>Project</th>
-                  <th>Agency</th>                  
+                  <th>Agency</th> 
+                  <th>Picture</th>                 
                 </tr>
               </thead>
               <tbody>
@@ -33,7 +34,9 @@
                   <td>{{ student.studentCode }}</td>
                   <td>{{ student.gender }}</td>
                   <td>{{ student.projectName }}</td>
-                  <td>{{ student.agencyName}}</td>                  
+                  <td>{{ student.agencyName}}</td>   
+                  <td *ngIf="student.imagePresent === 1"><img width="20px" src="assets/images/check-mark.png"></td>
+                  <td *ngIf="student.imagePresent === 0"></td>             
                 </tr>     
               </tbody>
           </table>

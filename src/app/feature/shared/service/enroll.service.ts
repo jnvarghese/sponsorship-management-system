@@ -19,8 +19,8 @@ export class EnrollService {
         return this.http.post<Enrollment>(`${this.apiUrl}/enroll`, JSON.stringify(enrollment), { headers });
     }
 
-    listEnrollments(){
-        return this.http.get<Array<ViewEnroll>>(`${this.apiUrl}/view/enrollment`);
+    listEnrollments(parishId: number){
+        return this.http.get<Array<ViewEnroll>>(`${this.apiUrl}/view/enrollment/${parishId}`);
     }
 
     

@@ -20,7 +20,7 @@ export class Student {
   grade: string;
   favColor: string; //50
   favGame: string; //200
-  hasImageUploaded: boolean;
+  imagePresent: number; // 1 for present 0 for null
   imageLinkRef?: string;
   hobbies?: string;
   talent?: string;
