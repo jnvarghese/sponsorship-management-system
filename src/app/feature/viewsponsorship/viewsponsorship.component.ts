@@ -55,7 +55,7 @@ export class ViewSponsorshipComponent implements OnInit {
   generateReport(fileName: string, enrollmentId: number) {
     this.enrollService.generateReport(enrollmentId).subscribe(
       blob => {
-        importedSaveAs(blob, fileName + ' - Light to Life - Sponsorship Information Document');
+        importedSaveAs(blob, fileName.replace('.','') + ' - Light to Life - Sponsorship Information Document');
       }
     );
   }
@@ -63,7 +63,7 @@ export class ViewSponsorshipComponent implements OnInit {
   generateReceipt(fileName: string, enrollmentId: number) {
     this.enrollService.generateReceipt(enrollmentId).subscribe(
       blob => {
-        importedSaveAs(blob, fileName + ' - Light to Life - Receipt');
+        importedSaveAs(blob, fileName.replace('.','') + ' - Light to Life - Receipt');
       }
     );
   }
