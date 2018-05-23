@@ -4,5 +4,6 @@ export class MaxoutOverview{
     centerName: string;
     parishName: string;
     sponsorName: string;
+    miscAmount: number;
     maxOut: string;
 }

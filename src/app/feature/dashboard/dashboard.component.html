@@ -15,7 +15,8 @@
       <div *ngFor="let i of maxOutList">
         <closable-well [maxOut]="i">
           <div   class="card card-body" *ngFor="let imax of i.data" style="margin-bottom: 10px;">
-            {{imax.sponsorName}} -  {{imax.parishName}}, <b>Due On:</b> {{imax.maxOut}}
+            <p *ngIf="imax.miscAmount !== 0">{{imax.parishName}} -  {{imax.sponsorName}}, <b>Due On: {{imax.maxOut}} </b> Balance Amount: ${{imax.miscAmount}}</p>
+            <p *ngIf="imax.miscAmount === 0">{{imax.parishName}} -  {{imax.sponsorName}}, <b>Due On: {{imax.maxOut}} </b></p>
           </div>
         </closable-well>
       </div>

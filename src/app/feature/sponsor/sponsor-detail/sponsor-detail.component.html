@@ -95,7 +95,8 @@
         </div>
         <div class="col-sm-2" [ngClass]="{'error': sponsorForm.get('sponsorCode')?.invalid && sponsorForm.get('sponsorCode')?.touched}">
           <label for="sponsorCode">Code</label>
-          <input formControlName="sponsorCode" id="sponsorCode"  class="form-control" type="text" placeholder="Code" />
+          <input *ngIf="!isSponsorCodeEditable" formControlName="sponsorCode" disabled id="sponsorCode"  class="form-control" type="text"/>
+          <input *ngIf="isSponsorCodeEditable" formControlName="sponsorCode" id="sponsorCode"  class="form-control" type="text" placeholder="Code" />
           <em *ngIf="sponsorForm.get('sponsorCode')?.invalid && sponsorForm.get('sponsorCode')?.touched">Required</em>
         </div>
       </div>

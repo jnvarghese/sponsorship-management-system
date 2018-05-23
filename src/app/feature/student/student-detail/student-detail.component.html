@@ -46,7 +46,11 @@
         </div>
         <div class="col-sm-2" [ngClass]="{'error': studentForm.get('studentCode')?.invalid && studentForm.get('studentCode')?.touched}">
           <label for="studentCode">Code</label>
-          <input formControlName="studentCode" id="studentCode" class="form-control" placeholder="Code" />
+          <input *ngIf="!isStudentCodeEditable" formControlName="studentCode" disabled id="studentCode" class="form-control"  />
+          <input *ngIf="isStudentCodeEditable" formControlName="studentCode" id="studentCode" class="form-control" placeholder="Code" />  
+          <em *ngIf="studentForm.get('studentCode').errors?.pattern">
+            Student code not valid.
+          </em>
           <em *ngIf="studentForm.get('studentCode').invalid && studentForm.get('studentCode').touched">Required</em>
         </div>
       </div>

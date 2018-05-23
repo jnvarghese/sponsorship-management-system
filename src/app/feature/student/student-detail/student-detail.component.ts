@@ -31,6 +31,7 @@ export class StudentDetailComponent implements OnInit {
   imageLinkRef: string;
   chosenProject: boolean = false;
   sequence: number;
+  isStudentCodeEditable: boolean = true;
 
   genders = [
     { value: 'M', label: 'Male' },
@@ -62,6 +63,7 @@ export class StudentDetailComponent implements OnInit {
       const id = +studentId;
       this.navigated = true;
       this.displayUpload = true;
+      this.isStudentCodeEditable = false;
       this.populateForm(id);
     } else {
       this.navigated = false;
@@ -73,7 +75,7 @@ export class StudentDetailComponent implements OnInit {
     this.studentForm = this.fb.group({
       id: '',
       studentName: [null, Validators.required],
-      studentCode: [null, Validators.required],//new FormControl({value: null, disabled: true}),
+      studentCode: [null, [Validators.pattern('[0-9]*'),Validators.required]],//new FormControl({value: null, disabled: true}),
       status: 0,
       dateOfBirth: [null, [Validators.required, this.validatorService.validateDate]],
       address: '',
@@ -97,6 +99,7 @@ export class StudentDetailComponent implements OnInit {
           console.log(' edit - student ', student);
           this.student = student;
           this.getSequence(+this.student.projectId, false);
+          this.studentForm.get('studentCode').disabled;
           this.selectedProjectId = this.student.projectId;
           this.selectedGender = this.student.gender;
           this.imageLinkRef = this.student.imageLinkRef;
@@ -126,15 +129,15 @@ export class StudentDetailComponent implements OnInit {
   saveStudent(): void {
     if (this.studentForm.valid) {
       let stdCode = +this.studentForm.get('studentCode').value;
-      if (stdCode > this.sequence) {
+      if (this.navigated || stdCode > this.sequence) {
         this.studentService
           .save(this.studentForm.value)
           .subscribe(
             response => {
-              console.log(' response ', response);
               this.isStudentSaved = true;
               this.displayUpload = true;
               this.student = response
+              this.error = null;
             },
             error => this.handleError,
             () => console.log("Subsribtion Completed !")

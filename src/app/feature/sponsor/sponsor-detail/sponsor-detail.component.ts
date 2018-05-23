@@ -27,6 +27,7 @@ export class SponsorDetailComponent implements OnInit {
   chosenParish: boolean;
   selectedParishId: number;
   sequence: number;
+  isSponsorCodeEditable: boolean = true;
 
   constructor(
     private router: Router,
@@ -46,6 +47,7 @@ export class SponsorDetailComponent implements OnInit {
       this.pageHeader = 'Modify sponsor'
       const id = +sponsorId;
       this.navigated = true;
+      this.isSponsorCodeEditable = false
       this.sponsorService.findSponsor(id)
         .subscribe(
           res => {
@@ -155,15 +157,17 @@ export class SponsorDetailComponent implements OnInit {
   saveSponsorDetails(sponsorFormvalue) {
     if (this.sponsorForm.valid) {
       let sponsCode = +this.sponsorForm.get('sponsorCode').value;
-      if (sponsCode > this.sequence) {
+      if (this.navigated || sponsCode > this.sequence) {
         this.sponsorService
           .save(this.sponsorForm.value).subscribe(
             (res: Sponsor) => {
               this.isSponsorSaved = true;
               if (this.sponsorForm.get('id').value) {
                 this.message = 'Sponsor has been modified.';
+                this.error = null;
               } else {
                 this.message = 'New Sponsor has been added.';
+                this.error = null;
               }
               this.pupulateForm(res);
              // document.getElementById("message").focus();
