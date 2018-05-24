@@ -6,25 +6,39 @@
       <button type="submit" (click)="addSponser()" class="btn btn-primary btn-xs">Add Sponser</button>
     </div>
   </div>
-  <div class="row">
+  <div class="row" style="margin-top:20px">
+    <div class="col-sm-12">
+      <select class="form-control" (change)="onParishSelect($event.target.value)">
+        <option [value]="0" [selected]="true"> Select a Parish </option>
+        <option *ngFor="let parish of parishes" [value]="parish.id"> {{parish.name}} - {{parish.city}}</option>
+      </select>
+    </div>
+  </div>
+  <div *ngIf="!displaySponsorList && selectedParish" class="row" style="margin-top: 20px;">
+      <div class="col-sm-12">
+        <i>No sponsors available for the selected parish</i>
+     </div>
+  </div>
+  <div *ngIf="displaySponsorList" class="row" style="margin-top: 20px;">
     <div class="col-sm-12">
       <table class="table table-hover">
         <thead>
           <tr>
+            <th>Code</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Nick Name</th>
-            <th>Parish</th>
-            <th>State</th>          
+            <th>Address</th>
+            
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let sponsor of sponsors" [routerLink]="['/home/sponsor/modify',  sponsor.id]">
+            <td>{{ sponsor.sponsorCode }}</td>
             <td>{{ sponsor.firstName }}</td>
             <td>{{ sponsor.lastName }}</td>
             <td>{{ sponsor.nickName }}</td>
-            <td>{{ sponsor.parishName }}</td>
-            <td>{{ sponsor.state}}</td>         
+            <td>{{ sponsor.street}}, {{ sponsor.city}}, {{ sponsor.state}} - {{ sponsor.postalCode}}</td>     
           </tr>
         </tbody>
       </table>
