@@ -18,6 +18,7 @@ export class EnrollSponseeComponent implements OnInit {
   projects: Array<Project>;
   chosenProject: boolean;
   public students: Array<Student>;
+  public studentsCopy: Array<Student>;
 
   @Input() sponData;
   @Output() sponsee: EventEmitter<Enrollment> = new EventEmitter<Enrollment>();
@@ -47,22 +48,23 @@ export class EnrollSponseeComponent implements OnInit {
   }
   studentFilter = (studentId) => this.enroll.sponsees.find((s) => s.studentId === studentId);
 
-  selectStudent(student: Student) {
+  selectStudent(student: Student, index: number) {
+    console.log(' index ', index);
    if('manual' === this.enroll.mode){
      if(this.enroll.sponsees.length == this.enroll.studentCount){
       this.studentExceedMessage = `You have exceeded the total number of students for the enrollemnt.
               Please modify the student count !!`;
      }else{
-      this.selectStudentManualMode(student);
+      this.selectStudentManualMode(student, index);
      }   
    }else if('cruise' === this.enroll.mode){
-     this.selectStudentCruiseMode(student);
+     this.selectStudentCruiseMode(student, index);
    }else{
      console.log(' Unsupported Mode.');
    }
   }
 
-  selectStudentCruiseMode(student: Student){
+  selectStudentCruiseMode(student: Student, index: number){
     if (this.hasAnyStudentSelected && !this.addMore) {
       this.studentExceedMessage = `You have exceeded the total number of students for the enrollemnt.
               Please reset if you want to make changes or click next bottom of the page. !!`;
@@ -132,9 +134,10 @@ export class EnrollSponseeComponent implements OnInit {
           }
         }
       }
+      this.students = this.students.filter( st => st.id !== student.id);
     }
   }
-  selectStudentManualMode(student: Student){
+  selectStudentManualMode(student: Student, index: number){
     if(this.studentFilter(student.id)){
       this.duplicateStudentMessage= `Duplicate selection, please try a different student. !!`;
     }else {
@@ -146,12 +149,38 @@ export class EnrollSponseeComponent implements OnInit {
       this.enroll.sponsees.push(sponsee);
     }
   }
+  sortByGender() {
+    this.students.sort((m1, m2) => {
+      if (m1.gender > m2.gender) return 1;
+      if (m1.gender === m2.gender) return 0;
+      if (m1.gender < m2.gender) return -1;
+    });
+  }
+
+  sortByGrade(){
+    this.students.sort((m1, m2) => {
+      if (m1.grade > m2.grade) return 1;
+      if (m1.grade === m2.grade) return 0;
+      if (m1.grade < m2.grade) return -1;
+    });
+  }
+
+  sortByName(){
+    this.students.sort((m1, m2) => {
+      if (m1.studentName > m2.studentName) return 1;
+      if (m1.studentName === m2.studentName) return 0;
+      if (m1.studentName < m2.studentName) return -1;
+    });
+  }
 
   onProjectSelect(value: any) {
     if (value !== "0") {
       this.chosenProject = true;
       this.studentService.search(null, +value, this.enroll.effectiveDate)
-        .subscribe(data => this.students = data, err => console.log(err));
+        .subscribe(data => {
+          this.students = data;
+          this.studentsCopy = data.slice(0, data.length+1);
+        }, err => console.log(err));
     } else {
       this.chosenProject = false;
     }
@@ -169,6 +198,7 @@ export class EnrollSponseeComponent implements OnInit {
     this.message = '';
     this.duplicateStudentMessage = '';
     this.sponsee.emit(this.enroll);
+    this.students = this.studentsCopy;
   }
   previous() {
     this.enroll.goto = 'toSponsor';

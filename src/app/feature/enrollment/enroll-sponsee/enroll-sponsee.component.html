@@ -24,22 +24,31 @@
     </div>
   </div>
   <div *ngIf="students?.length > 0" class="row-fluid">
-    <div class="col-md-7">
+    <div class="col-md-5">
+      <b style="margin-bottom: 15px;"><i>{{students.length}} students are eligible for sponsorship in this project.</i></b>
       <table class="table table-hover">
         <thead>
           <tr>
-            <th>Student List</th>
+            <th (click)="sortByName()">Student Name</th>
+            <th (click)="sortByGender()">Gender</th>
+            <th (click)="sortByGrade()">Grade</th>    
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let student of students" (click)="selectStudent(student)">
-            <td>{{ student.studentName }}</td>
+          <tr *ngFor="let student of students; let i = index" (click)="selectStudent(student,i)" [attr.data-index]="i">
+            <td>{{ student.studentName }} </td>
+            <td>{{student.gender}} </td>
+            <td>{{ student.grade }}</td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div *ngIf="hasAnyStudentSelected" class="col-md-3" style="padding-top: 20px">
+    <div *ngIf="hasAnyStudentSelected" class="col-md-5" style="padding-top: 20px">
+        <div style="margin-top: 8px; margin-bottom: 7px;">
+            <b>Selected students.</b>
+          </div>
       <div *ngFor="let sponsee of enroll.sponsees">
+        
         <div class="alert alert-success">
           Added sponsorship for {{sponsee.name}} until {{sponsee.expirationMonth}}/{{sponsee.expirationYear}}
         </div>

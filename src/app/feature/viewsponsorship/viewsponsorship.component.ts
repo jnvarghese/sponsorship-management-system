@@ -16,7 +16,8 @@ export class ViewSponsorshipComponent implements OnInit {
   selectedSortBy: number;
   displayEnrollments: boolean;
   error: any;
-  message: any;
+  message: any; 
+  loading: boolean;
 
   constructor(private enrollService: EnrollService, private adminService: AdminService<Parish>) { }
 
@@ -55,8 +56,11 @@ export class ViewSponsorshipComponent implements OnInit {
   generateReport(fileName: string, enrollmentId: number) {
     this.enrollService.generateReport(enrollmentId).subscribe(
       blob => {
+        this.loading = true
         importedSaveAs(blob, fileName.replace('.','') + ' - Light to Life - Sponsorship Information Document');
-      }
+      },
+      err => console.error(err),
+      () => this.loading = false
     );
   }
 
