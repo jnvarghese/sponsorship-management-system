@@ -40,7 +40,7 @@ export class SponsorComponent implements OnInit {
       this.sponsorService.getSponsorsByParishId(parishId).subscribe(
         data => {
           this.sponsors = data
-          if(this.sponsors.length>1){
+          if(this.sponsors.length>0){
             this.displaySponsorList = true;
           }else{
             this.displaySponsorList = false;
