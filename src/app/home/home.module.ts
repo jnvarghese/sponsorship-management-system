@@ -21,6 +21,7 @@ import { UploadSponsorComponent } from '../feature/upload/upload-sponsor/upload-
 import { UploadStudentComponent } from '../feature/upload/upload-student/upload-student.component';
 import { UploadService } from '../feature/upload/shared/upload.service';
 import { ClosableWellComponent } from '../feature/dashboard/closable-well.component';
+import { ReceiptsModule } from '../feature/receipts/receipts.module';
 
 @NgModule({
     imports: [
@@ -29,6 +30,7 @@ import { ClosableWellComponent } from '../feature/dashboard/closable-well.compon
       StudentModule,
       SponsorModule,
       EnrollmentModule,
+      ReceiptsModule,
       ManageSponsorShipModule,
       AdminModule,
       RouterModule.forChild(routes),

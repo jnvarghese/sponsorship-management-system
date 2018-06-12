@@ -14,7 +14,7 @@ export class UploadService {
   constructor(private httpClient: HttpClient) { }
 
   listInitiative(){
-    return this.httpClient.get<Array<Initiative>>(`${this.api}/init/initiative`);
+    return this.httpClient.get<Array<Initiative>>(`${this.api}/init/initiative/list`);
   }
 
   list(type: string){

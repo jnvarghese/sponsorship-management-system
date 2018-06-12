@@ -14,3 +14,4 @@ export * from './center';
 export * from './sponsorship-info';
 export * from './viewenrollment';
 export * from './initiative';
+export * from './receipts';
