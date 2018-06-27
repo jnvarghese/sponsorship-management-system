@@ -8,7 +8,10 @@ export class Receipts{
     transaction: string;
     amount: number
     initiativeId: number
-    initiative: string
+    initiativeName: string;
+    parishName: string;
+    orgName: string;
+    receiptType: number;
     streetAddress: string;
     city: string;
     state: string;

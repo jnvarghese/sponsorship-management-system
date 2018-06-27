@@ -19,10 +19,22 @@ export class ReceiptsComponent implements OnInit {
 
   constructor(private router: Router,
     private route: ActivatedRoute,
-    private receiptsService: ReceiptsService,
-    private adminService: AdminService<Parish>) { }
+    private receiptsService: ReceiptsService) { }
 
   ngOnInit() {
+    this.receiptsService.listByRange(1)
+      .subscribe(
+        data => {
+          this.receipts = data
+          if (this.receipts.length > 0) {
+            this.displayReceiptsList = true;
+          } else {
+            this.displayReceiptsList = false;
+          }
+        },
+        err => this.handleError
+    );
+    /*
     const selectedParishId = this.route.snapshot.params['parishId'];
     if(selectedParishId){
       this.onParishSelect(selectedParishId);
@@ -33,9 +45,57 @@ export class ReceiptsComponent implements OnInit {
         err => this.handleError
       );
     this.message = 'Please select a parish to see the receipts.'
+    */
+  }
+  onRageSelect(rangeId: number){
+    this.receiptsService.listByRange(rangeId)
+      .subscribe(
+        data => {
+          this.receipts = data
+          if (this.receipts.length > 0) {
+            this.displayReceiptsList = true;
+          } else {
+            this.displayReceiptsList = false;
+          }
+        },
+        err => this.handleError
+    );
   }
 
+  sortByReceiptId(){
+    console.log('cliked');
+    this.receipts.sort((m1, m2) => {
+      if (m1.receiptId > m2.receiptId) return 1;
+      if (m1.receiptId === m2.receiptId) return 0;
+      if (m1.receiptId < m2.receiptId) return -1;
+    });
+  }
 
+  sortByFullName(){
+    this.receipts.sort((m1, m2) => {
+      if (m1.fullName > m2.fullName) return 1;
+      if (m1.fullName === m2.fullName) return 0;
+      if (m1.fullName < m2.fullName) return -1;
+    });
+  }
+
+  sortByReceiptDate(){
+    this.receipts.sort((m1, m2) => {
+      if (m1.rdate > m2.rdate) return 1;
+      if (m1.rdate === m2.rdate) return 0;
+      if (m1.rdate < m2.rdate) return -1;
+    });
+  }
+
+  sortByInitiativeName(){
+    this.receipts.sort((m1, m2) => {
+      if (m1.initiativeName > m2.initiativeName) return 1;
+      if (m1.initiativeName === m2.initiativeName) return 0;
+      if (m1.initiativeName < m2.initiativeName) return -1;
+    });
+  }
+
+ /*
   onParishSelect(parishId: number) {
     if (parishId != 0) {
       this.selectedParish = parishId;
@@ -55,7 +115,7 @@ export class ReceiptsComponent implements OnInit {
       this.message = 'Please select a parish to see the receipts.'
     }
   }
-
+*/
   addReceipts(): void {
     this.router.navigate(['/home/receipts/add']);
   }
