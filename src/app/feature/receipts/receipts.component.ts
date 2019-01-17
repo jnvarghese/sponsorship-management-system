@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Receipts, Parish } from '../model';
 import { ReceiptsService } from '../shared/service/receipts.service';
 import { AdminService } from '../shared/service/admin.service';
+import { saveAs as importedSaveAs } from "file-saver";
 
 @Component({
   selector: 'app-receipts',
@@ -94,7 +95,17 @@ export class ReceiptsComponent implements OnInit {
       if (m1.initiativeName < m2.initiativeName) return -1;
     });
   }
-
+  
+  generateReceipt(receiptId: number) {
+    this.receiptsService.generateReceipt(receiptId).subscribe(
+      blob => {
+        importedSaveAs(blob, receiptId.toString());
+      },
+      () =>{
+        console.log(' Downloaded. '); 
+      }
+    );
+};
  /*
   onParishSelect(parishId: number) {
     if (parishId != 0) {
