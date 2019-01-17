@@ -47,6 +47,12 @@ export class ReceiptsService {
         return this.post(r);
     }
 
+    generateReceipt(receiptId: number){
+        return this.httpClient.get(this.api + "/generatereceipt/" + receiptId, {
+            responseType: "blob"
+        });
+    }
+    
     private post(r: Receipts) {
         return this.httpClient
             .post<Receipts>(`${this.api}/add`, JSON.stringify(r), { headers });

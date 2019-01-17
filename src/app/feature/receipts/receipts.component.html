@@ -37,16 +37,19 @@
           <th>Parish/Org</th>
           <th (click)="sortByInitiativeName()">Initiative Name</th>
           <th>Category</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let r of receipts" [routerLink]="['/home/receipts/modify', r.receiptId, selectedParish ]">
+        <!-- <tr *ngFor="let r of receipts" [routerLink]="['/home/receipts/modify', r.receiptId, selectedParish ]">-->
+        <tr *ngFor="let r of receipts">
           <td>{{ r.receiptId }}</td>
           <td>{{ r.rdate }}</td>
           <td>{{ r.fullName }}</td>
           <td>{{ r.receiptType == 0 ? r.parishName:  r.orgName}}</td>
           <td>{{ r.initiativeName}}</td>
-          <td>{{ r.type ==0 ? 'Donation' : 'Sponsorship'}}</td>     
+          <td>{{ r.type ==0 ? 'Donation' : 'Sponsorship'}}</td>
+          <td><img (click)="generateReceipt(r.receiptId)" width="20px" src="assets/images/download.png"></td>     
         </tr>
       </tbody>
     </table>
