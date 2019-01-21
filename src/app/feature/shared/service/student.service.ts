@@ -61,6 +61,7 @@ export class StudentService {
     console.log( 'studentId ', studentId);
     let formData = new FormData();
     formData.append("file", filesToUpload, filesToUpload.name);
+    formData.append("userId", localStorage.getItem('userId') || '0');
 
     const req = new HttpRequest('POST', `${this.studentsUrl}/image/${studentId}`, formData, {
       reportProgress: true,

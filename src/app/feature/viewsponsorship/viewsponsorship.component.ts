@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EnrollService, AdminService } from '..';
 import { saveAs as importedSaveAs } from "file-saver";
 import { ViewEnroll, Parish } from '../model';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-viewsponsorship',
@@ -19,15 +20,23 @@ export class ViewSponsorshipComponent implements OnInit {
   message: any; 
   loading: boolean;
 
-  constructor(private enrollService: EnrollService, private adminService: AdminService<Parish>) { }
+  constructor(private enrollService: EnrollService, 
+    private adminService: AdminService<Parish>,
+    private route: ActivatedRoute,
+    private router: Router,) { }
 
   ngOnInit() {
-    this.adminService.get('/api/admin/parishes')
+    let parishId = this.route.snapshot.paramMap.get('id');
+    if(parishId){
+      this.onParishSelect(+parishId);
+    }else{
+      this.adminService.get('/api/admin/parishes')
       .subscribe(
         data => this.parishes = data,
         err => console.log(err)
       );
-    this.message = 'Please select a parish to see the enrollments.'
+      this.message = 'Please select a parish to see the enrollments.'
+    }
   }
 
   onParishSelect(parishId: number) {

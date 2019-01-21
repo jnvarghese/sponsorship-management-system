@@ -15,6 +15,7 @@ export const routes: Routes = [
         path: 'home', component: HomeComponent,
         children: [           
             { path: 'dashboard', component: DashboardComponent, resolve: { initdata: InitResolve } },
+            { path: 'view-enroll/:id', component: ViewSponsorshipComponent },
             { path: 'view-enroll', component: ViewSponsorshipComponent },
             { path: 'manage-sponsor', component: ManagesponsorshipComponent },
             { path: 'uploadsponsor', component: UploadSponsorComponent },

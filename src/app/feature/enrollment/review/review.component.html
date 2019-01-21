@@ -1,4 +1,4 @@
-<div class="container" style="margin-top:90px">
+<div *ngIf="!submitionStatus" class="container" style="margin-top:90px">
   <blockquote class="blockquote">
     <p class="mb-0">Review the enrollment
     </p>
@@ -56,10 +56,25 @@
         </tbody>
       </table>
     </div>
-
-    <div class="col-md-8" style="margin-top:30px">
-      <button class="btn btn-primary nextBtn" (click)="previous()" type="button">Previous</button>
-      <button class="btn btn-primary nextBtn" (click)="submit()" type="button">Submit</button>
+    <div class="row-fluid">
+      <div class="col-md-12">
+        <div class="form-group">
+          <div class="col-sm-offset-8 col-sm-1">
+            <button class="btn btn-primary nextBtn" (click)="previous()" type="button">Previous</button>
+          </div>
+          <div class="col-sm-1">
+            <button class="btn btn-primary nextBtn" (click)="submit()" type="button">Submit</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+</div>
+<div *ngIf="submitionStatus" class="container" style="margin-top:90px">
+  <blockquote class="blockquote">
+    <p class="mb-0">Enrollment has been completed !.
+    </p>
+  </blockquote>
+  <!--<p (click)="continue()">Continue enrollment</p>-->
+  <p [routerLink]="['/home/view-enroll',  parishId]">Click here to view the enrollment</p>
 </div>

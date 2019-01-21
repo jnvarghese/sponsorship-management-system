@@ -63,9 +63,13 @@
   <div class="row-fluid">
     <div class="col-md-12">
       <div class="form-group">
-        <div class="col-sm-10">
-          <button class="btn btn-primary nextBtn" (click)="previous()" type="button">Previous</button>
-          <button class="btn btn-primary nextBtn" (click)="reset()" [disabled]="!hasAnyStudentSelected" type="button">Reset Selection</button>
+        <div class="col-sm-offset-7 col-sm-1">
+          <button class="btn btn-primary nextBtn" (click)="previous()" type="button">Previous</button>          
+        </div>
+        <div class="col-sm-1">
+          <button class="btn btn-primary nextBtn" (click)="reset()" [disabled]="!hasAnyStudentSelected" type="button">Reset</button>
+        </div>
+        <div class="col-sm-1">
           <button class="btn btn-primary nextBtn" (click)="next()" [disabled]="!hasAnyStudentSelected" type="button">Next</button>
         </div>
       </div>

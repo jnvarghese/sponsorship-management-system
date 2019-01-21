@@ -15,6 +15,8 @@ export class ReviewComponent implements OnInit {
   @Output() sponsee: EventEmitter<Enrollment> = new EventEmitter<Enrollment>();
   enroll: Enrollment;
   error: any;
+  submitionStatus: boolean;
+  private parishId:number;
 
   constructor(
     private router: Router,
@@ -22,8 +24,10 @@ export class ReviewComponent implements OnInit {
     private datePipe: DateFormatPipe) { }
 
   ngOnInit() {
+    this.submitionStatus= false;
     console.log('Review Component oninit spondata', this.sponData)
     if (this.sponData) {
+      this.parishId = this.sponData.parishId;
       this.enroll = new Enrollment(
         this.sponData.sponsorId,
         this.sponData.parishId,
@@ -39,7 +43,12 @@ export class ReviewComponent implements OnInit {
         this.sponData.sponsees);
     }
   }
-
+  continue(){
+    this.router.navigate(['/home/enroll']);
+    //this.enroll.goto = 'toSponsor';
+    //this.enroll.sponsees = [];
+    //this.sponsee.emit(this.enroll);
+  }
   submit() {
     this.enroll.effectiveDate = this.datePipe.transform(this.enroll.effectiveDate, 'toDB');
     this.enroll.paymentDate = this.datePipe.transform(this.enroll.paymentDate, 'toDB');
@@ -50,6 +59,8 @@ export class ReviewComponent implements OnInit {
       },
       err => this.handleError       
     )
+    this.submitionStatus = true;
+
   }
 //  this.router.navigate(['/'])
   private handleError(error: any): Promise<any> {
