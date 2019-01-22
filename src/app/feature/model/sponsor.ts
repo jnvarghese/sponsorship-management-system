@@ -10,6 +10,7 @@ export class Sponsor {
     dayOfBirth: number;
     monthOfBirth: number;
     sponsorStatus: number;
+    phone1: string;
     sponsorCode: string;
     emailAddress: string;
     appartmentNumber: string;

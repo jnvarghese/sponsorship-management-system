@@ -22,6 +22,7 @@ import { UploadStudentComponent } from '../feature/upload/upload-student/upload-
 import { UploadService } from '../feature/upload/shared/upload.service';
 import { ClosableWellComponent } from '../feature/dashboard/closable-well.component';
 import { ReceiptsModule } from '../feature/receipts/receipts.module';
+import { SummaryComponent } from '../feature/summary/summary.component';
 
 @NgModule({
     imports: [
@@ -42,6 +43,7 @@ import { ReceiptsModule } from '../feature/receipts/receipts.module';
       DashboardComponent,
       ClosableWellComponent,
       ViewSponsorshipComponent,
+      SummaryComponent,
       PageNotFoundComponent,
       UploadSponsorComponent,
       UploadStudentComponent

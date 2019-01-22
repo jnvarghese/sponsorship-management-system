@@ -9,6 +9,7 @@ import { UploadSponsorComponent } from '../feature/upload/upload-sponsor/upload-
 import { UploadStudentComponent } from '../feature/upload/upload-student/upload-student.component';
 import { ReceiptsComponent } from '../feature/receipts/receipts.component';
 import { receiptsRoutes } from '../feature/receipts/routes';
+import { SummaryComponent } from '../feature/summary/summary.component';
 
 export const routes: Routes = [
     {
@@ -17,6 +18,7 @@ export const routes: Routes = [
             { path: 'dashboard', component: DashboardComponent, resolve: { initdata: InitResolve } },
             { path: 'view-enroll/:id', component: ViewSponsorshipComponent },
             { path: 'view-enroll', component: ViewSponsorshipComponent },
+            { path: 'view-summary', component: SummaryComponent},
             { path: 'manage-sponsor', component: ManagesponsorshipComponent },
             { path: 'uploadsponsor', component: UploadSponsorComponent },
             { path: 'uploadstudent', component: UploadStudentComponent},

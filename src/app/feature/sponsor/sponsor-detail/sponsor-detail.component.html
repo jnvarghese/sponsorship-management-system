@@ -39,14 +39,20 @@
   <div class="row-fluid">
     <div class="col-md-12">
       <div class="form-group">
-        <div class="col-sm-8" [ngClass]="{'error': sponsorForm.get('street')?.invalid && sponsorForm.get('street')?.touched}">
+        <div class="col-sm-2">
+            <label for="phone1">Phone Number</label>
+            <input formControlName="phone1" id="phone1" class="form-control" maxlength="10"
+              type="text" placeholder="Phone Number"
+            />
+        </div>
+        <div class="col-sm-7" [ngClass]="{'error': sponsorForm.get('street')?.invalid && sponsorForm.get('street')?.touched}">
           <label for="address">Address</label>
           <input formControlName="street" id="street" class="form-control" type="text" placeholder="Street" />
           <em *ngIf="sponsorForm.get('street')?.invalid && sponsorForm.get('street')?.touched">Required</em>
         </div>
-        <div class="col-sm-2">
+        <div class="col-sm-1">
           <label for="address">Appt. No.</label>
-          <input formControlName="appartmentNumber" id="appartmentNumber" class="form-control" type="text" placeholder="Appartment #"
+          <input formControlName="appartmentNumber" id="appartmentNumber" class="form-control" type="text" placeholder="Apt #"
           />
         </div>
       </div>

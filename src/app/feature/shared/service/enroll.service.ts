@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { RequestOptions, ResponseContentType } from '@angular/http';
 import { HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import { Summary } from '../../model/summary';
 
 const headers = new HttpHeaders()
             .set('Content-Type', 'application/json');
@@ -23,7 +24,9 @@ export class EnrollService {
         return this.http.get<Array<ViewEnroll>>(`${this.apiUrl}/view/enrollment/${parishId}`);
     }
 
-    
+    getSummary(parishId: number){
+        return this.http.get<Array<Summary>>(`${this.apiUrl}/enrollment/viewsummary/${parishId}`);
+    }
 
     generateReport(enrollmentId: number): Observable<Blob>{     
         return this.http.get(`${this.apiUrl}/enrollment/generatereport/${enrollmentId}`, {
