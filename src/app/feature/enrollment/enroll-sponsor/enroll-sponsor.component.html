@@ -39,21 +39,21 @@
         </div>
         <div class="col-md-12">
           <div class="form-group">
-            <div class="col-sm-2" [ngClass]="{'error': sponsorEnrollForm.get('paymentDate')?.invalid && sponsorEnrollForm.get('paymentDate')?.touched}">
+            <!--<div class="col-sm-2" [ngClass]="{'error': sponsorEnrollForm.get('paymentDate')?.invalid && sponsorEnrollForm.get('paymentDate')?.touched}">
               <label for="paymentDate">Payment Date</label>
               <input type="text" class="form-control" formControlName="paymentDate" 
               dateInputFormatter name="paymentDate" placeholder="MM/DD/YYYY"
                 maxlength="10" />
               <em *ngIf="sponsorEnrollForm.get('city')?.invalid && sponsorEnrollForm.get('paymentDate')?.touched">Required</em>
-            </div>
-            <div class="col-sm-1" [ngClass]="{'error': sponsorEnrollForm.get('contributionAmount')?.invalid && sponsorEnrollForm.get('contributionAmount')?.touched}">
+            </div>-->
+            <div class="col-sm-2" [ngClass]="{'error': sponsorEnrollForm.get('contributionAmount')?.invalid && sponsorEnrollForm.get('contributionAmount')?.touched}">
               <label for="contributionAmount">Amount</label>
               <input id="contributionAmount" class="form-control" formControlName="contributionAmount" 
               type="text" name="contributionAmount"
                 placeholder="$" />
              <em *ngIf="sponsorEnrollForm.get('contributionAmount')?.invalid && sponsorEnrollForm.get('contributionAmount')?.touched">Required</em>
             </div>
-            <div class="col-sm-2" [ngClass]="{'error': sponsorEnrollForm.get('effectiveDate')?.invalid && sponsorEnrollForm.get('effectiveDate')?.touched}">
+            <div class="col-sm-3" [ngClass]="{'error': sponsorEnrollForm.get('effectiveDate')?.invalid && sponsorEnrollForm.get('effectiveDate')?.touched}">
               <label for="effectiveDate">Starting Date</label>
               <input type="text" class="form-control" formControlName="effectiveDate" 
               dateInputFormatter name="effectiveDate" placeholder="MM/DD/YYYY"
@@ -106,19 +106,19 @@
         </div>
         <div class="col-md-12">
           <div class="form-group">
-
+<!--
             <div class="col-sm-3" [ngClass]="{'error': sponsorEnrollForm.get('paymentDate')?.invalid && sponsorEnrollForm.get('paymentDate')?.touched}">
               <label for="paymentDate">Payment Date</label>
               <input type="text" class="form-control" formControlName="paymentDate" dateInputFormatter name="paymentDate" placeholder="MM/DD/YYYY"
                 maxlength="10" />
               <em *ngIf="sponsorEnrollForm.get('city')?.invalid && sponsorEnrollForm.get('paymentDate')?.touched">Required</em>
-            </div>
-            <div class="col-sm-3">
+            </div>-->
+            <div class="col-sm-4">
               <label for="contributionAmount">Amount</label>
               <input id="contributionAmount" class="form-control" formControlName="contributionAmount" type="text" name="contributionAmount"
                 placeholder="$" />
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-4">
               <label for="effectiveDate">Effective Date</label>
               <input type="text" class="form-control" formControlName="effectiveDate" dateInputFormatter name="effectiveDate" placeholder="MM/DD/YYYY"
                 maxlength="10" />

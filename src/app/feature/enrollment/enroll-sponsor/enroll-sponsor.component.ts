@@ -44,7 +44,7 @@ export class EnrollSponsorComponent implements OnInit {
       this.enroll = new Enrollment(
         this.sponData.sponsorId,
         this.sponData.sponsorName,
-        this.sponData.paymentDate,
+        this.sponData.effectiveDate, // paymentDate,
         this.sponData.effectiveDate,
         this.sponData.contributionAmount,
         0,
@@ -91,7 +91,7 @@ export class EnrollSponsorComponent implements OnInit {
       sponsorId: data.sponsorId,
       parishId: data.parishId,
       sponsorName: data.sponsorName,
-      paymentDate: data.paymentDate,
+     // paymentDate: data.paymentDate,
       contributionAmount: data.contributionAmount,
       effectiveDate: data.effectiveDate,
       studentCount: data.studentCount,
@@ -111,7 +111,7 @@ export class EnrollSponsorComponent implements OnInit {
       studentCount: '',
       expirationMonth: '',
       expirationYear:  '',
-      paymentDate: [moment(new Date()).format("MM/DD/YYYY"), [Validators.required, this.validatorService.validateDate]],
+      //paymentDate: [moment(new Date()).format("MM/DD/YYYY"), [Validators.required, this.validatorService.validateDate]],
       contributionAmount: [null, Validators.required],
       effectiveDate: [moment(new Date()).format("MM/DD/YYYY"), [Validators.required, this.validatorService.validateDate]]
     });

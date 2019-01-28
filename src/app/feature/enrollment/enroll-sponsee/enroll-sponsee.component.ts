@@ -91,7 +91,7 @@ export class EnrollSponseeComponent implements OnInit {
       console.log('year ', year);
       console.log('month ', month);
       console.log('date ', date);
-      let effectiveDate = this.getEffectiveDate(year, month, date);
+      let effectiveDate = this.getEffectiveDate(year, month-1, date);
       console.log('effectiveDate ', effectiveDate.getDate());
       let incremented = this.incrementDate(dateIncrementor, 'month', effectiveDate);
       console.log('incremented ', incremented);
