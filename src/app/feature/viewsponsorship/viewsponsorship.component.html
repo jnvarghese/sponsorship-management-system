@@ -21,11 +21,12 @@
               <tr>
                 <th (click)="sortByCode()">Sponsor Code</th>
                 <th (click)="sortByName()">Sponsor Name</th>
-                <th>Parish Name</th>
+              <!-- <th>Parish Name</th> --> 
                 <th>Payment Date</th>
+                <th>Effective Date</th>
                 <th>Contribution</th>
-                <th>Created By</th>
-                <th>Sponsor Document</th>
+                <th>Created By & Date</th>
+                <th>Download</th>
                <!-- <th>Sponsor Receipt</th> -->
               </tr>
             </thead>
@@ -33,12 +34,12 @@
               <tr *ngFor="let e of viewEnrolls">
                 <td>{{ e.uniqueId }}</td>
                 <td>{{ e.sponsorName }}</td>
-                <td>{{ e.parishName }}</td>
+              <!-- <td>{{ e.parishName }}</td> --> 
                 <td>{{ e.paymentDate }}</td>
+                <td>{{ e.effectiveDate }}</td>
                 <td>{{ e.contribution }}</td>
-                <td>{{ e.createdBy }}</td>
-                <td (click)="generateReport(e.sponsorName, e.enrollmentId)">Document </td>
-               <!-- <td (click)="generateReceipt(e.sponsorName, e.enrollmentId)">Receipt </td> -->
+                <td>{{ e.createdBy}} - {{e.updatedDate}}</td>
+                <td><img (click)="generateReport(e.sponsorName, e.enrollmentId)" width="20px" src="assets/images/download.png"></td>
               </tr>     
             </tbody>
         </table>

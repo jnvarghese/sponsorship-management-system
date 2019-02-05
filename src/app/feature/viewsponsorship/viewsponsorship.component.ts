@@ -66,7 +66,7 @@ export class ViewSponsorshipComponent implements OnInit {
     this.enrollService.generateReport(enrollmentId).subscribe(
       blob => {
         this.loading = true
-        importedSaveAs(blob, fileName.replace('.','') + ' - Light to Life - Sponsorship Information Document');
+        importedSaveAs(blob, fileName.split('.').join('') + ' - Light to Life - Sponsorship Information Document');
       },
       err => console.error(err),
       () => this.loading = false
