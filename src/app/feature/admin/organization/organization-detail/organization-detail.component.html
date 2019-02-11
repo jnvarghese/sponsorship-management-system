@@ -1,0 +1,55 @@
+<div class="container" style="margin-top:70px">
+  <form [formGroup]="orgForm" (ngSubmit)="saveOrganization(orgForm.value)">
+    <div class="alert alert-success" *ngIf="(isOrganizationSaved) && (orgForm.valid)">
+      <strong>Success!</strong> Organization details saved.
+    </div>
+    <div>
+      <h3>{{pageHeader}}</h3>
+      <p>Please enter following details to successfuly update a organization.</p>
+    </div>
+    <div class="row-fluid">
+      <div class="col-md-12">
+        <input type="hidden" formControlName="organizationId">
+         <div class="form-group">
+          <div class="col-sm-3" [ngClass]="{'error': orgForm.get('code')?.invalid && orgForm.get('code')?.touched}">
+            <label for="code">Code</label>
+            <input formControlName="code" id="code" class="form-control" placeholder="Code" [maxLength]=10 />
+            <em *ngIf="orgForm.get('code').invalid && orgForm.get('code').touched">Required</em>
+          </div>
+          <div class="col-sm-7" [ngClass]="{'error': orgForm.get('name')?.invalid && orgForm.get('name')?.touched}">
+            <label for="name">Name</label>
+            <input formControlName="name" id="name" class="form-control" placeholder="Name" />
+            <em *ngIf="orgForm.get('name').invalid && orgForm.get('name').touched">Required</em>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="col-md-12">
+        <div class="form-group">
+          <div class="col-sm-2">
+            <label for="status">Status</label>
+            <select class="form-control" formControlName="status">
+              <option [value]=0>Active</option>
+              <option [value]=1>Non Active</option>
+            </select>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    
+    <div class="row-fluid">
+      <div class="col-md-12">
+        <div class="form-group">
+          <div class="col-sm-offset-8 col-sm-1">
+            <button type="submit" class="btn btn-primary btn-sm" [disabled]="orgForm.invalid">Submit</button>
+          </div>
+          <div class="col-sm-1">
+            <button type="button" (click)="cancel()" class="btn btn-primary btn-sm">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

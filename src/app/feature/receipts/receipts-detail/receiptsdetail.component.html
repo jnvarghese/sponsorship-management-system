@@ -40,83 +40,31 @@
   <div class="row-fluid">
     <div class="col-md-12">
       <div class="form-group">
-        <div class="col-sm-8" [ngClass]="{'error': receiptsForm.get('fullName')?.invalid && receiptsForm.get('fullName')?.touched}">
-          <label for="address">Full Name</label>
-          <input formControlName="fullName" id="fullName" class="form-control" type="text" placeholder="Full Name" />
-          <em *ngIf="receiptsForm.get('fullName')?.invalid && receiptsForm.get('fullName')?.touched">Required</em>
-        </div>
-        <div class="col-sm-2">
-          <label for="address">Transaction</label>
-          <input formControlName="transaction" id="transaction" class="form-control" type="text" placeholder="Transaction" />
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row-fluid">
-    <div class="col-md-12">
-      <div class="form-group">
-        <div class="col-sm-3">
-          <label for="project">Initiative</label>
-          <select class="form-control" formControlName="initiativeId">
-            <option [value]="0" [selected]="true"> Please choose one </option>
-            <option *ngFor="let initiative of initiatives" [value]="initiative.id">{{initiative.name}}</option>
-          </select>
-        </div>
-        <div class="col-sm-7">
+        <div class="col-sm-5">
           <label for="address">Address</label>
           <input formControlName="streetAddress" id="streetAddress" class="form-control" type="text" placeholder="Street" />
         </div>
-      </div>
-    </div>
-  </div>
-  <div class="row-fluid">
-    <div class="col-md-12">
-      <div class="form-group">
-        <div class="col-sm-4">
+        <div class="col-sm-2">
           <label for="city">City</label>
           <input formControlName="city" id="city" class="form-control" type="text" placeholder="City" />
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-2">
           <label for="state">State</label>
           <input formControlName="state" id="state" class="form-control" type="text" placeholder="State" />
         </div>
-        <div class="col-sm-2">
+        <div class="col-sm-1">
           <label for="zipCode">Zip Code</label>
-          <input formControlName="zipCode" id="zipCode" maxlength="5" class="form-control" type="text" placeholder="Zip Code"
-          />
+          <input formControlName="zipCode" id="zipCode" maxlength="5" class="form-control" type="text" placeholder="Zip" />
         </div>
+
       </div>
     </div>
   </div>
+
   <div class="row-fluid">
     <div class="col-md-12">
       <div class="form-group">
-        <div class="col-sm-3">
-          <label for="project">Center</label>
-          <select class="form-control" (change)="onCenterSelect($event.target.value)">
-            <option [value]="0" [selected]="true"> Please choose one </option>
-            <option *ngFor="let center of centers" [value]="center.id" [selected]="selectedCenterId === center.id">{{center.regionName}} {{center.name}}</option>
-          </select>
-        </div>
         <div class="col-sm-5">
-          <label for="lastName">Select Parish</label>
-          <select class="form-control" formControlName="parishId" formControlName="parishId">
-            <option [value]="0" [selected]="true"> Please choose one </option>
-            <option *ngFor="let parish of parishes" [value]="parish.id" [selected]="selectedParishId === parish.id">{{parish.name}}</option>
-          </select>
-        </div>
-        <div class="col-sm-2"  [ngClass]="{'error': receiptsForm.get('amount')?.invalid && receiptsForm.get('amount')?.touched}">
-          <label for="amount">Amount</label>
-          <input formControlName="amount" id="amount" class="form-control" type="text" placeholder="Amount" />
-          <em *ngIf="receiptsForm.get('amount')?.invalid && receiptsForm.get('amount')?.touched">Required</em>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row-fluid">
-    <div class="col-md-12">
-      <div class="form-group">
-        <div class="col-sm-4">
           <label for="email1">Email</label>
           <input formControlName="email1" id="email1" class="form-control" type="text" placeholder="Email" />
         </div>
@@ -125,6 +73,30 @@
           <input formControlName="phone1" id="phone1" class="form-control" type="text" maxlength="10" placeholder="Phone" />
         </div>
 
+        <div class="col-sm-2">
+          <label for="address">Transaction</label>
+          <input formControlName="transaction" id="transaction" class="form-control" type="text" placeholder="Transaction" />
+        </div>
+        <div class="col-sm-1" [ngClass]="{'error': receiptsForm.get('amount')?.invalid && receiptsForm.get('amount')?.touched}">
+          <label for="amount">Amount</label>
+          <input formControlName="amount" id="amount" class="form-control" type="text" placeholder="$" />
+          <em *ngIf="receiptsForm.get('amount')?.invalid && receiptsForm.get('amount')?.touched">Required</em>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+  <div class="row-fluid">
+    <div class="col-md-12">
+      <div class="form-group">
+        <div class="col-sm-3" [ngClass]="{'error': receiptsForm.get('initiativeId')?.invalid && receiptsForm.get('initiativeId')?.touched}">
+          <label for="project">Initiative</label>
+          <select class="form-control"  formControlName="initiativeId">
+            <option *ngFor="let initiative of initiatives" [value]="initiative.id" [selected]="selectedInitiativeId === initiative.id">{{initiative.name}}</option>
+          </select>
+          <em *ngIf="receiptsForm.get('initiativeId')?.invalid && receiptsForm.get('initiativeId')?.touched">Required</em>
+        </div>
         <div class="col-sm-2">
           <label for="sponsorStatus">Category</label>
           <select class="form-control" formControlName="type">
@@ -138,6 +110,47 @@
             <option [value]="0">Active</option>
             <option [value]="1">Non Active</option>
           </select>
+        </div>
+        <div class="col-sm-3">
+          <label for="project">From</label>
+          <select class="form-control" formControlName="receiptType" (change)="onSourceSelect($event.target.value)">
+            <option [value]=0 [selected]="true">Parish</option>
+            <option [value]=1>Organization</option>
+            <option [value]=2>Individual</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row-fluid">
+    <div class="col-md-12">
+      <div class="form-group">
+        <div *ngIf="!isOrganizationSelected" id="parishDiv">
+          <div class="col-sm-3" [ngClass]="{'error': receiptsForm.get('centerId')?.invalid && receiptsForm.get('centerId')?.touched}">
+            <label for="project">Center</label>
+            <select class="form-control" formControlName="centerId" (change)="onCenterSelect($event.target.value)">
+              <option *ngFor="let center of centers" [value]="center.id" [selected]="selectedCenterId === center.id">{{center.regionName}}
+                {{center.name}}</option>
+            </select>
+            <em *ngIf="receiptsForm.get('centerId')?.invalid && receiptsForm.get('centerId')?.touched">Required</em>
+          </div>
+          <div class="col-sm-5"  [ngClass]="{'error': receiptsForm.get('parishId')?.invalid && receiptsForm.get('parishId')?.touched}">
+            <label for="lastName">Select Parish</label>
+            <select class="form-control" formControlName="parishId">
+              <option *ngFor="let parish of parishes" [value]="parish.id" [selected]="selectedParishId === parish.id">{{parish.name}}</option>
+            </select>
+            <em *ngIf="receiptsForm.get('parishId')?.invalid && receiptsForm.get('parishId')?.touched">Required</em>
+          </div>
+        </div>
+        <div *ngIf="isOrganizationSelected" id="orgDiv">
+          <div class="col-sm-8" [ngClass]="{'error': receiptsForm.get('pariorganizationIdshId')?.invalid && receiptsForm.get('organizationId')?.touched}">
+            <label for="lastName">Select Organization</label>
+            <select class="form-control" formControlName="organizationId">
+              
+              <option *ngFor="let org of organizations" [value]="org.id" [selected]="selectedOrgId === org.id">{{org.name}}</option>
+            </select>
+            <em *ngIf="receiptsForm.get('organizationId')?.invalid && receiptsForm.get('organizationId')?.touched">Required</em>
+          </div>
         </div>
       </div>
     </div>

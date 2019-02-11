@@ -11,6 +11,8 @@ import {
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CommonResolve } from '../shared/resolver/common.resolve';
+import { OrganizationComponent } from './organization/organization.component';
+import { OrganizationDetailComponent } from './organization/organization-detail/organization-detail.component';
 
 @NgModule({
   imports: [
@@ -24,7 +26,9 @@ import { CommonResolve } from '../shared/resolver/common.resolve';
     ParishComponent,
     ParishDetailComponent,
     AgencyDetailComponent,
-    ProjectDetailComponent
+    ProjectDetailComponent,
+    OrganizationComponent,
+    OrganizationDetailComponent
   ],
   providers: [
     CommonResolve

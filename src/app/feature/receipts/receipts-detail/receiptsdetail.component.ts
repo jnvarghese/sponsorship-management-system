@@ -6,6 +6,7 @@ import { InitService } from '../../shared/service/init.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ReceiptsService } from '../../shared/service/receipts.service';
 import { ValidatorService } from '../../../shared/validator.service';
+import { Organization } from '../../model/organization';
 
 @Component({
   selector: 'app-receiptsdetail',
@@ -19,15 +20,18 @@ export class ReceiptsdetailComponent implements OnInit {
   navigated: boolean;
   pageHeader: string;
   receipt: Receipts;
+  organizations: Array<Organization>;
   parishes: Array<Parish>;
   centers: Array<Center>;
   chosenCenter: boolean;
   chosenParish: boolean;
   selectedCenterId: number;
   selectedParishId: number;
+  selecteOrgId: number;
   initiatives: Array<Initiative>;
-  initiativeId: number;
-  savestatus: boolean;
+  selectedInitiativeId: number;
+  message: string;
+  isOrganizationSelected: boolean = false;
 
   constructor(
     private router: Router,
@@ -35,6 +39,7 @@ export class ReceiptsdetailComponent implements OnInit {
     private receiptsService: ReceiptsService,
     private adminService: AdminService<Initiative>,
     private parishService: AdminService<Parish>,
+    private organizationService: AdminService<Organization>,
     private initService: InitService,
     private validatorService: ValidatorService,
     private fb: FormBuilder) { }
@@ -83,6 +88,31 @@ export class ReceiptsdetailComponent implements OnInit {
     }
   }
 
+  onSourceSelect(value: any){
+    const centerControl = this.receiptsForm.get('centerId');
+    const parishControl = this.receiptsForm.get('parishId');
+    const organizationControl = this.receiptsForm.get('organizationId');
+    if (value == 1) {
+      centerControl.setValidators(null);
+      parishControl.setValidators(null);
+      organizationControl.setValidators([Validators.required]);
+      this.isOrganizationSelected = true
+      this.organizationService.get('/api/admin/orgns')
+        .subscribe(
+          data => this.organizations = data,
+          err => this.handleError
+        );
+    } else {
+      centerControl.setValidators([Validators.required]);
+      parishControl.setValidators([Validators.required]);
+      organizationControl.setValidators(null);
+      this.isOrganizationSelected = false;
+    }
+    centerControl.updateValueAndValidity();
+    parishControl.updateValueAndValidity();
+    organizationControl.updateValueAndValidity();
+  }
+
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error);
     return Promise.reject(error.message || error);
@@ -91,6 +121,7 @@ export class ReceiptsdetailComponent implements OnInit {
   createForm() {
     this.receiptsForm = this.fb.group({
       receiptId: [''],
+      referenceId: [''],
       rdate: [null, [Validators.required, this.validatorService.validateDate]],
       firstName: ['', Validators.required],
       middleName: '',
@@ -98,24 +129,29 @@ export class ReceiptsdetailComponent implements OnInit {
       fullName: '',
       transaction: '',
       amount: ['', Validators.required],
-      initiativeId: '',
       streetAddress: '',
       city: '',
       state: '',
       zipCode: '',
-      parishId: '',
+      centerId:  [null, Validators.required],
+      parishId:  [null, Validators.required],
       email1: '',
       email2: '',
       phone1: '',
       phone2: '',
       type: 0,
-      status: 0
+      status: 0,
+      item: 0,
+      receiptType: 0,
+      initiativeId: [null, Validators.required],
+      organizationId: 0
     });
   }
   pupulateForm(receipt: Receipts) {
     this.selectedCenterId = receipt.centerId;
     this.onCenterSelect(this.selectedCenterId);
     this.selectedParishId = receipt.parishId;
+    this.selectedInitiativeId = receipt.initiativeId;
     this.receiptsForm.setValue({
       receiptId: receipt.receiptId,
       rdate: receipt.rdate,
@@ -141,8 +177,23 @@ export class ReceiptsdetailComponent implements OnInit {
   }
 
   saveReceipts() {
+    let referenceId;
+    if(this.receiptsForm.get('receiptType').value == 1){
+      referenceId = this.receiptsForm.get('organizationId').value
+    } else if (this.receiptsForm.get('receiptType').value == 0){
+      referenceId = this.receiptsForm.get('parishId').value
+    }
+    this.receiptsForm.patchValue({
+      referenceId:  referenceId
+    });
     this.receiptsService.save(this.receiptsForm.value).subscribe(
-      data => this.savestatus = true,
+      (data: Receipts) => { 
+        this.isReceiptSaved = true;
+        this.message = `Receipts saved successfully.`
+        this.receiptsForm.patchValue({
+          amount:  ''
+        });
+      },
       err => this.handleError
     )
   }

@@ -158,8 +158,8 @@ export class SponsorDetailComponent implements OnInit {
 
   saveSponsorDetails(sponsorFormvalue) {
     if (this.sponsorForm.valid) {
-      let sponsCode = +this.sponsorForm.get('sponsorCode').value;
-      if (this.navigated || sponsCode > this.sequence) {
+      //let sponsCode = +this.sponsorForm.get('sponsorCode').value;
+     // if (this.navigated || sponsCode > this.sequence) {
         this.sponsorService
           .save(this.sponsorForm.value).subscribe(
             (res: Sponsor) => {
@@ -174,12 +174,20 @@ export class SponsorDetailComponent implements OnInit {
               this.pupulateForm(res);
              // document.getElementById("message").focus();
             },
-            err => this.handleError
+            (err)=> {
+              console.log('oops', err.status);
+              if(err.status == 400){
+                this.error = 'Sponsor code already exists !!'
+              }else{
+                this.error = 'Unable to add sponsor data !!'
+              }
+            },
+            () => console.log('Sposnor Save Call Done !')
           );
-      } else {
+      /*} else {
         this.error = `Sponsor code should be greater than ${this.sequence}`;
         console.error('err');
-      }
+      } */
     }
   }
   cancel() {
@@ -187,6 +195,7 @@ export class SponsorDetailComponent implements OnInit {
   }
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error);
+    debugger;
     return Promise.reject(error.message || error);
   }
 
