@@ -3,8 +3,7 @@ import { Parish } from '../model';
 import { AdminService } from '../shared/service/admin.service';
 import { EnrollService } from '../shared/service/enroll.service';
 import { Summary } from '../model/summary';
-import { s } from '@angular/core/src/render3';
-
+import { saveAs as importedSaveAs } from "file-saver";
 
 @Component({
   selector: 'app-summary',
@@ -20,6 +19,7 @@ export class SummaryComponent implements OnInit {
     totalNumberOfStudents:number;
     totalConstribution:number;
     totalSponsor:number;
+    loading: boolean;
 
     constructor(private enrollService: EnrollService, private adminService: AdminService<Parish>) { }
     
@@ -31,6 +31,16 @@ export class SummaryComponent implements OnInit {
         err => console.log(err)
       );
       this.message = 'Please select a parish to see the summary.'
+    }
+    generateSummary(){
+      this.enrollService.generateSummary(this.selectedParish).subscribe(
+        blob => {
+          this.loading = true
+          importedSaveAs(blob, `Light to Life Summary - ${this.selectedParish}`.split('.').join('') + ' - Light to Life - Sponsorship Information Document');
+        },
+        err => console.error(err),
+        () => this.loading = false
+      );
     }
 
     onParishSelect(parishId: number) {

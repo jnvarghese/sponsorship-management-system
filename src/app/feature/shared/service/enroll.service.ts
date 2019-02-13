@@ -39,5 +39,10 @@ export class EnrollService {
             responseType: "blob"
         });
     }
-  
+
+    generateSummary(parishId: number): Observable<Blob>{     
+        return this.http.get(`${this.apiUrl}/enrollment/summarypdf/${parishId}`, {
+            responseType: "blob"
+        });
+    }
 }
