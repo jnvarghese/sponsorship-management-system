@@ -9,7 +9,9 @@ export class Student {
   address: string;
   status: string;
   projectId: string;
+  projectCode: string;
   projectName: string;
+  agencyCode: string;
   agencyName: string;
   softlocked = false;
   expirationMonth: number;
@@ -18,6 +20,7 @@ export class Student {
   occupationOfGuardian: string;
   baseLanguage: string;
   grade: string;
+  maxOut: Date;
   favColor: string; //50
   favGame: string; //200
   uploadstatus: string;

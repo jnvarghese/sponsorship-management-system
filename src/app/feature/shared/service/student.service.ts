@@ -48,9 +48,17 @@ export class StudentService {
     return this.http.put<Student>(`${this.studentsUrl}/modify/${student.id}`, JSON.stringify(student), { headers });
   }
 
+  getByParishAndProject(parishId: number, projectId: number) {
+    console.log(` parish id ${parishId} and projectId ${projectId}`)
+    return this.http.get<Array<Student>>(`${this.studentsUrl}/list/unenrolled/${parishId}/${projectId}`);
+  }
+
   search(term: string, parishId: number, effectiveDate: string) {
-    console.log( 'effectiveDate ', effectiveDate);
     return this.http.get<Array<Student>>(`${this.studentsUrl}/search/${term}/${parishId}/${effectiveDate}`);
+  }
+
+  listByEnrollmentId(enrollmentId: number) {
+    return this.http.get<Array<Student>>(`${this.studentsUrl}/list/byenrollmentid/${enrollmentId}`);
   }
 
   searchByName(term: string) {

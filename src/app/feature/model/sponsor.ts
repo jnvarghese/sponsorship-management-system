@@ -32,4 +32,11 @@ export class Sponsor {
     effectiveDate: string;
     createdBy: number;
     updatedBy: number;
+
+    enrollmentId:number;
+    noOfStudents: number;
+    expirationMonth: number;
+    expirationYear: number;
+    miscAmount: number;
+    //effectiveDate: Date;
 }

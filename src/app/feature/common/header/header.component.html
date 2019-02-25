@@ -58,15 +58,23 @@
             </li>
           </ul>
         </li>
-        <li [routerLinkActive]="['active']">
-          <a [routerLink]="['./enroll']">Enroll</a>
+        <li class="dropdown" [routerLinkActive]="['active']">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Enrollment
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a [routerLink]="['./enroll']">Enrollment</a>
+            </li>
+            <li>
+              <a [routerLink]="['./view-enroll']">View Enrollment</a>
+            </li>
+            <li>
+              <a [routerLink]="['./view-summary']">Enrollment Summary</a>
+            </li>
+          </ul>
         </li>
-        <li [routerLinkActive]="['active']">
-          <a [routerLink]="['./view-enroll']">View Enrollment</a>
-        </li>
-        <li [routerLinkActive]="['active']">
-          <a [routerLink]="['./view-summary']">Summary</a>
-        </li>
+      
         <li [routerLinkActive]="['active']">
           <a [routerLink]="['./receipts/list']">Receipts</a>
         </li>

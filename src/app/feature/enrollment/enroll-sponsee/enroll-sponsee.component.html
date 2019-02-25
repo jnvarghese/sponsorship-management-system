@@ -9,7 +9,7 @@
   </div>
   <div class="alert alert-info" role="alert" *ngIf="duplicateStudentMessage">
     <strong>Sorry! </strong>{{duplicateStudentMessage}}
-  </div>  
+  </div>
   <div class="row-fluid" style="margin-bottom: 100px">
     <div class="col-md-12">
       <div class="form-group">
@@ -23,15 +23,15 @@
       </div>
     </div>
   </div>
-  <div *ngIf="students?.length > 0" class="row-fluid">
-    <div class="col-md-5">
-      <b style="margin-bottom: 15px;"><i>{{students.length}} students are eligible for sponsorship in this project.</i></b>
+  <div class="row-fluid">
+    <div *ngIf="!hasAnyActiveEnrollments" class="col-md-5">
+      <p style="margin-bottom: 15px;"><i>There are {{students?.length}} students eligible for sponsorship in this project.</i></p>
       <table class="table table-hover">
         <thead>
           <tr>
             <th (click)="sortByName()">Student Name</th>
             <th (click)="sortByGender()">Gender</th>
-            <th (click)="sortByGrade()">Grade</th>    
+            <th (click)="sortByGrade()">Grade</th>
           </tr>
         </thead>
         <tbody>
@@ -43,28 +43,51 @@
         </tbody>
       </table>
     </div>
+    <div *ngIf="hasAnyActiveEnrollments" class="col-md-5">
+        <p style="margin-bottom: 15px;"><i>Following students already exists in the {{enroll.sponsorName}} sponsorhip.</i></p>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th (click)="sortByName()">Student Name</th>
+              <th (click)="sortByGender()">Gender</th>
+              <th (click)="sortByGrade()">Grade</th>
+              <th>Expires On</th>
+              <th>Project</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let student of students; let i = index" (click)="selectStudent(student,i)" [attr.data-index]="i">
+              <td>{{ student.studentName }} </td>
+              <td>{{student.gender}} </td>
+              <td>{{ student.grade }}</td>
+              <td>{{ student.maxOut | date :'MM/y'}}</td>
+              <td>{{student.projectName}}, Agency: {{student.agencyCode}}</td>
+          </tr>
+          </tbody>
+        </table>
+    </div>
     <div *ngIf="hasAnyStudentSelected" class="col-md-5" style="padding-top: 20px">
-        <div style="margin-top: 8px; margin-bottom: 7px;">
-            <b>Selected students.</b>
-          </div>
+      <div style="margin-top: 8px; margin-bottom: 7px;">
+        <b>Selected students.</b>
+      </div>
       <div *ngFor="let sponsee of enroll.sponsees">
-        
+
         <div class="alert alert-success">
           Added sponsorship for {{sponsee.name}} until {{sponsee.expirationMonth}}/{{sponsee.expirationYear}}
         </div>
       </div>
     </div>
   </div>
-  <div *ngIf="students?.length == 0" class="row-fluid">
+ <!-- <div *ngIf="students?.length == 0" class="row-fluid">
     <div class="col-md-10">
       <p>No Students found.</p>
     </div>
-  </div>
+  </div>-->
   <div class="row-fluid">
     <div class="col-md-12">
       <div class="form-group">
         <div class="col-sm-offset-7 col-sm-1">
-          <button class="btn btn-primary nextBtn" (click)="previous()" type="button">Previous</button>          
+          <button class="btn btn-primary nextBtn" (click)="previous()" type="button">Previous</button>
         </div>
         <div class="col-sm-1">
           <button class="btn btn-primary nextBtn" (click)="reset()" [disabled]="!hasAnyStudentSelected" type="button">Reset</button>

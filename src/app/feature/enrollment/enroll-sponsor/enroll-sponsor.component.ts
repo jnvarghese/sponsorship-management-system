@@ -20,11 +20,13 @@ export class EnrollSponsorComponent implements OnInit {
   @Output() sponsor = new EventEmitter();
   mode: 'manual' | 'cruise' = 'manual';
 
+  unenrolledSponsors: Array<Sponsor>;
   sponsors: Array<Sponsor>;
   parishes: Array<Parish>;
   centers: Array<Center>;
   chosenCenter: boolean;
   chosenParish: boolean;
+  exitingMiscAmount:number; 
 
   constructor(
     private sponsorService: SponsorService<Sponsor>,
@@ -39,9 +41,10 @@ export class EnrollSponsorComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    
     if (this.sponData) {
       this.enroll = new Enrollment(
+        this.sponData.enrollmentId,
         this.sponData.sponsorId,
         this.sponData.sponsorName,
         this.sponData.effectiveDate, // paymentDate,
@@ -53,7 +56,6 @@ export class EnrollSponsorComponent implements OnInit {
     } else {
       this.enroll = new Enrollment();
     }
-
     this.initService.getCenterList().subscribe(
       data => this.centers = data,
       err => console.log(err)
@@ -85,14 +87,14 @@ export class EnrollSponsorComponent implements OnInit {
   }
 
   pupulateForm(data: any) {
-    console.log('EnrollSponsorComponent.pupulateForm ', data);
     this.hasAnySponsorSelected = true;
     this.sponsorEnrollForm.setValue({
+      enrollmentId: data.enrollmentId,
       sponsorId: data.sponsorId,
       parishId: data.parishId,
       sponsorName: data.sponsorName,
-     // paymentDate: data.paymentDate,
       contributionAmount: data.contributionAmount,
+      miscAmount: data.miscAmount,
       effectiveDate: data.effectiveDate,
       studentCount: data.studentCount,
       expirationMonth: data.expirationMonth,
@@ -104,6 +106,7 @@ export class EnrollSponsorComponent implements OnInit {
 
   createForm() {
     this.sponsorEnrollForm = this.fb.group({
+      enrollmentId: '',
       sponsorId: '',
       parishId: '',
       sponsorName: '',
@@ -111,28 +114,32 @@ export class EnrollSponsorComponent implements OnInit {
       studentCount: '',
       expirationMonth: '',
       expirationYear:  '',
-      //paymentDate: [moment(new Date()).format("MM/DD/YYYY"), [Validators.required, this.validatorService.validateDate]],
+      miscAmount: 0,
       contributionAmount: [null, Validators.required],
       effectiveDate: [moment(new Date()).format("MM/DD/YYYY"), [Validators.required, this.validatorService.validateDate]]
     });
   }
 
   selectSponsor(sponsor: Sponsor) {
-    console.log(' Enroll Sponsor - Select', sponsor);
+    console.log(' sponsor.miscAmount', sponsor.miscAmount);
     this.onModeSelect('manual');
     this.hasAnySponsorSelected = true;
     let fullName = sponsor.firstName + ' ' + sponsor.lastName;
+    this.exitingMiscAmount = sponsor.miscAmount;
+    this.enroll.enrollmentId = sponsor.enrollmentId;
     this.enroll.sponsorId = sponsor.id;
     this.enroll.parishId = sponsor.parishId;
     this.enroll.sponsorName = fullName;
     this.sponsorEnrollForm.controls['parishId'].setValue(sponsor.parishId);
+    this.sponsorEnrollForm.controls['enrollmentId'].setValue(sponsor.enrollmentId);
+    this.sponsorEnrollForm.controls['miscAmount'].setValue(sponsor.miscAmount);
     this.sponsorEnrollForm.controls['sponsorId'].setValue(sponsor.id);
     this.sponsorEnrollForm.controls['sponsorName'].setValue(fullName);
   }
 
   navigate() {
-    console.log('sponsorEnrollForm.status ' + this.sponsorEnrollForm.status);
     const formModel = this.sponsorEnrollForm.value;
+    formModel.contributionAmount = (+formModel.contributionAmount) + (+formModel.miscAmount);
     formModel.mode = this.mode;
     this.sponsor.emit(formModel);
   }
@@ -158,6 +165,7 @@ export class EnrollSponsorComponent implements OnInit {
           if (this.sponsors.length <= 0) {
             this.hasAnySponsorSelected = false;
           }
+          this.unenrolledSponsors = this.sponsors.filter(sponsor => sponsor.noOfStudents == 0)
         },
           err => console.log(err)
         );
@@ -165,8 +173,29 @@ export class EnrollSponsorComponent implements OnInit {
       this.chosenParish = false;
     }
   }
-
+  sortByCode() {
+    this.sponsors.sort((m1, m2) => {
+      if (m1.sponsorCode > m2.sponsorCode) return 1;
+      if (m1.sponsorCode === m2.sponsorCode) return 0;
+      if (m1.sponsorCode < m2.sponsorCode) return -1;
+    });
+  }
+  sortByNoOfStudents(){
+    this.sponsors.sort((m1, m2) => {
+      if (m1.noOfStudents > m2.noOfStudents) return 1;
+      if (m1.noOfStudents === m2.noOfStudents) return 0;
+      if (m1.noOfStudents < m2.noOfStudents) return -1;
+    });
+  }
+  sortByName(){
+    this.sponsors.sort((m1, m2) => {
+      if (m1.firstName > m2.firstName) return 1;
+      if (m1.firstName === m2.firstName) return 0;
+      if (m1.firstName < m2.firstName) return -1;
+    });
+  }
   reset() {
+    console.log(' Resetting Sponsor ')
     this.hasAnySponsorSelected = false;
     this.createForm();
     this.enroll = new Enrollment();

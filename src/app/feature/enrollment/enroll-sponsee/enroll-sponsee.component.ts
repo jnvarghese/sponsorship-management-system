@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { Enrollment, Project, Student, Sponsee } from "../../model";
 import { StudentService, AdminService } from "../..";
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-enroll-sponsee',
@@ -10,6 +11,7 @@ import { StudentService, AdminService } from "../..";
 export class EnrollSponseeComponent implements OnInit {
 
   hasAnyStudentSelected = false;
+  hasAnyActiveEnrollments = false;
   enroll: Enrollment;
   addMore: boolean;
   message: string;
@@ -20,16 +22,16 @@ export class EnrollSponseeComponent implements OnInit {
   public students: Array<Student>;
   public studentsCopy: Array<Student>;
 
-  @Input() sponData;
+  @Input() sponData: { enrollmentId: number; sponsorId: number; parishId: number; sponsorName: string; paymentDate: string; effectiveDate: string; contributionAmount: number; mode: string; studentCount: number; expirationMonth: number; expirationYear: number; };
   @Output() sponsee: EventEmitter<Enrollment> = new EventEmitter<Enrollment>();
 
   constructor(private studentService: StudentService, private adminService: AdminService<Project>) { }
 
   ngOnInit() {
-    console.log('Sponsee Comp. init ', this.enroll);
-    console.log('Sponsee Comp. this.sponData ', this.sponData);
+   
     this.addMore = false;
     this.enroll = new Enrollment(
+      this.sponData.enrollmentId,
       this.sponData.sponsorId,
       this.sponData.parishId,
       this.sponData.sponsorName,
@@ -43,10 +45,20 @@ export class EnrollSponseeComponent implements OnInit {
       0,
       new Array<Sponsee>()
     );
-    this.adminService.getById('/api/admin/parishprojects', this.sponData.parishId)
-      .subscribe(data => this.projects = data, err => console.log(err));
+    if(this.sponData.enrollmentId) {
+      this.hasAnyActiveEnrollments = true
+      this.getStudentByEnrollmentId(this.sponData.enrollmentId)
+    } else {
+      this.getProjects(this.sponData.parishId);
+    }
   }
-  studentFilter = (studentId) => this.enroll.sponsees.find((s) => s.studentId === studentId);
+
+  getProjects =(parishId: number) =>{
+    this.adminService.getById('/api/admin/parishprojects', parishId)
+    .subscribe(data => this.projects = data, err => console.log(err));
+  }
+
+  studentFilter = (studentId: number) => this.enroll.sponsees.find((s) => s.studentId === studentId);
 
   selectStudent(student: Student, index: number) {
     console.log(' index ', index);
@@ -84,14 +96,16 @@ export class EnrollSponseeComponent implements OnInit {
        Would you like to add a anothor student?`;
         this.addMore = true;
       }
-      let dateSpliier = this.enroll.effectiveDate.split('/');
-      let month = +dateSpliier[0];
-      let year = +dateSpliier[2];
-      let date = +dateSpliier[1];
-      console.log('year ', year);
-      console.log('month ', month);
-      console.log('date ', date);
-      let effectiveDate = this.getEffectiveDate(year, month-1, date);
+      let effectiveDate;
+      if(student.maxOut && student.maxOut !== null){
+        let dateSplitter =  moment(student.maxOut).format("MM/DD/YYYY").split('/');
+        console.log( ` ${dateSplitter} inside modify enrollment`)
+        effectiveDate = this.getEffectiveDate(+dateSplitter[2], +dateSplitter[0], +dateSplitter[1]);
+      } else {
+        let dateSplitter = this.enroll.effectiveDate.split('/');
+        console.log( ` ${dateSplitter} inside new enrollment`)
+        effectiveDate = this.getEffectiveDate(+dateSplitter[2], (+dateSplitter[0])-1, +dateSplitter[1]);
+      }
       console.log('effectiveDate ', effectiveDate.getDate());
       let incremented = this.incrementDate(dateIncrementor, 'month', effectiveDate);
       console.log('incremented ', incremented);
@@ -111,8 +125,8 @@ export class EnrollSponseeComponent implements OnInit {
             console.log(' remianing ', remianing);
             let year = effectiveDate.getDate().getFullYear();
             let month = effectiveDate.getDate().getMonth() - 1;
-            let incremented2;
-            let expireDate2;
+            let incremented2: Date;
+            let expireDate2: any[] | number[];
             if (remianing >= 12 && sponseeSize > 1) {
               incremented2 = this.incrementDate(1, 'year', effectiveDate);
               expireDate2 = this.calculateExpiration(incremented2);
@@ -176,15 +190,28 @@ export class EnrollSponseeComponent implements OnInit {
   onProjectSelect(value: any) {
     if (value !== "0") {
       this.chosenProject = true;
-      this.studentService.search(null, +value, this.enroll.effectiveDate)
-        .subscribe(data => {
-          this.students = data;
-          this.studentsCopy = data.slice(0, data.length+1);
-        }, err => console.log(err));
+      this.getUnEnrolledStudents(this.enroll.parishId, +value);
     } else {
       this.chosenProject = false;
     }
   }
+
+  getUnEnrolledStudents = (parishId: number, projectId: number) => {
+    this.studentService.getByParishAndProject(parishId, projectId)
+    .subscribe(data => {
+      this.students = data;
+      this.studentsCopy = data.slice(0, data.length+1);
+    }, err => console.log(err));
+  }
+
+  getStudentByEnrollmentId = (enrollmentId: number) => {
+    this.studentService.listByEnrollmentId(enrollmentId)
+    .subscribe(data => {
+      this.students = data;
+      this.studentsCopy = data.slice(0, data.length+1);
+    }, err => console.log(err));
+  }
+
   next() {
     this.enroll.goto = 'toReview';
     console.log('Enroll Sponsee Next()', this.enroll);
@@ -205,7 +232,7 @@ export class EnrollSponseeComponent implements OnInit {
     this.sponsee.emit(this.enroll);
   }
 
-  private getEffectiveDate = (year, month, date) => {
+  private getEffectiveDate = (year: number, month: number, date: number) => {
     return {
       getDate: () => {
         return new Date(year, month, date);
@@ -226,7 +253,7 @@ export class EnrollSponseeComponent implements OnInit {
 
   }
 
-  private calculateExpiration = (incremented) => {
+  private calculateExpiration = (incremented: { getMonth: () => number; getFullYear: () => void; }) => {
     let dtArray = [];
     dtArray[0] = incremented.getMonth() + 1;
     dtArray[1] = incremented.getFullYear();

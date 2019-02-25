@@ -29,6 +29,7 @@ export class ReviewComponent implements OnInit {
     if (this.sponData) {
       this.parishId = this.sponData.parishId;
       this.enroll = new Enrollment(
+        this.sponData.enrollmentId,
         this.sponData.sponsorId,
         this.sponData.parishId,
         this.sponData.sponsorName,
