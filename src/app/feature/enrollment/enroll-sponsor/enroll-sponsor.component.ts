@@ -126,12 +126,12 @@ export class EnrollSponsorComponent implements OnInit {
     this.hasAnySponsorSelected = true;
     let fullName = sponsor.firstName + ' ' + sponsor.lastName;
     this.exitingMiscAmount = sponsor.miscAmount;
-    this.enroll.enrollmentId = sponsor.enrollmentId;
+    this.enroll.enrollmentId = sponsor.entId;
     this.enroll.sponsorId = sponsor.id;
     this.enroll.parishId = sponsor.parishId;
     this.enroll.sponsorName = fullName;
     this.sponsorEnrollForm.controls['parishId'].setValue(sponsor.parishId);
-    this.sponsorEnrollForm.controls['enrollmentId'].setValue(sponsor.enrollmentId);
+    this.sponsorEnrollForm.controls['enrollmentId'].setValue(sponsor.entId);
     this.sponsorEnrollForm.controls['miscAmount'].setValue(sponsor.miscAmount);
     this.sponsorEnrollForm.controls['sponsorId'].setValue(sponsor.id);
     this.sponsorEnrollForm.controls['sponsorName'].setValue(fullName);

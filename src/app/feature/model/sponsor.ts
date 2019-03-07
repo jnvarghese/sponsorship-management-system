@@ -33,6 +33,7 @@ export class Sponsor {
     createdBy: number;
     updatedBy: number;
 
+    entId: number;
     enrollmentId:number;
     noOfStudents: number;
     expirationMonth: number;
