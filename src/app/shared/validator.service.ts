@@ -21,8 +21,7 @@ export class ValidatorService {
         let now = moment();
         let viewDate = c.value;
         let viewDateformatted = moment(c.value, 'MM/DD/YYYY', true);
-        if (viewDate && viewDate != null && viewDate.length === 10 && (!viewDateformatted.isValid()
-            || moment(viewDateformatted).isAfter(now))) {
+        if (viewDate && viewDate != null && viewDate.length === 10 && (!viewDateformatted.isValid())) { //|| moment(viewDateformatted).isAfter(now)
             return { invalidDate: true };
         }
     }

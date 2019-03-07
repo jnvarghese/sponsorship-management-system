@@ -45,7 +45,7 @@
         <tr *ngFor="let r of receipts">
           <td>{{ r.receiptId }}</td>
           <td>{{ r.rdate }}</td>
-          <td>{{ r.fullName }}</td>
+          <td>{{ r.firstName }} {{ r.middleName }} {{ r.lastName }}</td>
           <td>{{ r.receiptType == 0 ? r.parishName:  r.orgName}}</td>
           <td>{{ r.initiativeName}}</td>
           <td>{{ r.type ==0 ? 'Donation' : 'Sponsorship'}}</td>
