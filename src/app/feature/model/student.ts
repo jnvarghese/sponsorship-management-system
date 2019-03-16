@@ -20,7 +20,7 @@ export class Student {
   occupationOfGuardian: string;
   baseLanguage: string;
   grade: string;
-  maxOut: Date;
+  maxOut: string;
   favColor: string; //50
   favGame: string; //200
   uploadstatus: string;

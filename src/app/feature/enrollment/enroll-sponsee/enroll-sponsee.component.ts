@@ -98,7 +98,7 @@ export class EnrollSponseeComponent implements OnInit {
       }
       let effectiveDate;
       if(student.maxOut && student.maxOut !== null){
-        let dateSplitter =  moment(student.maxOut).format("MM/DD/YYYY").split('/');
+        let dateSplitter =  student.maxOut.split('/');
         console.log( ` ${dateSplitter} inside modify enrollment`)
         effectiveDate = this.getEffectiveDate(+dateSplitter[2], +dateSplitter[0], +dateSplitter[1]);
       } else {
