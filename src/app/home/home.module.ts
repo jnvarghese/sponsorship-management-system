@@ -23,6 +23,10 @@ import { UploadService } from '../feature/upload/shared/upload.service';
 import { ClosableWellComponent } from '../feature/dashboard/closable-well.component';
 import { ReceiptsModule } from '../feature/receipts/receipts.module';
 import { SummaryComponent } from '../feature/summary/summary.component';
+import { LineGraphComponent } from '../feature/dashboard/linegraph.component';
+import { DonutChartComponent } from '../feature/dashboard/donutchart.component';
+import { BarLineChartComponent } from '../feature/dashboard/barlinechart.component';
+import { BarChartComponent } from '../feature/dashboard/barchart.component';
 
 @NgModule({
     imports: [
@@ -40,6 +44,10 @@ import { SummaryComponent } from '../feature/summary/summary.component';
       HomeComponent,
       HeaderComponent,
       FooterComponent,
+      BarChartComponent,
+      BarLineChartComponent,
+      LineGraphComponent,
+      DonutChartComponent,
       DashboardComponent,
       ClosableWellComponent,
       ViewSponsorshipComponent,

@@ -15,3 +15,5 @@ export * from './sponsorship-info';
 export * from './viewenrollment';
 export * from './initiative';
 export * from './receipts';
+export * from './graph/graph';
+export * from './graph/receipt';

@@ -9,3 +9,15 @@
 }
 em {color:#E05C65; padding-left:10px;}
 .error input {background-color:#E3C3C5;}
+.bar { fill: steelblue; }
+.bar:hover {fill: orange; }
+.barChartToolTip {
+    position: absolute;
+    display: none;
+    min-width: 80px;
+    height: auto;
+    background: none repeat scroll 0 0 #ffffff;
+    border: 1px solid #6F257F;
+    padding: 5px;
+    text-align: center;
+  }
