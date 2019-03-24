@@ -177,10 +177,11 @@ export class ReceiptsdetailComponent implements OnInit {
   }
 
   saveReceipts() {
+    /*Parish : 0, Organization : 1, Individual : 2*/
     let referenceId;
     if(this.receiptsForm.get('receiptType').value == 1){
       referenceId = this.receiptsForm.get('organizationId').value
-    } else if (this.receiptsForm.get('receiptType').value == 0){
+    } else {
       referenceId = this.receiptsForm.get('parishId').value
     }
     this.receiptsForm.patchValue({

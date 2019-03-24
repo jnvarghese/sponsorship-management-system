@@ -24,65 +24,77 @@
     </div>
   </div>
   <div class="row-fluid">
-    <div *ngIf="!hasAnyActiveEnrollments" class="col-md-5">
-      <p style="margin-bottom: 15px;"><i>There are {{students?.length}} students eligible for sponsorship in this project.</i></p>
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th (click)="sortByName()">Student Name</th>
-            <th (click)="sortByGender()">Gender</th>
-            <th (click)="sortByGrade()">Grade</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let student of students; let i = index" (click)="selectStudent(student,i)" [attr.data-index]="i">
-            <td>{{ student.studentName }} </td>
-            <td>{{student.gender}} </td>
-            <td>{{ student.grade }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div *ngIf="hasAnyActiveEnrollments" class="col-md-5">
-        <p style="margin-bottom: 15px;"><i>Following students already exists in the {{enroll.sponsorName}} sponsorhip.</i></p>
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th (click)="sortByName()">Student Name</th>
-              <th (click)="sortByGender()">Gender</th>
-              <th (click)="sortByGrade()">Grade</th>
-              <th>Expires On</th>
-              <th>Project</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let student of students; let i = index" (click)="selectStudent(student,i)" [attr.data-index]="i">
-              <td>{{ student.studentName }} </td>
-              <td>{{student.gender}} </td>
-              <td>{{ student.grade }}</td>
-              <td>{{ student.maxOut | date :'MM/y'}}</td>
-              <td>{{student.projectName}}, Agency: {{student.agencyCode}}</td>
-          </tr>
-          </tbody>
-        </table>
-    </div>
-    <div *ngIf="hasAnyStudentSelected" class="col-md-5" style="padding-top: 20px">
-      <div style="margin-top: 8px; margin-bottom: 7px;">
-        <b>Selected students.</b>
-      </div>
-      <div *ngFor="let sponsee of enroll.sponsees">
+    <div class="col-md-12">
 
-        <div class="alert alert-success">
-          Added sponsorship for {{sponsee.name}} until {{sponsee.expirationMonth}}/{{sponsee.expirationYear}}
+      <div class="col-sm-5">
+        <div *ngIf="chosenProject && !showStudentsList">
+          <p style="font-size: 12px;">No students available for enrollment.</p>
+        </div>
+        <div *ngIf="chosenProject && showStudentsList">
+          <p *ngIf="students?.length>1" style="margin-bottom: 15px;; font-size: 12px;">
+            <i>There are {{students?.length}} students eligible for sponsorship in this project.</i></p>
+          <p *ngIf="students?.length == 1" style="margin-bottom: 15px;; font-size: 12px;">
+            <i>There is one student eligible for sponsorship in this project.</i></p>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th (click)="sortByCode()">Code</th>
+                <th (click)="sortByName()">Name</th>
+                <th (click)="sortByGender()">Gender</th>
+                <th (click)="sortByGrade()">Grade</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let student of students; let i = index" (click)="selectStudent(student,i)"
+                [attr.data-index]="i">
+                <td>{{ student.studentCode }} </td>
+                <td>{{ student.studentName }} </td>
+                <td>{{student.gender}} </td>
+                <td>{{ student.grade }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div *ngIf="hasAnyActiveEnrollments">
+          <p style="margin-bottom: 15px; font-size: 12px;"><i>Following students already exists in the {{enroll.sponsorName}}
+              sponsorhip.</i></p>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th (click)="sortByName()">Student Name</th>
+                <th (click)="sortByGender()">Gender</th>
+                <th (click)="sortByGrade()">Grade</th>
+                <th>Expiration</th>
+                <th>Project</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let student of existingStudents; let i = index" (click)="selectStudent(student,i)"
+                [attr.data-index]="i">
+                <td nowarp>{{ student.studentName }} </td>
+                <td>{{student.gender}} </td>
+                <td>{{ student.grade }}</td>
+                <td>{{ student.maxOut | date :'MM/y'}}</td>
+                <td>{{student.projectName}},{{student.agencyCode}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-sm-5">
+        <div *ngIf="hasAnyStudentSelected" style="padding-top: 20px">
+          <div style="margin-top: 8px; margin-bottom: 7px;">
+            <p style="font-size: 12px">Selected students.</p>
+          </div>
+          <div *ngFor="let sponsee of enroll.sponsees">
+            <div class="alert alert-success">
+              Added sponsorship for {{sponsee.name}} until {{sponsee.expirationMonth}}/{{sponsee.expirationYear}}
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
- <!-- <div *ngIf="students?.length == 0" class="row-fluid">
-    <div class="col-md-10">
-      <p>No Students found.</p>
-    </div>
-  </div>-->
   <div class="row-fluid">
     <div class="col-md-12">
       <div class="form-group">
@@ -90,10 +102,12 @@
           <button class="btn btn-primary nextBtn" (click)="previous()" type="button">Previous</button>
         </div>
         <div class="col-sm-1">
-          <button class="btn btn-primary nextBtn" (click)="reset()" [disabled]="!hasAnyStudentSelected" type="button">Reset</button>
+          <button class="btn btn-primary nextBtn" (click)="reset()" [disabled]="!hasAnyStudentSelected"
+            type="button">Reset</button>
         </div>
         <div class="col-sm-1">
-          <button class="btn btn-primary nextBtn" (click)="next()" [disabled]="!hasAnyStudentSelected" type="button">Next</button>
+          <button class="btn btn-primary nextBtn" (click)="next()" [disabled]="!hasAnyStudentSelected"
+            type="button">Next</button>
         </div>
       </div>
     </div>

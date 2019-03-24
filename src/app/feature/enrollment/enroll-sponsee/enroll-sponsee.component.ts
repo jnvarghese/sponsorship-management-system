@@ -20,7 +20,10 @@ export class EnrollSponseeComponent implements OnInit {
   projects: Array<Project>;
   chosenProject: boolean;
   public students: Array<Student>;
+  public existingStudents: Array<Student>;
   public studentsCopy: Array<Student>;
+  existingStudentIds: Array<number> = [];
+  showStudentsList: boolean;
 
   @Input() sponData: { enrollmentId: number; sponsorId: number; parishId: number; sponsorName: string; paymentDate: string; effectiveDate: string; contributionAmount: number; mode: string; studentCount: number; expirationMonth: number; expirationYear: number; };
   @Output() sponsee: EventEmitter<Enrollment> = new EventEmitter<Enrollment>();
@@ -48,9 +51,8 @@ export class EnrollSponseeComponent implements OnInit {
     if(this.sponData.enrollmentId) {
       this.hasAnyActiveEnrollments = true
       this.getStudentByEnrollmentId(this.sponData.enrollmentId)
-    } else {
-      this.getProjects(this.sponData.parishId);
     }
+    this.getProjects(this.sponData.parishId);
   }
 
   getProjects =(parishId: number) =>{
@@ -186,6 +188,13 @@ export class EnrollSponseeComponent implements OnInit {
       if (m1.studentName < m2.studentName) return -1;
     });
   }
+  sortByCode() {
+    this.students.sort((m1, m2) => {
+      if (m1.studentCode > m2.studentCode) return 1;
+      if (m1.studentCode === m2.studentCode) return 0;
+      if (m1.studentCode < m2.studentCode) return -1;
+    });
+  }
 
   onProjectSelect(value: any) {
     if (value !== "0") {
@@ -198,18 +207,25 @@ export class EnrollSponseeComponent implements OnInit {
 
   getUnEnrolledStudents = (parishId: number, projectId: number) => {
     this.studentService.getByParishAndProject(parishId, projectId)
-    .subscribe(data => {
-      this.students = data;
+    .subscribe((data: Array<Student>) => {
+      this.students = data.filter(st => !this.existingStudentIds.includes(st.id));
       this.studentsCopy = data.slice(0, data.length+1);
+      this.showStudentsList = this.students.length > 0 ? true : false;
+      console.log(' this.studentsCopy 1',  this.studentsCopy);
     }, err => console.log(err));
   }
 
   getStudentByEnrollmentId = (enrollmentId: number) => {
     this.studentService.listByEnrollmentId(enrollmentId)
     .subscribe(data => {
-      this.students = data;
+      this.existingStudents = data;
       this.studentsCopy = data.slice(0, data.length+1);
-    }, err => console.log(err));
+      console.log(' this.studentsCopy 2',  this.studentsCopy);
+    }, err => console.log(err),
+    () =>{
+      console.log(' setting the studentid ');
+      this.existingStudents.map(student => this.existingStudentIds.push(student.id))
+    });
   }
 
   next() {

@@ -46,7 +46,7 @@
           <td>{{ r.receiptId }}</td>
           <td>{{ r.rdate }}</td>
           <td>{{ r.firstName }} {{ r.middleName }} {{ r.lastName }}</td>
-          <td>{{ r.receiptType == 0 ? r.parishName:  r.orgName}}</td>
+          <td>{{ r.receiptType == 1 ? r.orgName : r.parishName }}</td>
           <td>{{ r.initiativeName}}</td>
           <td>{{ r.type ==0 ? 'Donation' : 'Sponsorship'}}</td>
           <td><img (click)="generateReceipt(r.receiptId)" width="20px" src="assets/images/download.png"></td>     

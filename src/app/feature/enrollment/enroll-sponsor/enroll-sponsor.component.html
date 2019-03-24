@@ -158,7 +158,7 @@
             <td>{{sponsor.firstName}} {{sponsor.middleInitial}} {{sponsor.lastName}}</td>
             <td>{{sponsor.appartmentNumber}} {{sponsor.street}}, {{sponsor.city}}, {{sponsor.state}},
               {{sponsor.postalCode}}</td>
-            <td>{{ sponsor.sponsorCode }}</td>
+            <td nowrap>{{ sponsor.sponsorCode }}</td>
             <td (click)="sortByNoOfStudents()">{{sponsor.noOfStudents}}</td>
             <td>{{sponsor.effectiveDate | date :'MM/y'}}</td>
             <td>{{sponsor.expirationMonth}}/{{sponsor.expirationYear}}</td>

@@ -3,4 +3,19 @@
     margin-bottom: 20px;
     border: 1px solid transparent;
     border-radius: 4px;
+    font-size: 12px;
+}
+
+thead {
+    display: table-header-group;
+    vertical-align: bottom;
+    border-color: inherit;
+    font-size: 11px;
+}
+
+tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+    font-size: 11px;
 }
