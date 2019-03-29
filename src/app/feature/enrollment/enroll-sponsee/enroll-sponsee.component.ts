@@ -63,7 +63,7 @@ export class EnrollSponseeComponent implements OnInit {
   studentFilter = (studentId: number) => this.enroll.sponsees.find((s) => s.studentId === studentId);
 
   selectStudent(student: Student, index: number) {
-    console.log(' index ', index);
+   
    if('manual' === this.enroll.mode){
      if(this.enroll.sponsees.length == this.enroll.studentCount){
       this.studentExceedMessage = `You have exceeded the total number of students for the enrollemnt.
@@ -86,12 +86,9 @@ export class EnrollSponseeComponent implements OnInit {
       this.duplicateStudentMessage= `Duplicate selection, please try a different student. !!`;
     }else {
       this.duplicateStudentMessage = '';
-      console.log('Sponsee Comp. selectStudent ', student);
       this.hasAnyStudentSelected = true;
       let dateIncrementor = this.enroll.contributionAmount / 20;
       this.enroll.miscAmount = this.enroll.contributionAmount % 20;
-      console.log('dateIncrementor ', dateIncrementor);
-      console.log('misc amount ', this.enroll.miscAmount);
       if (dateIncrementor > 12 && this.students.length > 1) {
         this.message = `Mr ${this.enroll.sponsorName}'s, contribution $${this.enroll.contributionAmount}
        exceeds twelve months of sponsorship.
@@ -108,9 +105,7 @@ export class EnrollSponseeComponent implements OnInit {
         console.log( ` ${dateSplitter} inside new enrollment`)
         effectiveDate = this.getEffectiveDate(+dateSplitter[2], (+dateSplitter[0])-1, +dateSplitter[1]);
       }
-      console.log('effectiveDate ', effectiveDate.getDate());
       let incremented = this.incrementDate(dateIncrementor, 'month', effectiveDate);
-      console.log('incremented ', incremented);
       let expireDate = this.calculateExpiration(incremented);
       let sponsee = new Sponsee(this.enroll.sponsorId, expireDate[0], expireDate[1], student.id, student.studentName);
 
@@ -118,13 +113,9 @@ export class EnrollSponseeComponent implements OnInit {
 
       if (this.addMore) {
         let sponseeSize = this.enroll.sponsees.length;
-        console.log('total available time ', dateIncrementor);
-        console.log('total sponsee ', this.enroll.sponsees.length);
         if (this.enroll.sponsees.length > 1) {
           let remianing = dateIncrementor;
           for (let e of this.enroll.sponsees) {
-            console.log('decremented sponsee ', sponseeSize)
-            console.log(' remianing ', remianing);
             let year = effectiveDate.getDate().getFullYear();
             let month = effectiveDate.getDate().getMonth() - 1;
             let incremented2: Date;
@@ -150,7 +141,9 @@ export class EnrollSponseeComponent implements OnInit {
           }
         }
       }
-      this.students = this.students.filter( st => st.id !== student.id);
+      if(this.students){
+        this.students = this.students.filter( st => st.id !== student.id);
+      }
     }
   }
   selectStudentManualMode(student: Student, index: number){
@@ -158,7 +151,6 @@ export class EnrollSponseeComponent implements OnInit {
       this.duplicateStudentMessage= `Duplicate selection, please try a different student. !!`;
     }else {
       this.duplicateStudentMessage = '';
-      console.log('Sponsee Comp. selectStudent ', student);
       this.hasAnyStudentSelected = true;
       this.enroll.miscAmount = this.enroll.contributionAmount % 20;
       let sponsee = new Sponsee(this.enroll.sponsorId, this.enroll.expirationMonth, this.enroll.expirationYear, student.id, student.studentName);
@@ -211,7 +203,6 @@ export class EnrollSponseeComponent implements OnInit {
       this.students = data.filter(st => !this.existingStudentIds.includes(st.id));
       this.studentsCopy = data.slice(0, data.length+1);
       this.showStudentsList = this.students.length > 0 ? true : false;
-      console.log(' this.studentsCopy 1',  this.studentsCopy);
     }, err => console.log(err));
   }
 
@@ -220,17 +211,14 @@ export class EnrollSponseeComponent implements OnInit {
     .subscribe(data => {
       this.existingStudents = data;
       this.studentsCopy = data.slice(0, data.length+1);
-      console.log(' this.studentsCopy 2',  this.studentsCopy);
     }, err => console.log(err),
     () =>{
-      console.log(' setting the studentid ');
       this.existingStudents.map(student => this.existingStudentIds.push(student.id))
     });
   }
 
   next() {
     this.enroll.goto = 'toReview';
-    console.log('Enroll Sponsee Next()', this.enroll);
     this.sponsee.emit(this.enroll);
   }
   reset() {

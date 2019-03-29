@@ -37,8 +37,8 @@
               <!-- <td>{{ e.parishName }}</td> --> 
                 <td>{{ e.paymentDate }}</td>
                 <td>{{ e.effectiveDate }}</td>
-                <td>{{ e.contribution }}</td>
-                <td> {{e.updatedDate}}</td> <!--  {{ e.createdBy}}  -->
+                <td>{{ e.netContribution > 0 ? e.netContribution : e.contribution }}</td>
+                <td>{{e.updatedDate}}</td> <!--  {{ e.createdBy}}  -->
                 <td><img (click)="generateReport(e.sponsorName, e.enrollmentId)" width="20px" src="assets/images/download.png"></td>
               </tr>     
             </tbody>

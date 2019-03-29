@@ -7,6 +7,8 @@ export class ViewEnroll {
     sponsorNickName: string;
     parishName: string;
     contribution: number;
+    netContribution: number;
+    renewed: string;
     paymentDate: string;
     effectiveDate: string;
     updatedDate: string;
