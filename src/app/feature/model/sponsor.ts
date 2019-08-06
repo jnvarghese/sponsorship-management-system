@@ -29,7 +29,7 @@ export class Sponsor {
     coSponserRelationShip: string;
     paymentDate: string;
     contributionAmount: number;
-    effectiveDate: string;
+    effectiveDate: Date;
     createdBy: number;
     updatedBy: number;
 
