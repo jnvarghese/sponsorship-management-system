@@ -49,7 +49,7 @@ export class BarLineChartComponent implements OnInit {
     ]; 
     console.log(' dataset2' , dataset2);
     
-    var svgWidth = 500, svgHeight = 300;
+    var svgWidth = 900, svgHeight = 300;
     var margin = { top: 40, right: 20, bottom: 30, left: 50 };
     var width = svgWidth - margin.left - margin.right;
     var height = svgHeight - margin.top - margin.bottom;

@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Initializer, Dashboard, Graph, Receipt } from '../model/index';
 import { DashboardService } from '../shared/service/dashboard.service';
 import * as d3 from 'd3';
-const d = require('./data.json');
-const piedate = require('./piedata.json');
+//const d = require('./data.json');
+//const piedate = require('./piedata.json');
 
 @Component({
   selector: 'app-dashboard',

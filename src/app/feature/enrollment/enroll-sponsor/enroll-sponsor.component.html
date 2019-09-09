@@ -145,22 +145,22 @@
       <table class="table table-hover">
         <thead>
           <tr>
-            <th (click)="sortByName()">Full name</th>
-            <th>Address</th>
+            <th (click)="sortByName()">Sponsor Name</th>
+            <!--<th>Address</th>-->
             <th (click)="sortByCode()">Sponsor Code</th>
-            <th> # </th>
+            <th># of Childern sponsored</th>
             <th>Effective Date</th>
-            <th>Expiration</th>
+            <th>Renewal Due</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let sponsor of sponsors" (click)="selectSponsor(sponsor)">
             <td>{{sponsor.firstName}} {{sponsor.middleInitial}} {{sponsor.lastName}}</td>
-            <td>{{sponsor.appartmentNumber}} {{sponsor.street}}, {{sponsor.city}}, {{sponsor.state}},
-              {{sponsor.postalCode}}</td>
+           <!-- <td>{{sponsor.appartmentNumber}} {{sponsor.street}}, {{sponsor.city}}, {{sponsor.state}},
+              {{sponsor.postalCode}}</td> -->
             <td nowrap>{{ sponsor.sponsorCode }}</td>
-            <td (click)="sortByNoOfStudents()">{{sponsor.noOfStudents}}</td>
-            <td>{{sponsor.effectiveDate | date :'MM/y'}}</td>
+            <td (click)="sortByNoOfStudents()" align="center">{{sponsor.noOfStudents}}</td>
+            <td>{{sponsor.effectiveDate}}</td>
             <td>{{sponsor.expirationMonth}}/{{sponsor.expirationYear}}</td>
           </tr>
         </tbody>

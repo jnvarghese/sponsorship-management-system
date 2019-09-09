@@ -31,9 +31,10 @@
     <table class="table table-hover">
       <thead>
         <tr>
-          <th (click)="sortByReceiptId()">Receipt Number</th>
-          <th (click)="sortByReceiptDate()">Receipt Date</th>
-          <th (click)="sortByFullName()">Full Name</th>
+          <th (click)="sortByReceiptId()">Number</th>
+          <th (click)="sortByReceiptDate()">Date</th>
+          <th (click)="sortByFullName()">Sponsor Name</th>
+          <th>Amount</th>
           <th>Parish/Org</th>
           <th (click)="sortByInitiativeName()">Initiative Name</th>
           <th>Category</th>
@@ -46,6 +47,7 @@
           <td>{{ r.receiptId }}</td>
           <td>{{ r.rdate }}</td>
           <td>{{ r.firstName }} {{ r.middleName }} {{ r.lastName }}</td>
+          <td>{{ r.amount | currency:'USD':true:'2.2-4'}}</td>
           <td>{{ r.receiptType == 1 ? r.orgName : r.parishName }}</td>
           <td>{{ r.initiativeName}}</td>
           <td>{{ r.type ==0 ? 'Donation' : 'Sponsorship'}}</td>

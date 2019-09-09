@@ -132,6 +132,7 @@ export class EnrollSponsorComponent implements OnInit {
     this.enroll.sponsorName = fullName;
     this.sponsorEnrollForm.controls['parishId'].setValue(sponsor.parishId);
     this.sponsorEnrollForm.controls['enrollmentId'].setValue(sponsor.entId);
+    this.sponsorEnrollForm.controls['effectiveDate'].setValue(sponsor.expirationMonth+'/01/'+sponsor.expirationYear);
     this.sponsorEnrollForm.controls['miscAmount'].setValue(sponsor.miscAmount);
     this.sponsorEnrollForm.controls['sponsorId'].setValue(sponsor.id);
     this.sponsorEnrollForm.controls['sponsorName'].setValue(fullName);
