@@ -73,7 +73,7 @@
         </div>
         <div class="col-sm-2" [ngClass]="{'error': sponsorForm.get('postalCode')?.invalid && sponsorForm.get('postalCode')?.touched}">
           <label for="postalCode">Zip Code</label>
-          <input formControlName="postalCode" id="postalCode" maxlength="5" class="form-control" type="text" placeholder="Zip Code"
+          <input formControlName="postalCode" id="postalCode" maxlength="10" class="form-control" type="text" placeholder="Zip Code"
           />
           <em *ngIf="sponsorForm.get('postalCode')?.invalid && sponsorForm.get('postalCode')?.touched">Required</em>
         </div>

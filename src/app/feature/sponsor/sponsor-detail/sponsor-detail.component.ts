@@ -93,7 +93,7 @@ export class SponsorDetailComponent implements OnInit {
       appartmentNumber: '',
       city: ['', Validators.required],
       state: ['', Validators.required],
-      postalCode: ['', [Validators.required, Validators.pattern('^[0-9]{5}(?:-[0-9]{4})?$')]]
+      postalCode: ''//['', [Validators.required, Validators.pattern('^[0-9]{5}(?:-[0-9]{4})?$')]]
     });
   }
   pupulateForm(sponser: Sponsor) {
