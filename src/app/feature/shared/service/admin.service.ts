@@ -1,7 +1,8 @@
 import { Enrollment, Agency, Project, Parish } from '../../model/index';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { HttpHeaders, HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
+import { Observable, throwError as observableThrowError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 type admintype = Agency | Project | Parish;
 const headers = new HttpHeaders()
@@ -10,6 +11,12 @@ const headers = new HttpHeaders()
 export class AdminService<T> {
 
   constructor(private http: HttpClient) { }
+
+  search(url: string, term: string): Observable<Parish[]> {
+    console.log(' url ', `${url}/search/${term}`);
+    return this.http.get<Parish[]>(`${url}/search/${term}`)
+      .pipe(catchError(this.handleError));
+  }
 
   get(url: string) {
     return this.http.get<Array<T>>(`${url}/list`);     
@@ -37,5 +44,10 @@ export class AdminService<T> {
 
   private put(urlparam: string, e: admintype) {
     return this.http.put<T>(`${urlparam}/modify/${e.id}`, JSON.stringify(e), { headers});
+  }
+
+  private handleError(res: HttpErrorResponse) {
+    console.error(res.error);
+    return observableThrowError(res.error || 'Server error');
   }
 }

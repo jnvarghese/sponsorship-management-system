@@ -28,6 +28,10 @@ export class SponsorService<T> {
     return this.http.get<T>(`${this.sponsorUrl}/find/${id}`);
   }
 
+  findSponsorParishIdAndSponsorCode(id: number, sponsorCode: string) {
+    return this.http.get<T>(`${this.sponsorUrl}/find/${id}/${sponsorCode}`);
+  }
+
   save(sponsor: Sponsor) {
     if (sponsor.id) {
       return this.put(sponsor);

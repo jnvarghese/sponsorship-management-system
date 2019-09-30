@@ -1,12 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Parish, Center, Initiative, Receipts } from '../../model';
+import { Parish, Center, Initiative, Receipts, Sponsor } from '../../model';
 import { AdminService } from '../../shared/service/admin.service';
 import { InitService } from '../../shared/service/init.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ReceiptsService } from '../../shared/service/receipts.service';
 import { ValidatorService } from '../../../shared/validator.service';
+import { SponsorService } from '../../shared/service/sponsor.service';
 import { Organization } from '../../model/organization';
+import { Observable, Subject, of } from 'rxjs';
+
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  switchMap,
+} from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-receiptsdetail',
@@ -21,17 +31,16 @@ export class ReceiptsdetailComponent implements OnInit {
   pageHeader: string;
   receipt: Receipts;
   organizations: Array<Organization>;
-  parishes: Array<Parish>;
-  centers: Array<Center>;
-  chosenCenter: boolean;
   chosenParish: boolean;
-  selectedCenterId: number;
   selectedParishId: number;
+ // selectedParish: string;
   selecteOrgId: number;
   initiatives: Array<Initiative>;
   selectedInitiativeId: number;
   message: string;
   isOrganizationSelected: boolean = false;
+  private searchTerms = new Subject<string>();
+  autoCompleteParishes: Parish[];
 
   constructor(
     private router: Router,
@@ -39,12 +48,35 @@ export class ReceiptsdetailComponent implements OnInit {
     private receiptsService: ReceiptsService,
     private adminService: AdminService<Initiative>,
     private parishService: AdminService<Parish>,
+    private sponsorService: SponsorService<Sponsor>,
     private organizationService: AdminService<Organization>,
     private initService: InitService,
     private validatorService: ValidatorService,
     private fb: FormBuilder) { }
 
+
   ngOnInit() {
+
+    this.searchTerms.pipe(
+      debounceTime(300), // wait for 300ms pause in events
+      distinctUntilChanged(), // ignore if next search term is same as previous
+      switchMap(
+        term => {
+          return term // switch to new observable each time
+            ? // return the http search observable
+            this.parishService.search('/api/admin/parishes', term)
+            : // or the observable of empty heroes if no search term
+            of<Parish[]>([])
+        }
+
+      ),
+      catchError(error => {
+        // TODO: real error handling
+        console.log(`Error in component ... ${error}`);
+        return of<Parish[]>([]);
+      })
+    ).subscribe(res =>  this.autoCompleteParishes = res);
+
     this.pageHeader = 'Add new receipt';
     this.createForm();
     const selectedParishId = this.route.snapshot.params['parishId'];
@@ -69,31 +101,43 @@ export class ReceiptsdetailComponent implements OnInit {
       data => this.initiatives = data,
       err => this.handleError
     );
-    this.initService.getCenterList().subscribe(
-      data => this.centers = data,
-      err => this.handleError
-    );
   }
 
-  onCenterSelect(value: any) {
-    if (value !== "0") {
-      this.chosenCenter = true;
-      this.parishService.getById('/api/admin/parishes', +value)
-        .subscribe(
-          data => this.parishes = data,
-          err => this.handleError
-        );
-    } else {
-      this.chosenCenter = false;
-    }
-  }
+  search(term: string): void {
 
-  onSourceSelect(value: any){
-    const centerControl = this.receiptsForm.get('centerId');
+    this.receiptsForm.patchValue({
+      parishId: null,
+    })
+    // Push a search term into the observable stream.
+    this.searchTerms.next(term);
+
+    /*
+    this.searchTerms.pipe(
+      debounceTime(800), // wait for 300ms pause in events
+      distinctUntilChanged(), // ignore if next search term is same as previous
+      switchMap(
+        term => {
+          return term // switch to new observable each time
+            ? // return the http search observable
+            this.parishService.search('/api/admin/parishes', term)
+            : // or the observable of empty heroes if no search term
+            of<Parish[]>([])
+        }
+
+      ),
+      catchError(error => {
+        // TODO: real error handling
+        console.log(`Error in component ... ${error}`);
+        return of<Parish[]>([]);
+      })
+    ).subscribe(res =>  this.autoCompleteParishes = res);*/
+  }
+  onSourceSelect(value: any) {
+    //const centerControl = this.receiptsForm.get('centerId');
     const parishControl = this.receiptsForm.get('parishId');
     const organizationControl = this.receiptsForm.get('organizationId');
     if (value == 1) {
-      centerControl.setValidators(null);
+     // centerControl.setValidators(null);
       parishControl.setValidators(null);
       organizationControl.setValidators([Validators.required]);
       this.isOrganizationSelected = true
@@ -103,12 +147,13 @@ export class ReceiptsdetailComponent implements OnInit {
           err => this.handleError
         );
     } else {
-      centerControl.setValidators([Validators.required]);
+      //centerControl.setValidators([Validators.required]);
+      this.receiptsForm.get('organizationId').setValue('');
       parishControl.setValidators([Validators.required]);
       organizationControl.setValidators(null);
       this.isOrganizationSelected = false;
     }
-    centerControl.updateValueAndValidity();
+    //centerControl.updateValueAndValidity();
     parishControl.updateValueAndValidity();
     organizationControl.updateValueAndValidity();
   }
@@ -133,8 +178,7 @@ export class ReceiptsdetailComponent implements OnInit {
       city: '',
       state: '',
       zipCode: '',
-      centerId:  [null, Validators.required],
-      parishId:  [null, Validators.required],
+      parishId: ['', Validators.required],
       email1: '',
       email2: '',
       phone1: '',
@@ -142,14 +186,15 @@ export class ReceiptsdetailComponent implements OnInit {
       type: 0,
       status: 0,
       item: 0,
-      receiptType: 0,
+      receiptType: 2,
       initiativeId: [null, Validators.required],
-      organizationId: 0
+      organizationId: '',
+      selectedParish: '',
+      sponsorCode: '',
+      sponsorId: ''
     });
   }
   pupulateForm(receipt: Receipts) {
-    this.selectedCenterId = receipt.centerId;
-    this.onCenterSelect(this.selectedCenterId);
     this.selectedParishId = receipt.parishId;
     this.selectedInitiativeId = receipt.initiativeId;
     this.receiptsForm.setValue({
@@ -176,33 +221,73 @@ export class ReceiptsdetailComponent implements OnInit {
     });
   }
 
+  setParish(p: Parish){
+    this.receiptsForm.patchValue({
+      parishId: p.id,
+      selectedParish: p.name
+    })
+    this.autoCompleteParishes = [];
+  }
+
+  findSponsor(sponsorCode: string) {
+    let parishId = this.receiptsForm.get('parishId').value;
+    this.sponsorService.findSponsorParishIdAndSponsorCode(parishId, sponsorCode).subscribe( (sponsor: Sponsor) => {
+      this.receiptsForm.patchValue({
+        sponsorId: sponsor.id,
+        firstName: sponsor.firstName,
+        middleName: sponsor.middleInitial || '',
+        lastName: sponsor.lastName,
+        fullName: sponsor.firstName + ' ' + (sponsor.middleInitial || '') + ' '+ sponsor.lastName,
+        streetAddress: sponsor.street || '',
+        city: sponsor.city,
+        state: sponsor.state,
+        zipCode: sponsor.postalCode,
+        email1: sponsor.emailAddress,
+        phone1: sponsor.phone1 || '',
+      })
+    });
+  }
+
+  reviewReceipt(){
+
+  }
+
   saveReceipts() {
     /*Parish : 0, Organization : 1, Individual : 2*/
     let referenceId;
-    if(this.receiptsForm.get('receiptType').value == 1){
+    if (this.receiptsForm.get('receiptType').value == 1) {
       referenceId = this.receiptsForm.get('organizationId').value
     } else {
       referenceId = this.receiptsForm.get('parishId').value
     }
     this.receiptsForm.patchValue({
-      referenceId:  referenceId
+      referenceId: referenceId
     });
-    this.receiptsService.save(this.receiptsForm.value).subscribe(
-      (data: Receipts) => { 
-        this.isReceiptSaved = true;
-        this.message = `Receipts saved successfully.`
-        this.receiptsForm.patchValue({
-          amount:  ''
-        });
-      },
-      err => this.handleError
-    )
+    console.log(this.receiptsForm.valid)
+    if (this.receiptsForm.valid){
+      this.receiptsService.save(this.receiptsForm.value).subscribe(
+        (data: Receipts) => {
+          this.isReceiptSaved = true;
+          this.message = `Receipts saved successfully.`
+          this.receiptsForm.reset()
+          this.receiptsForm.patchValue({
+            type: 0,
+            receiptType: 0,
+            status: 0
+          });
+        },
+        err => this.handleError
+      )
+    } else {
+      console.error('Validation failed')
+    }
+
   }
 
   cancel() {
-    if(this.selectedParishId){
+    if (this.selectedParishId) {
       this.router.navigate(['/home/receipts/list', this.selectedParishId]);
-    }else{
+    } else {
       this.router.navigate(['/home/receipts/list']);
     }
   }

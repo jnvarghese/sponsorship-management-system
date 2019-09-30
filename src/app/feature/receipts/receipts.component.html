@@ -31,6 +31,7 @@
     <table class="table table-hover">
       <thead>
         <tr>
+          <th></th>
           <th (click)="sortByReceiptId()">Number</th>
           <th (click)="sortByReceiptDate()">Date</th>
           <th (click)="sortByFullName()">Sponsor Name</th>
@@ -44,10 +45,14 @@
       <tbody>
         <!-- <tr *ngFor="let r of receipts" [routerLink]="['/home/receipts/modify', r.receiptId, selectedParish ]">-->
         <tr *ngFor="let r of receipts">
+          <td *ngIf="r.sponsorId">
+                <img width="20px" src="assets/images/check-mark.png">
+          </td>
+          <td *ngIf="!r.sponsorId"></td>
           <td>{{ r.receiptId }}</td>
           <td>{{ r.rdate }}</td>
           <td>{{ r.firstName }} {{ r.middleName }} {{ r.lastName }}</td>
-          <td>{{ r.amount | currency:'USD':true:'2.2-4'}}</td>
+          <td align="right">{{ r.amount | currency:'USD':true:'2.2-4'}}</td>
           <td>{{ r.receiptType == 1 ? r.orgName : r.parishName }}</td>
           <td>{{ r.initiativeName}}</td>
           <td>{{ r.type ==0 ? 'Donation' : 'Sponsorship'}}</td>
