@@ -41,7 +41,7 @@
             <em *ngIf="parishForm.get('status').invalid && parishForm.get('status').touched">Required</em>
           </div>
 
-          <div class="col-sm-7" [ngClass]="{'error': parishForm.get('centerId')?.invalid && parishForm.get('centerId')?.touched}">
+          <div class="col-sm-3" [ngClass]="{'error': parishForm.get('centerId')?.invalid && parishForm.get('centerId')?.touched}">
             <label for="gender">Center</label>
             <select class="form-control" formControlName="centerId">
               <option *ngFor="let center of centers" [value]="center.id" 
@@ -50,6 +50,10 @@
             <em *ngIf="parishForm.get('centerId').invalid && parishForm.get('centerId').touched">Required</em>
           </div>
 
+          <div class="col-sm-4">
+            <label for="Email">Email</label>
+            <input formControlName="promoterEmail" id="email" class="form-control" placeholder="Email" />
+          </div>
         </div>
       </div>
     </div>

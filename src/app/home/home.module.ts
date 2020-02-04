@@ -27,6 +27,7 @@ import { LineGraphComponent } from '../feature/dashboard/linegraph.component';
 import { DonutChartComponent } from '../feature/dashboard/donutchart.component';
 import { BarLineChartComponent } from '../feature/dashboard/barlinechart.component';
 import { BarChartComponent } from '../feature/dashboard/barchart.component';
+import { DonationModule } from '../feature/donation/donation.module';
 
 @NgModule({
     imports: [
@@ -36,6 +37,7 @@ import { BarChartComponent } from '../feature/dashboard/barchart.component';
       SponsorModule,
       EnrollmentModule,
       ReceiptsModule,
+      DonationModule,
       ManageSponsorShipModule,
       AdminModule,
       RouterModule.forChild(routes),

@@ -1,0 +1,389 @@
+<form class="form-horizontal" [formGroup]="donationForm" novalidate (ngSubmit)="saveDonations(donationForm.value)"
+  style="margin-top:90px">
+  <div id="message" class="alert alert-success" *ngIf="isDonationSaved">
+    <strong>Success!</strong> {{message}}
+  </div>
+  <div class="alert alert-danger" *ngIf="error">
+    <strong>Error!</strong> {{error}}
+  </div>
+  
+
+
+  <div *ngIf="mode === 'entry'">
+    <h3>Create new donation</h3>
+    <p>Please enter following details to successfuly submit a donation.</p>
+    <div class="row-fluid">
+      <div class="col-md-12">
+        <div class="form-group">
+          <div class="col-sm-6">
+            <label for="search-box">Parish</label>
+            <input type="hidden" formControlName="parishId" />
+            <input type="search" autocomplete="off" class="form-control" formControlName="selectedParish" #searchBox
+              id="search-box" (keyup)="search(searchBox.value)" />
+            <div>
+              <div *ngFor="let parish of autoCompleteParishes" (click)="setParish(parish)" class="search-result">
+                {{parish.name}}, {{parish.city}}
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-2"
+            [ngClass]="{'error': donationForm.get('rdate')?.invalid && donationForm.get('rdate')?.touched}">
+            <label for="rdate">Donation Date</label>
+            <input formControlName="rdate" id="rdate" dateInputFormatter class="form-control" type="text"
+              placeholder="MM/DD/YYYY" />
+            <em *ngIf="donationForm.get('rdate')?.invalid && donationForm.get('rdate')?.touched">Required</em>
+          </div>
+
+          <div class="col-sm-2"
+            [ngClass]="{'error': donationForm.get('amount')?.invalid && donationForm.get('amount')?.touched}">
+            <label for="amount">Amount</label>
+            <input formControlName="amount" id="amount" class="form-control" type="text" placeholder="$" />
+            <em *ngIf="donationForm.get('amount')?.invalid && donationForm.get('amount')?.touched">Required</em>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="col-md-12">
+        <div class="form-group">
+          <div class="col-sm-3"
+            [ngClass]="{'error': donationForm.get('initiativeId')?.invalid && donationForm.get('initiativeId')?.touched}">
+            <label for="project">Initiative</label>
+            <select class="form-control" formControlName="initiativeId">
+              <option *ngFor="let initiative of initiatives" [value]="initiative.id"
+                [selected]="selectedInitiativeId === initiative.id">{{initiative.name}}</option>
+            </select>
+            <em
+              *ngIf="donationForm.get('initiativeId')?.invalid && donationForm.get('initiativeId')?.touched">Required</em>
+          </div>
+          <div class="col-sm-2">
+            <label for="sponsorStatus">Category</label>
+            <select class="form-control" formControlName="type">
+              <option [value]="0">Donation</option>
+              <option [value]="1">Sponsorship</option>
+            </select>
+          </div>
+          <!--
+        <div class="col-sm-2">
+          <label for="status">Status</label>
+          <select class="form-control" formControlName="status">
+            <option [value]="0">Active</option>
+            <option [value]="1">Non Active</option>
+          </select>
+        </div>
+        -->
+          <div class="col-sm-2">
+            <label for="address">Transaction</label>
+            <input formControlName="transaction" id="transaction" class="form-control" type="text"
+              placeholder="Transaction" />
+          </div>
+          <div class="col-sm-3">
+            <label for="project">From</label>
+            <select class="form-control" formControlName="receiptType" (change)="onSourceSelect($event.target.value)">
+              <option [value]=0>Parish</option>
+              <option [value]=1>Organization</option>
+              <option [value]=2>Individual</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="col-md-12">
+        <div class="form-group">
+          <div *ngIf="isOrganizationSelected" id="orgDiv">
+            <div class="col-sm-8"
+              [ngClass]="{'error': donationForm.get('organizationId')?.invalid && donationForm.get('organizationId')?.touched}">
+              <label for="lastName">Select Organization</label>
+              <select class="form-control" formControlName="organizationId">
+
+                <option *ngFor="let org of organizations" [value]="org.id" [selected]="selectedOrgId === org.id">
+                  {{org.name}}</option>
+              </select>
+              <em
+                *ngIf="donationForm.get('organizationId')?.invalid && donationForm.get('organizationId')?.touched">Required</em>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row-fluid" *ngIf="!hideIndividualFields">
+      <div class="col-md-12">
+        <div class="form-group">
+          <input type="hidden" formControlName="receiptId" />
+          <div class="col-sm-2">
+            <label for="sponsor-cod">Sponsor Code</label>
+            <input type="search" autocomplete="off" #sponsorCode class="form-control"
+              (blur)="findSponsor(sponsorCode.value)" formControlName="sponsorCode" id="sponsor-code" />
+          </div>
+
+          <div class="col-sm-3"
+            [ngClass]="{'error': donationForm.get('firstName')?.invalid && donationForm.get('firstName')?.touched}">
+            <label for="firstName">First Name</label>
+            <input formControlName="firstName" id="firstName" class="form-control" type="text"
+              placeholder="First Name" />
+            <em *ngIf="donationForm.get('firstName')?.invalid && donationForm.get('firstName')?.touched">Required</em>
+          </div>
+
+          <div class="col-sm-2">
+            <label for="middleName">Middle Name</label>
+            <input formControlName="middleName" id="middleName" class="form-control" type="text"
+              placeholder="Middle Name" />
+          </div>
+
+          <div class="col-sm-3"
+            [ngClass]="{'error': donationForm.get('lastName')?.invalid && donationForm.get('lastName')?.touched}">
+            <label for="lastName">Last Name</label>
+            <input formControlName="lastName" id="lastName" class="form-control" type="text" placeholder="Last Name" />
+            <em *ngIf="donationForm.get('lastName')?.invalid && donationForm.get('lastName')?.touched">Required</em>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="row-fluid" *ngIf="displaySponsorSearch">
+      <div class="col-md-12">
+        <div class="form-group">
+          <div class="col-sm-1">
+            <button type="button" (click)="clear()" class="btn btn-light btn-sm">Clear</button>
+          </div>
+          <div class="col-sm-1">
+            <button type="button" (click)="searchSponsor()" class="btn btn-secondary btn-sm">Search</button>
+          </div>
+          <div class="col-sm-8">
+            <label>{{parishSelectionMessage}}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="sponsors?.length > 0" class="row" style="margin-left: 40px">
+      <div class="col-sm-8">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Address</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let sponsor of sponsors" (click)="chooseSponsor(sponsor)">
+              <td>{{ sponsor.sponsorCode }}</td>
+              <td>{{ sponsor.firstName }}</td>
+              <td>{{ sponsor.lastName }}</td>
+              <td>{{ sponsor.street}}, {{ sponsor.city}}, {{ sponsor.state}} - {{ sponsor.postalCode}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div *ngIf="donationForm.get('receiptType').value ==2 && sponsors?.length == 0" class="row" style="margin-left: 40px">
+      <div class="col-sm-8">
+        <label>Unable to find matching sponsor.</label>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="col-md-12">
+        <div class="form-group">
+          <div class="col-sm-5">
+            <label for="address">Address</label>
+            <input formControlName="streetAddress" id="streetAddress" class="form-control" type="text"
+              placeholder="Street" />
+          </div>
+          <div class="col-sm-2">
+            <label for="city">City</label>
+            <input formControlName="city" id="city" class="form-control" type="text" placeholder="City" />
+          </div>
+          <div class="col-sm-2">
+            <label for="state">State</label>
+            <input formControlName="state" id="state" class="form-control" type="text" placeholder="State" />
+          </div>
+          <div class="col-sm-1">
+            <label for="zipCode">Zip Code</label>
+            <input formControlName="zipCode" id="zipCode" maxlength="7" class="form-control" type="text"
+              placeholder="Zip" />
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="col-md-12">
+        <div class="form-group">
+          <div class="col-sm-5">
+            <label for="email1">Email</label>
+            <input formControlName="email1" id="email1" class="form-control" type="text" placeholder="Email" />
+            <label *ngIf="alternateEmail">Promoter email address is been used !</label>
+          </div>
+          <div class="col-sm-2">
+            <label for="phone1">Phone</label>
+            <input formControlName="phone1" id="phone1" class="form-control" type="text" maxlength="10"
+              placeholder="Phone" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row-fluid">
+      <div class="col-md-12">
+        <div class="form-group">
+          <div class="col-sm-offset-8 col-sm-1">
+            <button type="button" (click)="continue()" class="btn btn-primary btn-sm"
+              [disabled]="donationForm.invalid">Continue</button>
+          </div>
+          <div class="col-sm-1">
+            <button type="button" (click)="cancel()" class="btn btn-primary btn-sm">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="mode === 'review'">
+    <h3>Review new donation</h3>
+    <p>Please review following details to successfuly submit a donation.</p>
+    <div class="row-fluid voffset1">
+      <div class="col-md-12">
+        <div class="form-group">
+          <div class="col-sm-3">
+            Parish : {{donationForm.get('selectedParish').value}}
+          </div>
+          <div class="col-sm-2">
+            Receipt Date : {{donationForm.get('rdate').value}}
+          </div>
+          <div class="col-sm-2">
+            Amount : ${{donationForm.get('amount').value}}
+          </div>
+          <div class="col-sm-2">
+            Transaction : {{donationForm.get('transaction').value}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row-fluid voffset2">
+      <div class="col-md-12">
+        <div class="form-group">
+          <div class="col-sm-3">
+            <table>
+              <tr *ngFor="let initiative of initiatives">
+                <label *ngIf="donationForm.get('initiativeId').value == initiative.id">
+                  Initiative: {{initiative.name}}
+                </label>
+              </tr>
+            </table>
+          </div>
+          <div class="col-sm-2">
+            <table>
+              <tr *ngFor="let donation of donationTypes">
+                <label *ngIf="donationForm.get('type').value == donation.id">
+                  Donation type: {{donation.value}}
+                </label>
+              </tr>
+            </table>
+          </div>
+          <div class="col-sm-2">
+            <table>
+              <tr *ngFor="let source of sources">
+                <label *ngIf="donationForm.get('receiptType').value == source.id">
+                  Received from: {{source.value}}
+                </label>
+              </tr>
+            </table>
+          </div>
+          <div class="col-sm-2"></div>
+        </div>
+      </div>
+    </div>
+    <div class="row-fluid voffset3" *ngIf="donationForm.get('receiptType').value == 2">
+      <div class="col-md-12">
+        <div class="form-group">
+          <div class="col-sm-3">
+            Sponsor Code : {{donationForm.get('sponsorCode').value}}
+          </div>
+          <div class="col-sm-2">
+            First Name : {{donationForm.get('firstName').value}}
+          </div>
+          <div class="col-sm-2">
+            Middle Initial : {{donationForm.get('middleName').value}}
+          </div>
+          <div class="col-sm-2">
+            Last Name : {{donationForm.get('lastName').value}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row-fluid voffset3" *ngIf="donationForm.get('receiptType').value == 1">
+      <div class="col-md-12">
+        <div class="form-group">
+          <div class="col-sm-12">
+            <table>
+              <tr *ngFor="let org of organizations">
+                <label *ngIf="donationForm.get('organizationId').value == org.id">
+                  Organization Name : {{org.name}}
+                </label>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row-fluid voffset3" *ngIf="donationForm.get('receiptType').value == 0">
+      <div class="col-md-12">
+        <div class="form-group">
+          <div class="col-sm-12">
+            Parish Name : {{donationForm.get('selectedParish').value}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row-fluid voffset4">
+      <div class="col-md-12">
+        <div class="form-group">
+          <div class="col-sm-4">
+            Address : {{donationForm.get('streetAddress').value}}, {{donationForm.get('city').value}},
+            , {{donationForm.get('state').value}}, {{donationForm.get('zipCode').value}}
+          </div>
+          <div class="col-sm-3">
+            Email : {{donationForm.get('email1').value}}
+          </div>
+          <div class="col-sm-2">
+            Phone : {{donationForm.get('phone1').value}}
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="row-fluid voffset5">
+      <div class="col-md-12">
+        <div class="form-group">
+          <div class="col-sm-offset-8 col-sm-1">
+            <button type="button" (click)="previous()" class="btn btn-secondary btn-sm">Previous</button>
+          </div>
+          <div class="col-sm-1">
+            <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="mode === 'complete'">
+    <h3>Donation submitted successfuly.</h3>
+    <p>Please note the receipt number, {{donationForm.get('receiptId').value}}</p>
+    <p *ngIf="donationForm.get('receiptType').value == 2">Sponsor code is, {{donationForm.get('sponsorId').value}}</p>
+    <div class="row-fluid">
+      <div class="col-md-12">
+        <div class="form-group">
+          <div class="col-sm-1">
+            <a [routerLink]="['/home/receipts/manage-receipts']">Back</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

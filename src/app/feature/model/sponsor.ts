@@ -13,6 +13,7 @@ export class Sponsor {
     phone1: string;
     sponsorCode: string;
     emailAddress: string;
+    promoterEmail: string;
     appartmentNumber: string;
     street: string;
     city: string;

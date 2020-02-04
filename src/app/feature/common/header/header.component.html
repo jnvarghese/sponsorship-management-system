@@ -33,6 +33,19 @@
           </ul>
         </li>
         <li class="dropdown" [routerLinkActive]="['active']">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Donations
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a [routerLink]="['./donation/add']">New donation</a>
+            </li>
+            <li>
+              <a [routerLink]="['./donation/list']">Manage donation</a>
+            </li>
+          </ul>
+        </li>
+        <li class="dropdown" [routerLinkActive]="['active']">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">Sponsor
             <span class="caret"></span>
           </a>
@@ -74,9 +87,18 @@
             </li>
           </ul>
         </li>
-      
-        <li [routerLinkActive]="['active']">
-          <a [routerLink]="['./receipts/list']">Receipts</a>
+        <li class="dropdown" [routerLinkActive]="['active']">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Receipts
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a [routerLink]="['./receipts/list']">New receipts</a>
+              </li>
+              <li>
+                <a [routerLink]="['./receipts/manage-receipts']">Manage Receipts</a>
+              </li>
+            </ul>
         </li>
 
         <li [routerLinkActive]="['active']">

@@ -7,9 +7,9 @@ import { adminRoutes } from '../feature/admin/routes';
 import { enrollmentRoutes } from '../feature/enrollment/routes';
 import { UploadSponsorComponent } from '../feature/upload/upload-sponsor/upload-sponsor.component';
 import { UploadStudentComponent } from '../feature/upload/upload-student/upload-student.component';
-import { ReceiptsComponent } from '../feature/receipts/receipts.component';
 import { receiptsRoutes } from '../feature/receipts/routes';
 import { SummaryComponent } from '../feature/summary/summary.component';
+import { donationRoutes } from '../feature/donation/routes';
 
 export const routes: Routes = [
     {
@@ -27,7 +27,8 @@ export const routes: Routes = [
             ...manageSponsorRoutes,
             ...sponsorRoutes,
             ...studentRoutes,
-            ...receiptsRoutes
+            ...receiptsRoutes,
+            ...donationRoutes
         ]
     }
 ];

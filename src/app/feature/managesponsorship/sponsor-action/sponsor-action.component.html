@@ -35,7 +35,9 @@
                                     <p>{{c.paymentDate}}</p>
                                 </td>
                                 <td class="col-sm-4">
-                                    <p>{{c.contriAmount}}</p>
+                                    <div class="circle" [ngStyle]="{'background':c.noOfKids === 1 ? 'green' : 'red'}">
+                                        <p>{{c.contriAmount}} {{c.noOfKids}}</p>
+                                    </div>  
                                 </td>
                                 <td class="col-sm-3">
                                     <p>{{c.maxOut}}</p>

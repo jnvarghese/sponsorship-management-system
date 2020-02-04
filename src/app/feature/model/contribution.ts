@@ -3,4 +3,7 @@ export class Contribution {
     maxOut: string;
     contriAmount: string;
     miscAmount: string;
+    noOfKids: number;
+    studentName: string;
+    projectName: string;
 }

@@ -32,6 +32,7 @@ export class AdminService<T> {
 
   save(url: string, e: admintype, id?: number, parishId?: number) {
     if (id) {
+      e.id = id;
       return this.put(url, e);
     }
     return this.post(url, e);

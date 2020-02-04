@@ -7,7 +7,7 @@
     text-align:left;
 
 }
-em {color:#E05C65; padding-left:10px;}
+em {color:#E05C65; padding-left:1px; font-size: 11px;}
 .error input {background-color:#E3C3C5;}
 .bar { fill: steelblue; }
 .bar:hover {fill: orange; }
@@ -21,3 +21,20 @@ em {color:#E05C65; padding-left:10px;}
     padding: 5px;
     text-align: center;
   }
+
+label {
+    font-weight:500;
+    font-size: 12px;
+}
+body {
+    /*font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; */
+    font-size: 13px;
+}
+.form-control {
+    padding: 6px 5px;
+    font-size: 12px;
+}
+
+.form-control {
+    height: 29px;
+}

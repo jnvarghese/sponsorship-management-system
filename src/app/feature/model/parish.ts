@@ -8,6 +8,7 @@ export class Parish {
          centerId: number;
          regionName: string;
          centerName: string;
+         promoterEmail: string;
          parishProjects: Array<ParishProject>;
          status: string;
          createdBy: number;

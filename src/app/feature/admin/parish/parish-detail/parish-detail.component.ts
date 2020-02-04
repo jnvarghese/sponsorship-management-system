@@ -56,8 +56,9 @@ export class ParishDetailComponent implements OnInit {
       code: ['', Validators.required],
       name: ['', Validators.required],
       city: ['', Validators.required],
-      status: ['', Validators.required],
+      status: [1, Validators.required],
       centerId: ['', Validators.required],
+      promoterEmail: ['',null],
       projectsList: this.buildProjects()
     });
   }
@@ -75,6 +76,7 @@ export class ParishDetailComponent implements OnInit {
             code: data.code || '',
             name: data.name || '',
             city: data.city || '',
+            promoterEmail: data.promoterEmail || '',
             status: +data.status || '',
             centerId: +data.centerId || '',
             projectsList: [this.buildProjects()]
@@ -95,12 +97,13 @@ export class ParishDetailComponent implements OnInit {
         }),
         projectsList: ''
       });
-     
       this.adminService
         .save('/api/admin/parishes', form, this.parishId)
         .subscribe(
           res => {
+            console.log(res);
             this.isParishSaved = true;
+            this.parishId = res.id;
           },
           err => this.handleError);
     }

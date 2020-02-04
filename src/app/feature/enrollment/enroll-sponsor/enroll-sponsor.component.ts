@@ -132,12 +132,17 @@ export class EnrollSponsorComponent implements OnInit {
     this.enroll.sponsorName = fullName;
     this.sponsorEnrollForm.controls['parishId'].setValue(sponsor.parishId);
     this.sponsorEnrollForm.controls['enrollmentId'].setValue(sponsor.entId);
-    this.sponsorEnrollForm.controls['effectiveDate'].setValue(sponsor.expirationMonth+'/01/'+sponsor.expirationYear);
+    this.sponsorEnrollForm.controls['effectiveDate'].setValue(this.getRenewalDate(sponsor));
     this.sponsorEnrollForm.controls['miscAmount'].setValue(sponsor.miscAmount);
     this.sponsorEnrollForm.controls['sponsorId'].setValue(sponsor.id);
     this.sponsorEnrollForm.controls['sponsorName'].setValue(fullName);
   }
-
+  getRenewalDate(sponsor: Sponsor): string {
+    if(sponsor.expirationMonth === 12){
+      return '01/01/'+(sponsor.expirationYear+1)
+    }
+    return (sponsor.expirationMonth+1)+'/01/'+sponsor.expirationYear
+  }
   navigate() {
     const formModel = this.sponsorEnrollForm.value;
     formModel.contributionAmount = (+formModel.contributionAmount) + (+formModel.miscAmount);
