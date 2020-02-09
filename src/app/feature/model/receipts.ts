@@ -13,7 +13,7 @@ export class Receipts{
     parishName: string;
     orgName: string;
     receiptType: number;
-    streetAddress: string;
+    referenceId: number;
     city: string;
     state: string;
     zipCode: string;
@@ -28,4 +28,5 @@ export class Receipts{
     createdby: number;
     updatedBy: number;
     status: number;
+    streetAddress: string;
 }

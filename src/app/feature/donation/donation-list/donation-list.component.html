@@ -1,0 +1,49 @@
+<div class="container" style="margin-top:70px">
+  <h2>Manage Donations</h2>
+  <p>This list displays all the donations created</p>
+
+  <div class="row" style="margin-top:20px">
+    <div class="col-sm-12">
+      <select class="form-control"  (change)="onRageSelect($event.target.value)">
+        <option [value]="1" [selected]="true"> Past 30 days. </option>
+        <option [value]="2"> Past 90 days. </option>
+        <option [value]="3"> Past 180 days. </option>
+        <option [value]="4"> Past 1 year. </option>
+        <option [value]="5"> Past 2 year. </option>
+        <option [value]="6"> Custom Search </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row" style="margin-top:20px">
+    <div class="col-sm-12">
+    </div>
+  </div>
+
+  <div class="row" style="margin-top:20px">
+    <div class="col-sm-12">
+      <ul class="nav nav-tabs">
+        <li class="active">
+          <a data-toggle="tab" href="#individual">Individual <span class="badge badge-light">{{individualReceipts?.length}}</span></a>
+        </li>
+        <li>
+          <a data-toggle="tab" href="#parish">Parish <span class="badge badge-light">{{parishReceipts?.length}}</span></a>
+        </li>
+        <li>
+          <a data-toggle="tab" href="#organization">Organization <span class="badge badge-light">{{organizationReceipts?.length}}</span></a>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div id="individual" class="tab-pane fade in active">
+          <donations [type]=ind [receipts] = "individualReceipts"></donations>
+        </div>
+        <div id="parish" class="tab-pane fade">
+          <donations [type]=prh [receipts] = "parishReceipts"></donations>
+        </div>
+        <div id="organization" class="tab-pane fade">
+          <donations [type]=org [receipts] = "organizationReceipts"></donations>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

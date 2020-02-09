@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
-import { Receipts } from "../../model";
-import { Observable } from "rxjs/Observable";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Receipts, SponsorReceipts } from "../../model";
+import { Observable, throwError as observableThrowError } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from "@angular/common/http";
+import { catchError } from 'rxjs/operators';
 
 const headers = new HttpHeaders()
     .set('Content-Type', 'application/json');
@@ -47,6 +48,15 @@ export class ReceiptsService {
         return this.post(r);
     }
 
+    saveSponsor(r: SponsorReceipts) {
+        if (r.id) {
+            return this.putSponsorReceipt(r);
+        }
+        return this.postSponsorReceipt(r);
+    }
+
+    
+
     generateReceipt(receiptId: number){
         return this.httpClient.get(this.api + "/generatereceipt/" + receiptId, {
             responseType: "blob"
@@ -61,4 +71,26 @@ export class ReceiptsService {
     private put(r: Receipts) {
         return this.httpClient.put<Receipts>(`${this.api}/modify/${r.receiptId}`, JSON.stringify(r), { headers });
     }
+
+    getSponsorReceiptsByReceiptId(receiptId: number): Observable<Array<SponsorReceipts>> {
+        return this.httpClient.get<Array<SponsorReceipts>>(`${this.api}/listbyreceiptid/${receiptId}`)
+    }
+
+    private postSponsorReceipt(r: SponsorReceipts) {
+        return this.httpClient
+            .post<SponsorReceipts>(`${this.api}/addSponsorReceipt`, JSON.stringify(r), { headers });
+    }
+
+    private putSponsorReceipt(r: SponsorReceipts) {
+        return this.httpClient.put<SponsorReceipts>(`${this.api}/modifySponsorReceipt`, JSON.stringify(r), { headers });
+    }
+
+    public deleteSponsorReceipt(r: SponsorReceipts) {
+        return this.httpClient.put<SponsorReceipts>(`${this.api}/deleteSponsorReceipt/${r.id}`,{}).pipe(catchError(this.handleError));
+    }
+
+    private handleError(res: HttpErrorResponse | any) {
+        console.error(res.error || res.body.error);
+        return observableThrowError(res.error || 'Server error');
+      }
 }
