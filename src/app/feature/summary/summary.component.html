@@ -25,7 +25,7 @@
                 <tr>
                   <th>Sponsor Code</th>
                   <th>Sponsor Name</th>
-                  <th>Amount</th>
+                  <th align="right">Amount</th>
                   <th>No</th>
                   <th>Child Code</th>
                   <th colspan="2">Renewal Due</th>
@@ -35,7 +35,7 @@
                 <tr *ngFor="let e of summeries">
                   <td>{{ e.sponsorCode }}</td>
                   <td>{{ e.sponsorFirstName }} {{ e.sponsorMi }} {{ e.sponsorLastName }}</td>
-                  <td>{{ e.contribution }}</td>
+                  <td align="right">{{ e.contribution | currency:'USD':true:'2.2-4'}}</td>
                   <td>{{ e.numberOfStudents }}</td>
                   <td>
                     <tr *ngFor="let st of e.students">
