@@ -13,7 +13,7 @@
                 <button type="button" (click)="cancel()" class="btn btn-secondary btn-xs">Cancel</button>
             </div>  
             <div *ngIf="showLabel">
-                <label>{{sponsorForm.get('contributionAmount').value | currency:'USD':true:'2.2-4'}}</label>
+                <label>{{sponsorForm.get('contributionAmount').value }}</label>
                 <button type="button" (click)="enableEdit()" class="btn btn-link btn-sm">Edit</button>|<button type="button" (click)="clearAmount()" class="btn btn-link btn-sm">Clear</button>
             </div>  
         </div>

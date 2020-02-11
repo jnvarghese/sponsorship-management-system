@@ -9,7 +9,7 @@
                             href="#parish{{receipt.receiptId}}" (click)="onParishSelect(receipt.referenceId, receipt.receiptId)" >
                            <span>{{ receipt.receiptId }}  -  </span>
                            <span>Parish: {{ receipt.receiptType == 1 ? receipt.orgName : receipt.parishName }},     </span>
-                           <span>Amount: {{ receipt.amount | currency:'USD':true:'2.2-4'}} </span>
+                           <span>Amount: {{ receipt.amount}} </span>
                         </a>
                     </h4>
                 </div>
