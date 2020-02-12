@@ -142,14 +142,17 @@ export class DonationComponent implements OnInit {
   }
   setSponsorData(sponsor){
     for (let [key, value] of Object.entries(sponsor)) {
+      //console.log((`${key} ${value}`));
       this.donationForm.get(`${key}`).setValue(`${value}`);
     }
+    //console.log('- set', this.donationForm.value)
   }
 
   toggleFields(sponsor = {}, status: string){
     for (let [key, value] of Object.entries(sponsor)) {
       if(status === 'disable'){
-        this.donationForm.get(`${key}`).disable();
+        if(`${key}` !== 'sponsorId')
+         this.donationForm.get(`${key}`).disable();
       } else{
         this.donationForm.get(`${key}`).enable();
       }
@@ -173,6 +176,7 @@ export class DonationComponent implements OnInit {
   chooseSponsor(sponsor: Sponsor): void{
     const { emailAddress, promoterEmail} = sponsor
     this.alternateEmail = (!emailAddress) ? true : false;
+    //console.log(' - sponsor -', sponsor)
     this.setSponsorData({
       sponsorId: sponsor.id,
       firstName: sponsor.firstName,
@@ -370,6 +374,7 @@ export class DonationComponent implements OnInit {
 
   saveDonations() {
     /*Parish : 0, Organization : 1, Individual : 2*/
+    //console.log(this.donationForm.value)
     let referenceId;
     if (this.donationForm.get('receiptType').value == 1) {
       referenceId = this.donationForm.get('organizationId').value
@@ -404,6 +409,7 @@ export class DonationComponent implements OnInit {
   }
 
   continue(){
+    //console.log( 'continue ', this.donationForm.value)
     this.mode = 'review'
   }
 
