@@ -36,13 +36,15 @@ export class DonationComponent implements OnInit {
   selectedParishId: number;
   selecteOrgId: number;
   initiatives: Array<Initiative>;
+  cities: Array<string>;
   sponsors: Array<Sponsor>;
+  sponsor: Sponsor;
   selectedInitiativeId: number;
   message: string;
   parishSelectionMessage: string;
   isOrganizationSelected: boolean = false;
   displaySponsorSearch: boolean;
-  displaySponsorList: boolean;
+  //displaySponsorList: boolean;
   hideIndividualFields: boolean;
   autofillBySponsorCodeActive: boolean;
   private searchTerms = new Subject<string>();
@@ -51,6 +53,12 @@ export class DonationComponent implements OnInit {
   mode: string;
   donationTypes: Array<{}>;
   sources: Array<{}>;
+  findSponsorValidation:string;
+  hasSponsorSelected: boolean;
+  displaySponsorList: boolean;
+  displayPreviousButton: boolean;
+  displaySearchButton: boolean = true;
+  newSponsor: boolean;
 
   constructor(
     private router: Router,
@@ -70,8 +78,12 @@ export class DonationComponent implements OnInit {
     this.donationTypes = [ {id :0, value: 'Donation'}, { id: 1, value: 'Sponsorship'} ];
     this.sources = [ {id :0, value: 'Parish'}, { id: 1, value: 'Organization'}, { id:2, value:'Individual'} ];
 
+    this.parishService.getCities('/api/admin/parishes').subscribe(
+      data => this.cities = data,
+      err => this.handleError
+    )
     
-    this.searchTerms.pipe(
+    this.searchTerms.pipe(   
       debounceTime(300), // wait for 300ms pause in events
       distinctUntilChanged(), // ignore if next search term is same as previous
       switchMap(
@@ -106,7 +118,79 @@ export class DonationComponent implements OnInit {
   messageMaker(message:string): string{
     return message += message
   }
-  
+  clearSponsorFields(): void{
+    this.donationForm.get('firstName').setValue('');
+    this.donationForm.get('middleName').setValue('');
+    this.donationForm.get('lastName').setValue('');
+    this.donationForm.get('streetAddress').setValue('');
+    this.donationForm.get('city').setValue('');
+    this.donationForm.get('state').setValue('');
+    this.donationForm.get('zipCode').setValue('');
+    this.donationForm.get('email1').setValue('');
+    this.donationForm.get('phone1').setValue('');
+  }
+
+  clearSponsorSearch(): void {
+    this.donationForm.get('selectedCity').setValue(0);
+    this.donationForm.get('selectedZip').setValue('');
+    this.donationForm.get('selectedSponsorCode').setValue('');
+    this.donationForm.get('selectedFirstName').setValue('');
+    this.donationForm.get('selectedLastName').setValue('');
+    this.donationForm.get('sponsorCode').setValue(null);
+    
+    this.clearSponsorFields();
+   
+    this.displaySearchButton = true;
+    this.displayPreviousButton = false;
+    this.hasSponsorSelected = false;
+    this.displaySponsorList = false;
+    this.newSponsor = false; 
+  }
+
+  displayPrevious():void {
+    this.hasSponsorSelected = false;
+    this.displaySponsorList = true;
+    this.displaySearchButton = true;
+    this.displayPreviousButton = false;
+  }
+  createNew():void {
+    this.hasSponsorSelected = false;
+    this.displaySponsorList = false;
+    this.newSponsor = true;
+    this.clearSponsorFields();
+    this.toggleFields(this.spn, 'enable');
+    this.donationForm.get('selectedParish').setValue('');
+    this.donationForm.get('parishId').setValue('');
+    this.donationForm.get('sponsorCode').setValue(null);
+  }
+
+  searchSponsor2(): void {
+    let selectedCity = this.donationForm.get('selectedCity').value;
+    let selectedZip = this.donationForm.get('selectedZip').value;
+    let selectedSponsorCode = this.donationForm.get('selectedSponsorCode').value;
+    let selectedFirstName = this.donationForm.get('selectedFirstName').value;
+    let selectedLastName = this.donationForm.get('selectedLastName').value;
+
+    if( selectedCity === 0 && !selectedZip) {
+      this.findSponsorValidation = ' Either city or zip code is required.'
+    } else {
+      let searchPayload = {
+        city : selectedCity || '',
+        zipCode : selectedZip || '',
+        sponsorCode: selectedSponsorCode,
+        firstName: selectedFirstName,
+        lastName: selectedLastName
+      }
+      this.sponsorService.searchSponsor(searchPayload).subscribe(
+        data => 
+          this.sponsors = data,
+          err => this.handleError
+      )
+      this.findSponsorValidation =  ''
+      this.displaySponsorList = true;
+    }
+  }
+
   searchSponsor(): void {
     let parishId = this.donationForm.get('parishId').value;
     let firstName = this.donationForm.get('firstName').value;
@@ -171,24 +255,50 @@ export class DonationComponent implements OnInit {
     zipCode: '',
     email1: '', 
     phone1: '',
+    selectedParish: ''
   };
 
-  chooseSponsor(sponsor: Sponsor): void{
-    const { emailAddress, promoterEmail} = sponsor
+  chooseSponsor(clickedSponsor: Sponsor): void{
+
+    const { emailAddress, promoterEmail} = clickedSponsor
+    
+    this.hasSponsorSelected = true;
+    this.displaySearchButton = false;
+    this.displayPreviousButton = true;
+    this.displaySponsorList = false;
+    this.newSponsor = false; 
+
     this.alternateEmail = (!emailAddress) ? true : false;
-    //console.log(' - sponsor -', sponsor)
+    
+    this.sponsor = clickedSponsor;
     this.setSponsorData({
-      sponsorId: sponsor.id,
-      firstName: sponsor.firstName,
-      middleName: sponsor.middleInitial || '',
-      lastName: sponsor.lastName,
-      fullName: sponsor.firstName + ' ' + (sponsor.middleInitial || '') + ' ' + sponsor.lastName,
-      streetAddress: sponsor.street || '',
-      city: sponsor.city,
-      state: sponsor.state,
-      zipCode: sponsor.postalCode,
+      sponsorId: clickedSponsor.id,
+      firstName: clickedSponsor.firstName,
+      middleName: clickedSponsor.middleInitial || '',
+      lastName: clickedSponsor.lastName,
+      fullName: clickedSponsor.firstName + ' ' + (clickedSponsor.middleInitial || '') + ' ' + clickedSponsor.lastName,
+      streetAddress: clickedSponsor.street || '',
+      city: clickedSponsor.city,
+      state: clickedSponsor.state,
+      zipCode: clickedSponsor.postalCode,
       email1: ((emailAddress) ? emailAddress : promoterEmail), 
-      phone1: sponsor.phone1 || '',
+      phone1: clickedSponsor.phone1 || '',
+      parishId : clickedSponsor.parishId
+    })
+    this.donationForm.patchValue({
+      parishId: clickedSponsor.parishId,
+      selectedParish: clickedSponsor.parishName,
+      email1: ((emailAddress) ? emailAddress : promoterEmail),
+      sponsorId: clickedSponsor.id,
+      firstName: clickedSponsor.firstName,
+      middleName: clickedSponsor.middleInitial || '',
+      lastName: clickedSponsor.lastName,
+      fullName: clickedSponsor.firstName + ' ' + (clickedSponsor.middleInitial || '') + ' ' + clickedSponsor.lastName,
+      streetAddress: clickedSponsor.street || '',
+      city: clickedSponsor.city,
+      state: clickedSponsor.state,
+      zipCode: clickedSponsor.postalCode,
+      phone1: clickedSponsor.phone1 || '',
     })
     this.toggleFields(this.spn, 'disable');
   }
@@ -299,7 +409,13 @@ export class DonationComponent implements OnInit {
       organizationId: '',
       selectedParish: '',
       sponsorCode: '',
-      sponsorId: ''
+      sponsorId: '',
+
+      selectedCity: 0,
+      selectedZip: '',
+      selectedSponsorCode: '',
+      selectedFirstName: '',
+      selectedLastName:''
     });
   }
   pupulateForm(receipt: Receipts) {
@@ -390,7 +506,7 @@ export class DonationComponent implements OnInit {
           this.mode = "complete";
           this.isReceiptSaved = true;
           this.message = `Receipts saved successfully.`
-          this.donationForm.patchValue({receiptId: data.receiptId, sponsorId: data.sponsorId})
+          this.donationForm.patchValue({receiptId: data.receiptId}) //, sponsorCode: data.sponsorCode
         },
         err => this.handleError
       )
@@ -409,11 +525,86 @@ export class DonationComponent implements OnInit {
   }
 
   continue(){
-    //console.log( 'continue ', this.donationForm.value)
     this.mode = 'review'
   }
 
   previous(){
     this.mode = 'entry'
+  }
+
+  clearSposnorSearch() {
+
+  }
+
+  sortByCode(field: string){
+    this.sponsors.sort((m1, m2) => {
+      if (m1.sponsorCode > m2.sponsorCode) return 1;
+      if (m1.sponsorCode === m2.sponsorCode) return 0;
+      if (m1.sponsorCode < m2.sponsorCode) return -1;
+    });
+  }
+
+  sortByFirstName(){
+    this.sponsors.sort((m1, m2) => {
+      if (m1.firstName > m2.firstName) return 1;
+      if (m1.firstName === m2.firstName) return 0;
+      if (m1.firstName < m2.firstName) return -1;
+    });
+  }
+
+  sortByLastName(){
+    this.sponsors.sort((m1, m2) => {
+      if (m1.lastName > m2.lastName) return 1;
+      if (m1.lastName === m2.lastName) return 0;
+      if (m1.lastName < m2.lastName) return -1;
+    });
+  }
+
+  sortByStreet(){
+    this.sponsors.sort((m1, m2) => {
+      if (m1.street > m2.street) return 1;
+      if (m1.street === m2.street) return 0;
+      if (m1.street < m2.street) return -1;
+    });
+  }
+
+  sortBySponsorCity(){
+    this.sponsors.sort((m1, m2) => {
+      if (m1.city > m2.city) return 1;
+      if (m1.city === m2.city) return 0;
+      if (m1.city < m2.city) return -1;
+    });
+  }
+
+  sortByState(){
+    this.sponsors.sort((m1, m2) => {
+      if (m1.state > m2.state) return 1;
+      if (m1.state === m2.state) return 0;
+      if (m1.state < m2.state) return -1;
+    });
+  }
+
+  sortByZip(){
+    this.sponsors.sort((m1, m2) => {
+      if (m1.postalCode > m2.postalCode) return 1;
+      if (m1.postalCode === m2.postalCode) return 0;
+      if (m1.postalCode < m2.postalCode) return -1;
+    });
+  }
+
+  sortByParish(){
+    this.sponsors.sort((m1, m2) => {
+      if (m1.parishName > m2.parishName) return 1;
+      if (m1.parishName === m2.parishName) return 0;
+      if (m1.parishName < m2.parishName) return -1;
+    });
+  }
+
+  sortByParishCity(){
+    this.sponsors.sort((m1, m2) => {
+      if (m1.parishCity > m2.parishCity) return 1;
+      if (m1.parishCity === m2.parishCity) return 0;
+      if (m1.parishCity < m2.parishCity) return -1;
+    });
   }
 }

@@ -1,6 +1,7 @@
 export class Receipts{
     receiptId: number;
     sponsorId: number;
+    sponsorCode: string;
     rdate: string;
     firstName: string;
     middleName: string; 

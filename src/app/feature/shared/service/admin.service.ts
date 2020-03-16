@@ -51,4 +51,8 @@ export class AdminService<T> {
     console.error(res.error);
     return observableThrowError(res.error || 'Server error');
   }
+
+  getCities(url: string) {
+    return this.http.get<string[]>(`${url}/cities`)
+  }
 }

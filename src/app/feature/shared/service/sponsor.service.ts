@@ -56,6 +56,11 @@ export class SponsorService<T> {
     return this.http.get<Array<T>>(`${this.sponsorUrl}/search/${term}`);
   }
 
+  searchSponsor(payload) {
+    return this.http
+      .post<Array<Sponsor>>(`${this.sponsorUrl}/searchsponsor`, JSON.stringify(payload), { headers });
+  }
+
   getSponsorShipInfo(id: number) {
     return this.http.get<SponsorshipInfo[]>(`/api/manage/view/${id}`);
   }

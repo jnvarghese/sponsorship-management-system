@@ -23,6 +23,7 @@ export class DonationListComponent implements OnInit {
     private receiptsService: ReceiptsService) { }
 
   ngOnInit() {
+    this.onRageSelect(1);
   }
 
   onRageSelect(rangeId: number){
