@@ -80,8 +80,10 @@ export class ReceiptsdetailComponent implements OnInit {
     this.pageHeader = 'Add new receipt';
     this.createForm();
     const selectedParishId = this.route.snapshot.params['parishId'];
-    const receiptId = this.route.snapshot.params['id'];
-    if (receiptId !== undefined) {
+    
+   /* 
+      const receiptId = this.route.snapshot.params['id'];
+      if (receiptId !== undefined) {
       this.pageHeader = 'Modify receipt'
       const id = +receiptId;
       this.navigated = true;
@@ -96,7 +98,7 @@ export class ReceiptsdetailComponent implements OnInit {
     } else {
       this.navigated = false;
       this.receipt = new Receipts();
-    }
+    } */
     this.adminService.get('/api/init/initiative').subscribe(
       data => this.initiatives = data,
       err => this.handleError

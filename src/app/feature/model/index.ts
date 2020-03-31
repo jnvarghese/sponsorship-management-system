@@ -18,3 +18,5 @@ export * from './receipts';
 export * from './sponsorreceipts'
 export * from './graph/graph';
 export * from './graph/receipt';
+export * from './activeSummary';
+export * from './student.summary'

@@ -12,9 +12,9 @@ export class AdminService<T> {
 
   constructor(private http: HttpClient) { }
 
-  search(url: string, term: string): Observable<Parish[]> {
+  search(url: string, term: string): Observable<T[]> {
     console.log(' url ', `${url}/search/${term}`);
-    return this.http.get<Parish[]>(`${url}/search/${term}`)
+    return this.http.get<T[]>(`${url}/search/${term}`)
       .pipe(catchError(this.handleError));
   }
 

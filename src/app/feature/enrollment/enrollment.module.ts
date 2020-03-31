@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { EnrollmentComponent, EnrollSponseeComponent, EnrollSponsorComponent, ReviewComponent } from './index';
 import { SharedModule } from '../../shared/shared.module';
+import { ReleaseSponsorshipComponent } from './release-sponsorship/release-sponsorship.component';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { SharedModule } from '../../shared/shared.module';
     EnrollmentComponent,
     EnrollSponseeComponent,
     EnrollSponsorComponent,
-    ReviewComponent
+    ReviewComponent,
+    ReleaseSponsorshipComponent
   ],
   providers: []
 })

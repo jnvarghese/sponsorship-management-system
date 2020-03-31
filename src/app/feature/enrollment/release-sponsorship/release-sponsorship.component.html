@@ -1,0 +1,179 @@
+<div class="container" style="margin-top:70px">
+  <h2>Release Students</h2>
+  <p>Manage in active students from active sponsorship</p>
+  <div class="row" style="margin-top:20px">
+    <div class="col-sm-12">
+      <ul class="nav nav-tabs">
+        <li class="active">
+          <a data-toggle="tab" href="#inactive-release">In Active Students<span
+              class="badge badge-light"></span></a>
+        </li>
+        <!--
+        <li>
+          <a data-toggle="tab" href="#force-release">Force Release<span class="badge badge-light"></span></a>
+        </li>
+        -->
+      </ul>
+      <div class="tab-content">
+        <div id="inactive-release" class="tab-pane fade in active">
+          <div *ngIf="dataAvailable">
+            <div class="row-fluid" style="margin-top:30px">
+              <div class="col-md-12" *ngFor="let agencyKey of objectKeys(agencyWise)">
+                <span
+                  (click)="onAgencySelect(agencyWise[agencyKey])">{{agencyKey + ' : ' + agencyWise[agencyKey].length}}</span>
+                <div *ngIf="projectWise" class="row-fluid" style="margin-top:20px">
+                  <div class="col-md-12" *ngFor="let projectKey of objectKeys(projectWise)" style="margin-top:10px">
+                    <span
+                      (click)="oProjectSelect(projectWise[projectKey],projectKey)">{{projectKey + ' : ' + projectWise[projectKey].length}}</span>
+                    <div class="row-fluid" *ngIf="selectedProjectKey === projectKey" id="prjs_{{projectKey}}">
+                      <div class="container" style="margin-top:20px;">
+                        <div class="row" style=" margin-bottom: 5px;">
+                          <div class="col-sm-2">Student Code</div>
+                          <div class="col-sm-2">Student Name</div>
+                          <div class="col-sm-2">Sponsor Name</div>
+                          <div class="col-sm-1">Code</div>
+                          <div class="col-sm-4">Parish</div>
+
+                        </div>
+                        <div class="row" *ngFor="let st of activeInActiveStudents" style="margin-bottom:3px">
+                          <div class="col-sm-2"><img width="20px" (click)="onStudentSumamrySelect(st)"
+                              src="assets/images/edit.png">{{ st.uniqueId }}</div>
+                          <div class="col-sm-2" (click)="sortByStudentName()">{{ st.studentName }}</div>
+                          <div class="col-sm-2" (click)="sortBySponsorName()">{{ st.sponsorfirstName }}
+                            {{ st.sponsorMiddleInitial }}
+                            {{ st.sponsorLastName }}</div>
+                          <div class="col-sm-1" (click)="sortBySponsorCode()">{{ st.sponsorCode}}</div>
+                          <div class="col-sm-5" (click)="sortByParishName()">{{ st.parishName }}, {{ st.parishCity}}
+                          </div>
+
+                          <div *ngIf="studentSummary && st.studentId === inactiveSelectedStudent" class="col-md-10"
+                            style="margin-top:20px">
+                            <div class="row-fluid">
+                              <!--
+                              <div class="col-sm-12">
+                                <label>Search student</label>
+                                <input type="studentSearch" autocomplete="off" class="form-control" #studentSearchBox
+                                  id="student-search-box" (keyup)="searchStudent(studentSearchBox.value)"
+                                  placeholder="Search student, three characters mininum" />
+                                <div class="list-group">
+                                  <div *ngFor="let student of students | async; let i=index">
+                                    <a data-toggle="tab" href="#student" (click)="onStudentSelect(student)"
+                                      class="list-group-item list-group-item-action">
+                                      {{student.studentUniqueCode}}, {{student.studentName}} - {{student.projectName}}
+                                    </a>
+                                  </div>
+                                </div>
+                              </div>
+                            -->
+                              <div class="col-sm-12" style="margin-bottom:5px">
+                                <label>Available students for sponsorship</label>
+                                <div class="row" style="margin-bottom:5px">
+                                  <div class="col-sm-1">Code</div>
+                                  <div class="col-sm-3">Name</div>
+                                  <div class="col-sm-1">Gender</div>
+                                  <div class="col-sm-1">Grade</div>
+                                  <div class="col-sm-4">Project</div>
+                                </div>
+                                <div class="row" *ngFor="let availableStudent of studentsArray"
+                                  style="margin-bottom:3px">
+                                  <div class="col-sm-1">
+                                    <input class="form-check-input" type="radio" name="studentRadios"
+                                      (click)="onStudentRadioSelect(availableStudent.id)"
+                                      id="student{{availableStudent.studentId}}" [value]="availableStudent.id">
+                                    {{ availableStudent.studentCode }}</div>
+                                  <div class="col-sm-3">{{ availableStudent.studentName }}</div>
+                                  <div class="col-sm-1">{{ availableStudent.gender }}</div>
+                                  <div class="col-sm-1">{{ availableStudent.grade}}</div>
+                                  <div class="col-sm-4">{{ availableStudent.projectName}}</div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="row-fluid" >
+                              <div class="col-md-12" style="margin-bottom:20px">
+                                <div class="form-group">
+                                  <div class="col-sm-1"> <!--class="col-sm-offset-1 col-sm-1"-->
+                                    <button type="button" (click)="swapSponsorship()"
+                                      class="btn btn-primary btn-sm">Submit</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row-fluid">
+                              <div class="col-sm-12" style="margin-bottom:30px">
+                                <label>Existing students for the sponsor</label>
+                                <div class="row" style="margin-bottom:5px">
+                                  <div class="col-sm-1">Code</div>
+                                  <div class="col-sm-3">Name</div>
+                                  <div class="col-sm-2">Eff. Date</div>
+                                  <div class="col-sm-2">Exp. Date</div>
+                                  <div class="col-sm-2">Created By</div>
+                                  <div class="col-sm-2">Created Date</div>
+                                </div>
+                                <div class="row" *ngFor="let enrollment of enrollmentSummaries"
+                                  style="margin-bottom:3px">
+                                  <div class="col-sm-1">{{ enrollment.studentCode }}</div>
+                                  <div class="col-sm-3">{{ enrollment.studentName }}</div>
+                                  <div class="col-sm-2">{{ enrollment.effectiveDate | date :'MMM-y' }}</div>
+                                  <div class="col-sm-2">{{ enrollment.maxout | date :'MMM-y'}}</div>
+                                  <div class="col-sm-2">{{ enrollment.createdBy}}</div>
+                                  <div class="col-sm-2">{{ enrollment.createdDate | date :'MMM-y'}}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--
+          <div id="force-release" class="tab-pane fade">
+            
+          <div class="row" style="margin-top:20px">
+            <div class="col-sm-10">
+              <input type="projectSearch" autocomplete="off" class="form-control" #projectSearchBox
+                    id="project-search-box" (keyup)="searchProject(projectSearchBox.value)" />
+                  <div>
+                    <div *ngFor="let project of projects | async" (click)="setProject(project)" class="search-result">
+                      {{project.name}}
+                    </div>
+                  </div>
+            </div>
+          </div>
+
+            <div class="row" style="margin-top:20px">
+              <div class="col-sm-6">
+                <label>Search student</label>
+                <input type="studentSearch" autocomplete="off" class="form-control" #studentSearchBox
+                  id="student-search-box" (keyup)="searchStudent(studentSearchBox.value)"
+                  placeholder="Search student, three characters mininum" />
+                <div class="list-group">
+                  <div *ngFor="let student of students | async; let i=index">
+                    <a data-toggle="tab" href="#student" (click)="onStudentSelect(student)"
+                      class="list-group-item list-group-item-action">
+                      {{student.studentUniqueCode}}, {{student.studentName}} - {{student.projectName}}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" id="student" *ngIf="displayStudentDetails" style="margin-top:20px">
+              <div class="col-sm-6">
+                {{student | json}}
+              </div>
+            </div>
+
+          </div>
+
+        -->
+        </div>
+      </div>
+    </div>
+  </div>

@@ -410,12 +410,13 @@ export class DonationComponent implements OnInit {
       selectedParish: '',
       sponsorCode: '',
       sponsorId: '',
-
+      amountInWords: '',
       selectedCity: 0,
       selectedZip: '',
       selectedSponsorCode: '',
       selectedFirstName: '',
-      selectedLastName:''
+      selectedLastName:'',
+      coSponsor: '',
     });
   }
   pupulateForm(receipt: Receipts) {

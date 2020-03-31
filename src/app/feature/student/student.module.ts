@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { studentRoutingComponents } from './routes';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared/shared.module';
+import { BoxDonutChartComponent } from '../common/d3/box-donut-chart.component';
 
 @NgModule({
   imports: [
@@ -12,7 +13,7 @@ import { SharedModule } from '../../shared/shared.module';
     SharedModule,
     RouterModule,
   ],
-  declarations: [studentRoutingComponents],
+  declarations: [studentRoutingComponents, BoxDonutChartComponent],
   providers: []
 })
 export class StudentModule { }

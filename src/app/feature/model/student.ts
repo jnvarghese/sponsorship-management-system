@@ -2,6 +2,7 @@ import { Project, Contribution } from './index';
 
 export class Student {
   id: number;
+  studentUniqueCode: string
   studentName : string;
   studentCode: string;
   gender: string;

@@ -235,6 +235,22 @@
           <div class="row-fluid">
             <div class="col-md-12">
               <div class="form-group">
+                <div class="col-sm-6">
+                <label for="amountInWords">Amount in words</label>
+                <input formControlName="amountInWords" id="amountInWords" class="form-control" type="text"
+                placeholder="Amount in words" />
+                </div>
+                <div class="col-sm-4">
+                  <label for="coSponsor">Co sponsor</label>
+                  <input formControlName="coSponsor" id="coSponsor" class="form-control" type="text"
+                  placeholder="Co sponsor name" />
+                  </div>
+              </div>
+            </div>
+          </div>
+          <div class="row-fluid">
+            <div class="col-md-12">
+              <div class="form-group">
                 <div *ngIf="isOrganizationSelected" id="orgDiv">
                   <div class="col-sm-8"
                     [ngClass]="{'error': donationForm.get('organizationId')?.invalid && donationForm.get('organizationId')?.touched}">
@@ -254,7 +270,7 @@
           <div class="row-fluid">
             <div class="col-md-12">
               <div class="form-group">
-                <div class="col-sm-6">
+                <div class="col-sm-5">
                   <label for="search-box">Parish</label>
                   <input type="hidden" formControlName="parishId" />
                   <input type="search" autocomplete="off" class="form-control" formControlName="selectedParish" #searchBox
@@ -269,12 +285,13 @@
                   [ngClass]="{'error': donationForm.get('initiativeId')?.invalid && donationForm.get('initiativeId')?.touched}">
                   <label for="project">Initiative</label>
                   <select class="form-control" formControlName="initiativeId">
-                    <option *ngFor="let initiative of initiatives" [value]="initiative.id"
-                      [selected]="selectedInitiativeId === initiative.id">{{initiative.name}}</option>
+                    <option *ngFor="let initiative of initiatives" [value]="initiative.initiativeId"
+                      >{{initiative.initiativeName}}</option>
                   </select>
                   <em
                     *ngIf="donationForm.get('initiativeId')?.invalid && donationForm.get('initiativeId')?.touched">Required</em>
                 </div>
+               
               </div>
             </div>
           </div>

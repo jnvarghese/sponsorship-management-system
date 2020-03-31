@@ -28,6 +28,8 @@ import { DonutChartComponent } from '../feature/dashboard/donutchart.component';
 import { BarLineChartComponent } from '../feature/dashboard/barlinechart.component';
 import { BarChartComponent } from '../feature/dashboard/barchart.component';
 import { DonationModule } from '../feature/donation/donation.module';
+import { BoxDonutChartComponent } from '../feature/common/d3/box-donut-chart.component';
+import { KeysPipe } from '../shared/keyspipe';
 
 @NgModule({
     imports: [
@@ -56,13 +58,15 @@ import { DonationModule } from '../feature/donation/donation.module';
       SummaryComponent,
       PageNotFoundComponent,
       UploadSponsorComponent,
-      UploadStudentComponent
+      UploadStudentComponent,
+      //BoxDonutChartComponent
     ],
     providers: [
       AdminService,
       DashboardService,
       DateFormatPipe,
       PageDateFormatPipe,
+      KeysPipe,
       StudentService,
       SponsorService,
       EnrollService,

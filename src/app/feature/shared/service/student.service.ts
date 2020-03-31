@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Student } from "../../model";
+import { Student, StudentSummary } from "../../model";
 import { RequestOptions } from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import { HttpEvent } from "@angular/common/http";
@@ -20,6 +20,11 @@ export class StudentService {
     return this.http.get<Array<Student>>(`${this.studentsUrl}/list/byproject/${id}`);
   }
 
+  getStudentSummaryByProjectId(id: number) {
+    return this.http.get(`${this.studentsUrl}/summary/project/${id}`);
+  }
+  
+
   getStudents() {
     return this.http.get<Array<Student>>(`${this.studentsUrl}/list`);
   }
@@ -37,17 +42,25 @@ export class StudentService {
       return this.put(student);
     }
     return this.post(student);
-  }
+  } 
 
   private post(student: Student): Observable<Student> {
     return this.http.post<Student>(`${this.studentsUrl}/add`, JSON.stringify(student), { headers });
+  }
+
+  public swapStudent(sourceStudent: number, targetStudent: number, enrollmentId: number) {
+    return this.http.post(`${this.studentsUrl}/swap`, 
+    {sourceStudent: sourceStudent, targetStudent: targetStudent, enrollentId: enrollmentId}, { headers });
   }
 
   // Update existing Student
   private put(student: Student): Observable<Student> {
     return this.http.put<Student>(`${this.studentsUrl}/modify/${student.id}`, JSON.stringify(student), { headers });
   }
-
+  searchByName(term: string) {
+    return this.http.get<Array<Student>>(`${this.studentsUrl}/search/${term}`);
+  }
+  
   getByParishAndProject(parishId: number, projectId: number) {
     console.log(` parish id ${parishId} and projectId ${projectId}`)
     return this.http.get<Array<Student>>(`${this.studentsUrl}/list/unenrolled/${parishId}/${projectId}`);
@@ -61,8 +74,20 @@ export class StudentService {
     return this.http.get<Array<Student>>(`${this.studentsUrl}/list/byenrollmentid/${enrollmentId}`);
   }
 
-  searchByName(term: string) {
-    return this.http.get<Array<Student>>(`${this.studentsUrl}/search/${term}`);
+  searchByParishAndName(parishId:number, term: string) {
+    return this.http.get<Array<Student>>(`${this.studentsUrl}/search/${term}/${parishId}`);
+  }
+
+  searchByParish(parishId:number) {
+    return this.http.get<Array<Student>>(`${this.studentsUrl}/search/byparish/${parishId}`);
+  }
+
+  enrollmentBySponsorId(sponsorId: number) {
+    return this.http.get<Array<StudentSummary>>(`${this.studentsUrl}/enrollment/sponsor/${sponsorId}`);
+  }
+
+  activeInactive() {
+    return this.http.get<Array<StudentSummary>>(`${this.studentsUrl}/active/inactive`);
   }
 
   uploadImage(filesToUpload: File, studentId: number): Observable<HttpEvent<{}>>{
