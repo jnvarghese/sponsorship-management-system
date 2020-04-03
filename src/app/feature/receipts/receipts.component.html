@@ -54,7 +54,7 @@
           <td>{{ r.receiptId }}</td>
           <td>{{ r.rdate }}</td>
           <td>{{ r.firstName }} {{ r.middleName }} {{ r.lastName }}</td>
-          <td align="right">{{ r.amount | currency:'USD':true:'2.2-4'}}</td>
+          <td align="right">{{ r.amount | currency}}</td>
           <td>{{ r.receiptType == 1 ? r.orgName : r.parishName }}</td>
           <td>{{ r.initiativeName}}</td>
           <td>{{ r.type ==0 ? 'Donation' : 'Sponsorship'}}</td>

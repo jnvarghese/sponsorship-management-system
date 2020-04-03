@@ -3,4 +3,8 @@ export class SponsorReceipts {
     sponsorId: number;
     receiptId: number;
     amount: number;
+    type: string;
+    rdate: string;
+    transaction: string;
+    receiptType: number;
 }

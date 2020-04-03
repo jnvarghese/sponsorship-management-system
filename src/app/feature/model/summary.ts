@@ -1,4 +1,5 @@
 import { StudentSummary } from "./student.summary";
+import { SponsorReceipts } from "./sponsorreceipts";
 
 export class Summary{
 
@@ -12,6 +13,8 @@ export class Summary{
 	parishName: string;
 	parishCity: string;
 	contribution: number;
+	netDonation: number;
     numberOfStudents: number;
-    students: Array<StudentSummary>;
+	students: Array<StudentSummary>;
+	sponsorReceipts: Array<SponsorReceipts>;
 }

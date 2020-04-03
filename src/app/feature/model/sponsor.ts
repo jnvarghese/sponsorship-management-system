@@ -40,5 +40,9 @@ export class Sponsor {
     expirationMonth: number;
     expirationYear: number;
     miscAmount: number;
+
+    type: string;
+    amount: number;
+    enrollmentNetAmount: number;
     //effectiveDate: Date;
 }

@@ -26,14 +26,14 @@
     <div class="col-md-10">
       <ul class="nav nav-tabs">
         <li class="active">
-          <a data-toggle="tab" (click)="onModeSelect('manual')" href="#manual">Manual</a>
+          <a data-toggle="tab" (click)="onModeSelect('cruise')" href="#cruise">Cruise</a>
         </li>
         <li>
-          <a data-toggle="tab" (click)="onModeSelect('cruise')" href="#cruise">Cruise</a>
+          <a data-toggle="tab" (click)="onModeSelect('manual')" href="#manual">Manual</a>
         </li>
       </ul>
       <div class="tab-content">
-        <div id="manual" class="tab-pane fade in active">
+        <div id="manual" class="tab-pane fade">
 
           <div class="col-md-12" style="padding-top: 8px; padding-bottom: 2px">
             <h4>Sponsor : {{enroll.sponsorName}}</h4>
@@ -102,7 +102,7 @@
           </div>
 
         </div>
-        <div id="cruise" class="tab-pane fade">
+        <div id="cruise" class="tab-pane fade in active">
 
           <div class="col-md-10" style="padding-top: 10px; padding-bottom: 2px">
             <h4>Sponsor : {{enroll.sponsorName}}</h4>
@@ -118,7 +118,8 @@
               </div>
               <div class="col-md-4">
                 <label for="effectiveDate">Effective Date</label>
-                <input type="text" class="form-control" formControlName="effectiveDate" dateInputFormatter
+                <!--dateInputFormatter-->
+                <input type="text" class="form-control" formControlName="effectiveDate" 
                   name="effectiveDate" placeholder="MM/DD/YYYY" maxlength="10" />
               </div>
 
@@ -150,6 +151,8 @@
             <th (click)="sortByCode()">Sponsor Code</th>
             <th># of Childern sponsored</th>
             <th>Effective Date</th>
+            <th>Total Donation</th>
+            <th>Total Enrollment</th>
             <th>Renewal Due</th>
           </tr>
         </thead>
@@ -161,6 +164,8 @@
             <td nowrap>{{ sponsor.sponsorCode }}</td>
             <td (click)="sortByNoOfStudents()" align="center">{{sponsor.noOfStudents}}</td>
             <td>{{sponsor.effectiveDate}}</td>
+            <td>{{sponsor.amount | currency}}</td>
+            <td>${{sponsor.enrollmentNetAmount}}</td>
             <td>{{sponsor.expirationMonth}}/{{sponsor.expirationYear}}</td>
           </tr>
         </tbody>

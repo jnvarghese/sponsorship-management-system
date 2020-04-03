@@ -8,6 +8,7 @@ import { saveAs as importedSaveAs } from "file-saver";
 @Component({
   selector: 'app-summary',
   templateUrl: './summary.component.html',
+  styleUrls: ['./summary.component.css']
 })
 export class SummaryComponent implements OnInit {
 
@@ -63,7 +64,7 @@ export class SummaryComponent implements OnInit {
                 this.showSummary = false;
                 this.message = 'There is no summary for the selected parish.';
               }else{
-                this.message = `Total number of Sponsor's: ${this.summeries.length}, Total number of students: ${this.totalNumberOfStudents}, Total Contribution: $${this.totalConstribution}`;
+                this.message = `Total number of Sponsor's: ${this.summeries.length}, Total number of students: ${this.totalNumberOfStudents}, net fund untilized is: $${this.totalConstribution}`;
                 this.showSummary = true;
               }
             },

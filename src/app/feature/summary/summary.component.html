@@ -1,65 +1,82 @@
 <div class="container" style="margin-top:70px">
-    <h2>Enrollment Summary</h2>
-  
-    <div class="row" style="margin-top:20px">
-        <div class="col-sm-8">
-          <select class="form-control" (change)="onParishSelect($event.target.value)">
-            <option [value]="0" [selected]="true"> View by Parish </option>
-           <option *ngFor="let parish of parishes" [value]="parish.id"> {{parish.name}}, {{parish.city}} </option>
-          </select>
-          
-        </div>
-        <div class="col-sm-2">
-          <img (click)="generateSummary()" width="35px" src="assets/images/pdf.png">
-        </div>
-      </div>
-  
-      <br/>
-      <div *ngIf="message">
-        <i>{{message}}</i>
-      </div>
-    <div class="row" *ngIf="showSummary">
-        <div class="col-sm-12">
-          <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th>Sponsor Code</th>
-                  <th>Sponsor Name</th>
-                  <th align="right">Amount</th>
-                  <th>No</th>
-                  <th>Child Code</th>
-                  <th colspan="2">Renewal Due</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let e of summeries">
-                  <td>{{ e.sponsorCode }}</td>
-                  <td>{{ e.sponsorFirstName }} {{ e.sponsorMi }} {{ e.sponsorLastName }}</td>
-                  <td align="right">{{ e.contribution | currency:'USD':true:'2.2-4'}}</td>
-                  <td>{{ e.numberOfStudents }}</td>
-                  <td>
-                    <tr *ngFor="let st of e.students">
-                        <td>{{ st.studentCode }}</td>
-                    </tr>
-                  </td>
-                  <td>
-                      <tr *ngFor="let st of e.students">
-                          <td>{{ st.maxOutMonth }}</td>
-                      </tr>
-                    </td>
-                    <td>
-                        <tr *ngFor="let st of e.students">
-                            <td>{{ st.maxOutYear }}</td>
-                        </tr>
-                      </td>
-                 <!-- <td (click)="generateReceipt(e.sponsorName, e.enrollmentId)">Receipt </td> -->
-                </tr>     
-              </tbody>
-          </table>
-        </div>
-    </div>   
+  <h2>Enrollment Summary</h2>
+
+  <div class="row" style="margin-top:20px">
+    <div class="col-sm-8">
+      <select class="form-control" (change)="onParishSelect($event.target.value)">
+        <option [value]="0" [selected]="true"> View by Parish </option>
+        <option *ngFor="let parish of parishes" [value]="parish.id"> {{parish.name}}, {{parish.city}} </option>
+      </select>
+
+    </div>
+    <div class="col-sm-2">
+      <img (click)="generateSummary()" width="35px" src="assets/images/pdf.png">
+    </div>
   </div>
-  
-  <!--
+
+  <br />
+  <div *ngIf="message">
+    <i>{{message}}</i>
+  </div>
+  <div class="row" *ngIf="showSummary" style="margin-top:20px">
+    <div class="col-sm-12">
+      <div *ngFor="let summary of summeries; index as i">
+        <div class="row" style="margin-bottom:5px" *ngIf="i == 0">
+          <div class="col-sm-2 header-col">Sponsor Code</div>
+          <div class="col-sm-2 header-col">Sponsor Name</div>
+          <div class="col-sm-1 header-col">Donation</div>
+          <div class="col-sm-1 header-col">Utilized</div>
+          <div class="col-sm-1 header-col"># Kids</div>
+          <div class="col-sm-2 header-col">Child Code</div>
+          <div class="col-sm-2 header-col">Renewal Due</div>
+          <div class="col-sm-1 header-col">-</div>
+        </div>
+
+        <div class="row" style="margin-bottom:3px">
+          <div [ngClass]="(i == 0)?'col-sm-2':'col-sm-2 row-col'">{{ summary.sponsorCode }}</div>
+          <div [ngClass]="(i == 0)?'col-sm-2':'col-sm-2 row-col'">{{ summary.sponsorFirstName }} {{ summary.sponsorMi }} {{ summary.sponsorLastName }}
+          </div>
+          <div [ngClass]="(i == 0)?'col-sm-1':'col-sm-1 row-col'">{{ summary.netDonation | currency}}</div>
+          <div [ngClass]="(i == 0)?'col-sm-1':'col-sm-1 row-col'">{{ summary.contribution | currency}}</div>
+          <div [ngClass]="(i == 0)?'col-sm-1':'col-sm-1 row-col'">{{ summary.students.length }}</div>
+          <div [ngClass]="(i == 0)?'col-sm-4':'col-sm-4 row-col'">
+            <div class="row" *ngFor="let st of summary.students">
+              <div class="col-sm-6">{{ st.studentCode }}</div>
+              <div class="col-sm-4" [style.padding-left]="(i == 0)? '15px':'6px'">{{ st.maxOutMonth}} {{ st.maxOutYear }}</div>
+            </div>
+          </div>
+          <div [ngClass]="(i == 0)?'col-sm-1':'col-sm-1 row-col'">
+            <button class="btn btn-outline-primary btn-block" type="button" data-toggle="collapse"
+              [attr.data-target]="'#collapse-' + i" [attr.aria-expanded]="false" value="Receipts"
+              [attr.aria-controls]="'collapse-' + i"></button>
+          </div>
+        </div>
+
+        <div class="row" [attr.id]="'collapse-' + i" class="collapse out" style="margin-top:20px;">
+          <div class="col-sm-12" style="margin-bottom: 20px;">
+            <div class="row" *ngFor="let sp of summary.sponsorReceipts; index as j">
+              <div class="row" style="margin-bottom:5px" *ngIf="j == 0">
+                <div class="col-sm-2" style="text-align: right;">Receipt Id</div>
+                <div class="col-sm-2" style="text-align: right;">Receipt Date</div>
+                <div class="col-sm-1" style="text-align: right;">Amount</div>
+                <div class="col-sm-3">Transaction</div>
+              </div>
+
+              <div class="row">
+                <div class="col-sm-2" style="text-align: right;">{{sp.receiptId}}</div>
+                <div class="col-sm-2" style="text-align: right;">{{sp.rdate}}</div>
+                <div class="col-sm-1" style="text-align: right;">{{sp.amount | currency}}</div>
+                <div class="col-sm-3">{{sp.transaction}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--
+  http://jsfiddle.net/Nb7wy/2/
     https://stackoverflow.com/questions/44344114/different-line-in-ngfor-with-different-component-input?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
   -->

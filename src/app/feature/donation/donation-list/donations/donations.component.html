@@ -78,7 +78,7 @@
           <td>{{ receipt.receiptId }}</td>
           <td>{{ receipt.rdate }}</td>
           <td>{{ receipt.firstName }} {{ receipt.middleName }} {{ receipt.lastName }}</td>
-          <td align="right">{{ receipt.amount | currency:'USD':true:'2.2-4'}}</td>
+          <td align="right">{{ receipt.amount | currency}}</td>
           <td>{{ receipt.receiptType == 1 ? receipt.orgName : receipt.parishName }}</td>
           <td>{{ receipt.initiativeName}}</td>
           <td>{{ receipt.type ==0 ? 'Donation' : 'Sponsorship'}}</td>

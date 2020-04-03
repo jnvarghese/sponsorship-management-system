@@ -1,0 +1,25 @@
+
+.col {
+    padding-left:30px; 
+    font-size: 10px;
+}
+.collapse-row-tr {
+    height: 1px;
+}
+.header-col {
+    display: table-cell;
+    font-weight: bold;
+    vertical-align: bottom;
+    border-bottom: 2px solid #ddd;
+}
+
+.right {
+    text-align: right;
+}
+
+.row-col {
+    padding: 5px 2px 5px 16px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+}

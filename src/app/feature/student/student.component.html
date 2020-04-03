@@ -75,7 +75,7 @@
           <div *ngIf="activeInActiveStudentSummaries || activeActiveStudentSummaries" class="col-sm-12" style="margin-top:30px">
             <ul class="nav nav-tabs">
               <li class="active">
-                <a data-toggle="tab" href="#activeInActive">ActiveInActive Students <span
+                <a data-toggle="tab" href="#activeInActive"> <img width="20px" (click)="onExcelClick()" src="assets/images/excel.png"> ActiveInActive Students <span
                     class="badge badge-light">{{activeInActiveStudentSummaries?.length}}</span></a>
               </li>
               <li>
@@ -95,7 +95,8 @@
                           <th>Gender</th>
                           <th>Sponsor Name</th>
                           <th>Sponsor Parish</th>
-                          <th>Sponsorship Validity</th>
+                          <th>Expired On</th>
+                          <th>Over due(Days)</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -107,6 +108,7 @@
                           <td *ngIf="student.gender == 'O'">Other</td>
                           <td>{{ student.sponsorfirstName }} {{ student.sponsorMiddleInitial }} {{ student.sponsorLastName }}</td>
                           <td>{{ student.parishName }}, {{student.parishCity}}</td>
+                          <td>{{student.maxout}}</td>
                           <td>{{ student.days }}</td>
                         </tr>
                       </tbody>
@@ -117,15 +119,16 @@
               <div id="activeActive" class="tab-pane fade" >
                 <div *ngIf="activeActiveStudentSummaries" class="row" style="margin-top:10px">
                   <div class="col-sm-12">
-                    <table class="table table-hover">
+                    <table class="table table-hover" style="font-size: 11.5px;">
                       <thead>
                         <tr>
                           <th>Student Name</th>
-                          <th>Student Code</th>
+                          <th>Code</th>
                           <th>Gender</th>
                           <th>Sponsor Name</th>
                           <th>Sponsor Parish</th>
-                          <th>Sponsorship Validity</th>
+                          <th>Exipration Date</th>
+                          <th>Exipration Due(Days)</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -137,6 +140,7 @@
                           <td *ngIf="student.gender == 'O'">Other</td>
                           <td>{{ student.sponsorfirstName }} {{ student.sponsorMiddleInitial }} {{ student.sponsorLastName }}</td>
                           <td>{{ student.parishName }}, {{student.parishCity}}</td>
+                          <td>{{student.maxout}}</td>
                           <td>{{ student.days }}</td>
                         </tr>
                       </tbody>

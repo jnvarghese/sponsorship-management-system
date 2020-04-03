@@ -43,11 +43,12 @@ export class EnrollSponsorComponent implements OnInit {
   ngOnInit() {
     
     if (this.sponData) {
+      console.log( ' --- sponData --'+ this.sponData)
       this.enroll = new Enrollment(
         this.sponData.enrollmentId,
         this.sponData.sponsorId,
         this.sponData.sponsorName,
-        this.sponData.effectiveDate, // paymentDate,
+        //this.sponData.effectiveDate, // paymentDate,
         this.sponData.effectiveDate,
         this.sponData.contributionAmount,
         0,
@@ -121,7 +122,6 @@ export class EnrollSponsorComponent implements OnInit {
   }
 
   selectSponsor(sponsor: Sponsor) {
-    console.log(' sponsor.miscAmount', sponsor.miscAmount);
     this.onModeSelect('manual');
     this.hasAnySponsorSelected = true;
     let fullName = sponsor.firstName + ' ' + sponsor.lastName;
@@ -130,6 +130,7 @@ export class EnrollSponsorComponent implements OnInit {
     this.enroll.sponsorId = sponsor.id;
     this.enroll.parishId = sponsor.parishId;
     this.enroll.sponsorName = fullName;
+    this.sponsorEnrollForm.controls['contributionAmount'].setValue((sponsor.amount > 0) ? (sponsor.amount - sponsor.enrollmentNetAmount): '');
     this.sponsorEnrollForm.controls['parishId'].setValue(sponsor.parishId);
     this.sponsorEnrollForm.controls['enrollmentId'].setValue(sponsor.entId);
     this.sponsorEnrollForm.controls['effectiveDate'].setValue(this.getRenewalDate(sponsor));
@@ -140,6 +141,8 @@ export class EnrollSponsorComponent implements OnInit {
   getRenewalDate(sponsor: Sponsor): string {
     if(sponsor.expirationMonth === 12){
       return '01/01/'+(sponsor.expirationYear+1)
+    } else if(sponsor.noOfStudents === 0){
+      return moment(new Date()).format("MM/DD/YYYY")
     }
     return (sponsor.expirationMonth+1)+'/01/'+sponsor.expirationYear
   }
@@ -204,6 +207,7 @@ export class EnrollSponsorComponent implements OnInit {
     console.log(' Resetting Sponsor ')
     this.hasAnySponsorSelected = false;
     this.createForm();
+    this.sponsors = [];
     this.enroll = new Enrollment();
   }
 }

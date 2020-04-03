@@ -23,9 +23,8 @@
                 <th (click)="sortByName()">Sponsor Name</th>
               <!-- <th>Parish Name</th> --> 
                 <th>Effective Date</th>
-                <th>Recent Cont.</th>
-                <th>Net Cont.</th>
-                <th>Net Parish Cont.</th>
+                <th>Enrollment Contribution</th>
+                <th>Net Donation</th>
                 <th>Created By & Date</th>
                 <th>Download</th>
                <!-- <th>Sponsor Receipt</th> -->
@@ -37,9 +36,8 @@
                 <td>{{ e.sponsorName }}</td>
               <!-- <td>{{ e.parishName }}</td> --> 
                 <td>{{ e.effectiveDate }}</td>
-                <td align="right">{{ e.contribution }}</td>
-                <td align="right">{{ e.netIndividualContribution }}</td>
-                <td align="right">{{ e.netParishContribution }}</td>
+                <td>{{ e.contribution | currency}}</td>
+                <td>{{ e.netContribution | currency}}</td>
                 <td>{{e.updatedDate}}</td> <!--  {{ e.createdBy}}  -->
                 <td><img (click)="generateReport(e.sponsorName, e.enrollmentId)" width="20px" src="assets/images/download.png"></td>
               </tr>     

@@ -4,6 +4,7 @@ import { Student } from '../model/student';
 import { Router } from '@angular/router';
 import { Project, Graph, StudentActiveSummary, StudentSummary } from '../model';
 import { AdminService } from './../shared/service/admin.service';
+import { saveAs as importedSaveAs } from "file-saver";
 
 @Component({
   selector: 'app-student',
@@ -40,6 +41,19 @@ export class StudentComponent implements OnInit {
 
   addStudent() {
     this.router.navigate(['/home/student/add']);
+  }
+
+  onExcelClick(){
+    //let fileName="Campaign-"+this.obj.cmpNameToSearch+"_"+this.day + "_" + this.month + "_" + this.year +".xlsx";
+  
+    this.studentService.downloadExcel(this.selectedProjectId).subscribe(
+      blob => {
+        importedSaveAs(blob, this.selectedProjectId.toString());
+      },
+      () =>{
+        console.log(' Downloaded. '); 
+      }
+    )
   }
 
   onProjectSelect(value: any) {

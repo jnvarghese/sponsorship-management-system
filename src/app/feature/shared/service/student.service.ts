@@ -12,9 +12,16 @@ const headers = new HttpHeaders()
 @Injectable()
 export class StudentService {
 
-  private studentsUrl = 'api/student';
+  private api = 'api';
+  private studentsUrl = `${this.api}/student`;
 
   constructor(private http: HttpClient) { }
+
+  downloadExcel(id: number){
+    return this.http.get(this.api + "/excel/students/activeinactive/" + id, {
+      responseType: "blob"
+  });
+  }
 
   getStudentsByProjectId(id: number) {
     return this.http.get<Array<Student>>(`${this.studentsUrl}/list/byproject/${id}`);
