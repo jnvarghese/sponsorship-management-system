@@ -58,3 +58,7 @@ body {
       height: 29px;
       border: 1px solid lightgray;
   }
+
+.table {
+    font-size: 11.6px;
+}

@@ -1,0 +1,81 @@
+<div class="container" style="margin-top:70px">
+  <h2>Expired sponsorship</h2>
+  <p>Expired sponsor detail</p>
+  <div class="row" style="margin-top:20px">
+    <div class="col-sm-12">
+      <ul class="nav nav-tabs">
+        <li class="active">
+          <a data-toggle="tab" href="#viewByParish">View by Demography</a>
+        </li>
+        <li>
+          <a data-toggle="tab" href="#viewByYear">View by Year</a>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div id="viewByParish" class="tab-pane fade in active">
+          <div *ngIf="regionSponsorGroups">
+            <div class="col-md-12" *ngFor="let regionkey of objectKeys(regionSponsorGroups); index as i"
+              id="region{{i}}" style="margin-top:10px">
+              <span (click)="onRegionSelect(regionSponsorGroups[regionkey], regionkey)"
+                id="regionSpan{{i}}">{{regionkey + ' : ' + regionSponsorGroups[regionkey].length}}</span>
+              <div *ngIf="centerSponsorGroups" class="row-fluid">
+                <div class="row-fluid" *ngIf="selectedRegionKey === regionkey" id="region_{{regionkey}}">
+                  <div class="col-md-12" *ngFor="let centerKey of objectKeys(centerSponsorGroups)"
+                    style="margin-top:10px">
+                    <span
+                      (click)="onCenterSelect(centerSponsorGroups[centerKey], regionkey+centerKey)">{{centerKey + ' : ' + centerSponsorGroups[centerKey].length}}</span>
+                    <div *ngIf="parishSponsorGroups" class="row-fluid">
+                      <div class="row-fluid" *ngIf="selectedCenterKey === regionkey+centerKey" id="center_{{regionkey+centerKey}}">
+                        <div class="col-md-12" *ngFor="let parishKey of objectKeys(parishSponsorGroups)"
+                          style="margin-top:10px">
+                          <span
+                            (click)="onParishSelect(parishSponsorGroups[parishKey], parishKey)">{{parishKey + ' : ' + parishSponsorGroups[parishKey].length}}</span>
+                          <div *ngIf="sponsorGroups" class="row-fluid">
+                            <div class="row-fluid" *ngIf="selectedParishKey === parishKey" id="sponsor_{{parishKey}}">
+                              <div class="col-md-12" *ngFor="let sponsorKey of objectKeys(sponsorGroups)"
+                                style="margin-top:10px">
+                                <span
+                                  (click)="onSponsorSelect(sponsorGroups[sponsorKey],sponsorGroups[sponsorKey][0].sponsorId)">{{sponsorKey}}</span>
+                                <span (click)="deleteSponsorship(sponsorGroups[sponsorKey][0].enrollmentId)" style="padding-left: 10px; font-size: 10px; color:blue">[ Release ]</span>
+                                <div *ngIf="selectSponsorKey === sponsorGroups[sponsorKey][0].sponsorId"
+                                  id="student_{{selectSponsorKey}}">
+                                  <div *ngIf="students" class="row-fluid" style="margin-top:10px">
+                                    <div class="col-sm-12" style="margin-bottom:5px">
+                                      <!--<label>Available students for sponsorship</label>-->
+                                      <div class="row" style="margin-bottom:5px">
+                                        <div class="col-sm-1">Code</div>
+                                        <div class="col-sm-3">Name</div>
+                                        <div class="col-sm-1">Gender</div>
+                                        <div class="col-sm-2">Grade</div>
+                                        <div class="col-sm-2">Maxout</div>
+                                        <div class="col-sm-3">Project</div>
+                                      </div>
+                                      <div class="row" *ngFor="let student of students" style="margin-bottom:3px">
+                                        <div class="col-sm-1">{{ student.studentCode }}</div>
+                                        <div class="col-sm-3">{{ student.studentName }}</div>
+                                        <div class="col-sm-1">{{ student.gender }}</div>
+                                        <div class="col-sm-2">{{ student.grade}}</div>
+                                        <div class="col-sm-2">{{ student.maxOut | date: 'MMM,yyyy'}}</div>
+                                        <div class="col-sm-3">{{ student.projectName}}</div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="viewByYear" class="tab-pane fade">
+          
+        </div>
+      </div>
+    </div>

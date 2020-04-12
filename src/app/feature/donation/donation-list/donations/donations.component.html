@@ -6,10 +6,10 @@
         <div class="panel-heading">
           <h4 class="panel-title" style="font-size: 13px;">
             <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
-              href="#parish{{receipt.receiptId}}" (click)="onParishSelectClear()"> <!--(click)="onParishSelect(receipt.referenceId, receipt.receiptId)"-->
+              href="#parish{{receipt.receiptId}}" (click)="onParishSelect(receipt.receiptId)"> <!--(click)="onParishSelect(receipt.referenceId, receipt.receiptId)"-->
               <span>{{ receipt.receiptId }} - </span>
               <span>Parish: {{ receipt.receiptType == 1 ? receipt.orgName : receipt.parishName }}, </span>
-              <span>Amount: {{ receipt.amount}} </span>
+              <span>Amount: {{ receipt.amount | currency}} </span>
             </a>
           </h4>
         </div>
@@ -29,20 +29,23 @@
                       (blur)="findSponsorBySponsorCode(sponsorCode.value, receipt.referenceId)"
                        id="sponsor-code{{receipt.receiptId}}" placeholder="Sponsor Code"/>
                   </div>
-                  <div class="col-sm-3">
+                  <div class="col-sm-2">
                     <input id="firstName{{receipt.receiptId}}" class="form-control" type="text" #firstName placeholder="First Name" />
                   </div>
-                  <div class="col-sm-3">
+                  <div class="col-sm-2">
                     <input id="lastName{{receipt.receiptId}}" class="form-control" type="text" #lastName placeholder="Last Name" />
                   </div>
-                  <div class="col-sm-3">
+                  <div class="col-sm-2">
                     <button type="button" id="search{{receipt.receiptId}}" (click)="search(receipt.referenceId)"
                       class="btn btn-primary btn-sm">Search</button>
                   </div>
+                  <div class="col-sm-4 grey text-align: center">
+                    <label style="text-align: center">Funds distributed: {{(refreshClicked) ? (sponsorReceiptAmount | currency) : (receipt.sponsorReceiptAmount | currency)}} <img (click)="refresh(receipt)" alt="Click to refresh" width="20px" src="assets/images/refresh.png"></label>
+                  </div>
                 </div>
                 <div class="row-fluid" *ngIf="displaySponsorList">
-                  <div class="col-sm-12" *ngFor="let sponsor of sponsors" style="margin-top: 20px;">
-                    <sponsor [sponsor]=sponsor [receipt]=receipt [sponsorReceipts]=sponsorReceipts></sponsor>
+                  <div class="col-sm-12" *ngFor="let sponsor of sponsors; index as i" [style.margin-top]="(i == 0)? '20px':'8px'">
+                    <sponsor [sponsor]=sponsor [receipt]=receipt></sponsor>
                   </div>
                 </div>
               </div>

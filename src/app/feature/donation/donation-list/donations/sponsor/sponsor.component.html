@@ -1,18 +1,18 @@
 <form [formGroup]="sponsorForm" (ngSubmit)="saveContribution(sponsorForm.value)" novalidate>
     <input type="hidden" formControlName="id" />
-    <div class="row-fluid" style="margin-top: 5px;">
+    <div class="row-fluid" style="margin-top: 2px;">
         <div class="col-sm-1 grey text-align: center"><label>{{ sponsor.sponsorCode }}</label></div>
         <div class="col-sm-2 grey text-align: center"><label>{{ sponsor.firstName }}</label></div>
         <div class="col-sm-2 grey text-align: center"><label>{{ sponsor.lastName }}</label></div>
         <div class="col-sm-4 grey text-align: center"><label>{{ sponsor.street}}, {{ sponsor.city}}, {{ sponsor.state}} -
             {{ sponsor.postalCode}}</label></div>
         <div class="col-sm-3 grey text-align: center" *ngIf="enableAmountEntry">
-            <input formControlName="contributionAmount" id="contributionAmount{{sponsor.id}}" type="text" />
+            <input #amountInput formControlName="contributionAmount" id="contributionAmount{{sponsor.id}}" type="text" />
             <button type="submit" class="btn btn-primary btn-xs" [disabled]="sponsorForm.invalid">Save</button>
             <button type="button" (click)="cancel()" class="btn btn-secondary btn-xs">Cancel</button>
         </div>
-        <div class="col-sm-3 grey text-align: center" *ngIf="showLabel">
-            <label>{{sponsorForm.get('contributionAmount').value }}</label>
+        <div class="col-sm-3 grey text-align: right" *ngIf="showLabel">
+            <label>{{sponsorForm.get('contributionAmount').value | currency }}</label>
             <button type="button" (click)="enableEdit()" class="btn btn-link btn-sm">Edit</button>|<button type="button"
                 (click)="clearAmount()" class="btn btn-link btn-sm">Clear</button>
         </div>

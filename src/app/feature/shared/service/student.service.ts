@@ -16,7 +16,7 @@ export class StudentService {
   private studentsUrl = `${this.api}/student`;
 
   constructor(private http: HttpClient) { }
-
+  
   downloadExcel(id: number){
     return this.http.get(this.api + "/excel/students/activeinactive/" + id, {
       responseType: "blob"

@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Sponsor, Enrollment, SponsorshipInfo, Contribution } from "../../model";
+import { MaxOutSponsor } from "../../model/maxoutsponsor";
 
 const headers = new HttpHeaders()
             .set('Content-Type', 'application/json');
@@ -12,8 +13,16 @@ export class SponsorService<T> {
 
   constructor(private http: HttpClient) { }
 
+  getMaxOutSponsorship(){
+    return this.http.get<Array<MaxOutSponsor>>(`${this.sponsorUrl}/maxout/xxx/xxx`);
+  }
+
   getSponsors() {
     return this.http.get<Array<T>>(`${this.sponsorUrl}/list`);
+  }
+
+  getSponorReceiptsByReceiptId(receiptId: number) {
+      return this.http.get<Array<T>>(`${this.sponsorUrl}/receipts/${receiptId}`)
   }
 
   getSponsorsByFirstNameAndLastName(firstName: String, lastName: string, parishId: number) {

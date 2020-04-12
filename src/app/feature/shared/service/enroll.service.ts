@@ -20,6 +20,10 @@ export class EnrollService {
         return this.http.post<Enrollment>(`${this.apiUrl}/enroll`, JSON.stringify(enrollment), { headers });
     }
 
+    release(enrollmentId: number) {
+        return this.http.post<String>(`${this.apiUrl}/release`, {enrollmentId: enrollmentId}, { headers });
+    }
+
     listEnrollments(parishId: number){
         return this.http.get<Array<ViewEnroll>>(`${this.apiUrl}/view/enrollment/${parishId}`);
     }

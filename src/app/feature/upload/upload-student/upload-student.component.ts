@@ -26,6 +26,7 @@ export class UploadStudentComponent implements OnInit {
   projectId: number;
   filesToUpload: File;
   error: any;
+  uploadResponseError: any;
 
   constructor(
     private agencyService: AdminService<Agency>,
@@ -106,8 +107,10 @@ export class UploadStudentComponent implements OnInit {
             this.list('student');   
             this.uploadStudentList = true;
             this.uploadStudentFile = false;
+            this.uploadResponseError = undefined;
           }
-        }
+        },
+        err => this.uploadResponseError = `HTTP Status: ${err.status} ${err.statusText}. Errors are, ${err.error}`
       );
   }
 

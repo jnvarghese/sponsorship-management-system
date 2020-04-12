@@ -44,5 +44,6 @@ export class Sponsor {
     type: string;
     amount: number;
     enrollmentNetAmount: number;
+    sponsorReceiptId: number
     //effectiveDate: Date;
 }

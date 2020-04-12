@@ -1,6 +1,6 @@
 
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-import { Sponsor, SponsorReceipts } from '../../../model';
+import { Sponsor, SponsorReceipts, Receipts } from '../../../model';
 import { SponsorService } from '../../../shared/service/sponsor.service';
 import { ReceiptsService } from '../../../shared/service/receipts.service';
 
@@ -19,6 +19,8 @@ export class DonationsComponent implements OnInit {
   displaySponsorList: boolean = false;
   @ViewChild('firstName') firstNameElement: ElementRef;
   @ViewChild('lastName') lastNameElement: ElementRef;
+  sponsorReceiptAmount: number;
+  refreshClicked:boolean;
 
   ngOnInit(): void {
     // throw new Error("Method not implemented.");
@@ -26,9 +28,20 @@ export class DonationsComponent implements OnInit {
   constructor(private receiptsService: ReceiptsService, private sponsorService: SponsorService<Sponsor>) {
   }
 
-  onParishSelectClear(){
-    this.sponsors = [];
-    //this.displaySponsorList = false;
+  onParishSelect(receiptId: number){
+    this.sponsorService.getSponorReceiptsByReceiptId(receiptId).subscribe(
+      data => this.sponsors = data,
+      err => this.handleError
+    )
+    this.displaySponsorList = true;
+  }
+
+  refresh(receipt: Receipts){
+    this.refreshClicked = true;
+    this.receiptsService.refresh(receipt.receiptId).subscribe(
+      data => this.sponsorReceiptAmount = data.sponsorReceiptAmount,
+      err => this.handleError
+    )
   }
 
   search(parishId: number) {
@@ -71,7 +84,7 @@ export class DonationsComponent implements OnInit {
       );
     }
   }
-  onParishSelect(parishId: number, receiptId: number): void {
+  onParishSelectDepricated(parishId: number, receiptId: number): void {
 
     this.receiptsService.getSponsorReceiptsByReceiptId(receiptId).subscribe(
       data => {
@@ -79,7 +92,7 @@ export class DonationsComponent implements OnInit {
       },
       err => { console.error('Error fetching sponsor receipts! ') }
     );
-    if (this.sponsorReceipts) {
+    /*if (this.sponsorReceipts) {
       this.sponsorService.getSponsorsByParishId(parishId).subscribe(
         data => {
           this.sponsors = data
@@ -91,7 +104,7 @@ export class DonationsComponent implements OnInit {
         },
         err => this.handleError
       );
-    }
+    }*/
 
 
   }

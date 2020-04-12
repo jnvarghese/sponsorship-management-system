@@ -49,22 +49,6 @@
                           <div *ngIf="studentSummary && st.studentId === inactiveSelectedStudent" class="col-md-10"
                             style="margin-top:20px">
                             <div class="row-fluid">
-                              <!--
-                              <div class="col-sm-12">
-                                <label>Search student</label>
-                                <input type="studentSearch" autocomplete="off" class="form-control" #studentSearchBox
-                                  id="student-search-box" (keyup)="searchStudent(studentSearchBox.value)"
-                                  placeholder="Search student, three characters mininum" />
-                                <div class="list-group">
-                                  <div *ngFor="let student of students | async; let i=index">
-                                    <a data-toggle="tab" href="#student" (click)="onStudentSelect(student)"
-                                      class="list-group-item list-group-item-action">
-                                      {{student.studentUniqueCode}}, {{student.studentName}} - {{student.projectName}}
-                                    </a>
-                                  </div>
-                                </div>
-                              </div>
-                            -->
                               <div class="col-sm-12" style="margin-bottom:5px">
                                 <label>Available students for sponsorship</label>
                                 <div class="row" style="margin-bottom:5px">

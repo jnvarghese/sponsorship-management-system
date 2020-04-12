@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { EnrollmentComponent, EnrollSponseeComponent, EnrollSponsorComponent, ReviewComponent } from './index';
 import { SharedModule } from '../../shared/shared.module';
 import { ReleaseSponsorshipComponent } from './release-sponsorship/release-sponsorship.component';
+import { ExpiredSponsorshipComponent } from './expired-sponsorship/expired-sponsorship.component';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { ReleaseSponsorshipComponent } from './release-sponsorship/release-spons
     EnrollSponseeComponent,
     EnrollSponsorComponent,
     ReviewComponent,
-    ReleaseSponsorshipComponent
+    ReleaseSponsorshipComponent,
+    ExpiredSponsorshipComponent
   ],
   providers: []
 })

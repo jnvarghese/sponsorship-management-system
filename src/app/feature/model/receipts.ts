@@ -30,4 +30,5 @@ export class Receipts{
     updatedBy: number;
     status: number;
     streetAddress: string;
+    sponsorReceiptAmount: number;
 }

@@ -35,7 +35,7 @@
                                     <p>{{c.paymentDate}}</p>
                                 </td>
                                 <td class="col-sm-4">
-                                    <div class="circle" [ngStyle]="{'background':c.noOfKids === 1 ? 'green' : 'red'}">
+                                    <div class="circle" [style.background]="(c.noOfKids === 1) ? 'green' : 'red'">
                                         <p>{{c.contriAmount}} {{c.noOfKids}}</p>
                                     </div>  
                                 </td>

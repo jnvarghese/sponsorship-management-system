@@ -12,7 +12,8 @@ export class Upload {
     initiativeId: number;
     uploadedBy: string;
     fileName: string;
-    status: boolean;
+    status: string;
     batchExecutionStatus: number;
     createdDate: string;
+    jobid: number;
 }

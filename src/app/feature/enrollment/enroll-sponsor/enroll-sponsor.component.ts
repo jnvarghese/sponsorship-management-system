@@ -48,7 +48,7 @@ export class EnrollSponsorComponent implements OnInit {
         this.sponData.enrollmentId,
         this.sponData.sponsorId,
         this.sponData.sponsorName,
-        //this.sponData.effectiveDate, // paymentDate,
+        this.sponData.effectiveDate, // paymentDate,
         this.sponData.effectiveDate,
         this.sponData.contributionAmount,
         0,

@@ -1,5 +1,5 @@
 
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, Renderer } from '@angular/core';
 import { Sponsor, Receipts, SponsorReceipts } from '../../../../model';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { ReceiptsService } from '../../../../shared/service/receipts.service';
@@ -13,7 +13,7 @@ export class SponsorComponent implements OnInit {
 
     @Input() sponsor: Sponsor;
     @Input() receipt: Receipts;
-    @Input() sponsorReceipts: Array<SponsorReceipts>;
+    //@Input() sponsorReceipts: Array<SponsorReceipts>;
     sr:SponsorReceipts = new SponsorReceipts();
     sponsorForm: FormGroup;
     contributionAmount: FormControl = new FormControl('', Validators.required);
@@ -21,19 +21,15 @@ export class SponsorComponent implements OnInit {
     showLabel: boolean = true;
     enableAmountEntry: boolean = false;
 
+    @ViewChild("amountInput") inputEl: ElementRef;
+    
     ngOnInit(): void {
-
         this.createForm(this.sr);
-       
-        //this.pupulateForm(this.sponser);
     }
     createForm(sr: SponsorReceipts) {
        
-        if(this.sponsorReceipts){
-            sr =  this.sponsorReceipts.find(r => r.sponsorId === this.sponsor.id);
-        }else{
-            console.log(' no sr found ')
-        } 
+        this.sr.id = this.sponsor.sponsorReceiptId;
+        this.sr.amount = this.sponsor.amount;
 
         this.sponsorForm = this.fb.group({
             id: [(sr) ? sr.id : ''],
@@ -41,11 +37,12 @@ export class SponsorComponent implements OnInit {
         });
     }
 
-    constructor(private receiptsService: ReceiptsService, private fb: FormBuilder) { }
+    constructor(private receiptsService: ReceiptsService, private fb: FormBuilder,private renderer: Renderer) { }
 
     enableEdit(){
         this.showLabel = false;
         this.enableAmountEntry = true;
+       // this.renderer.invokeElementMethod(this.inputEl.nativeElement, 'focus');
     }
 
     clearAmount(){

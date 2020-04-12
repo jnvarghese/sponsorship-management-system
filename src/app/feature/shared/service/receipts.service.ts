@@ -14,6 +14,9 @@ export class ReceiptsService {
 
     constructor(private httpClient: HttpClient) { }
 
+    refresh(receiptId: number){
+        return this.httpClient.get<Receipts>(`${this.api}/amount/${receiptId}`);
+    }
 
     listByRange(range: number): Observable<Array<Receipts>> {
         console.log(' range ', range);
@@ -31,10 +34,6 @@ export class ReceiptsService {
         }
         console.log(' rangeValue ', rangeValue);
         return this.httpClient.get<Array<Receipts>>(`${this.api}/listbyrange/${rangeValue}`)
-    }
-
-    getReceiptsByParishId(parishId: number): Observable<Array<Receipts>> {
-        return this.httpClient.get<Array<Receipts>>(`${this.api}/listbyparish/${parishId}`)
     }
 
     findReceipt(id: number) {
