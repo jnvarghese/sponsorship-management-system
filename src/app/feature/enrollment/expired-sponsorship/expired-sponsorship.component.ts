@@ -83,7 +83,7 @@ export class ExpiredSponsorshipComponent implements OnInit {
 
   deleteSponsorship(enrollmentId: number){
     this.enrollService.release(enrollmentId).subscribe(
-      response => console.log(response.status)
+      response => console.log(response)
     )
   }
 
