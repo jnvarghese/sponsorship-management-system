@@ -1,7 +1,7 @@
 <nav *ngIf="userId" class="navbar navbar-inverse navbar-fixed-top ">
   <div class="container-fluid">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -38,10 +38,13 @@
           </a>
           <ul class="dropdown-menu">
             <li>
-              <a [routerLink]="['./donation/add']">New donation</a>
+              <a [routerLink]="['./donation/add']">New Donation</a>
             </li>
             <li>
-              <a [routerLink]="['./donation/list']">Manage donation</a>
+              <a [routerLink]="['./donation/list']">Manage Monation</a>
+            </li>
+            <li>
+              <a [routerLink]="['./receipts/list']">Download Receipt</a>
             </li>
           </ul>
         </li>
@@ -51,10 +54,10 @@
           </a>
           <ul class="dropdown-menu">
             <li>
-              <a [routerLink]="['./sponsor/add']">New sponsor</a>
+              <a [routerLink]="['./sponsor/add']">New Sponsor</a>
             </li>
             <li>
-              <a [routerLink]="['./sponsor/list']">Manage sponsors</a>
+              <a [routerLink]="['./sponsor/list']">Manage Sponsor</a>
             </li>
           </ul>
         </li>
@@ -67,7 +70,7 @@
               <a [routerLink]="['./student/add']">New Student</a>
             </li>
             <li>
-              <a [routerLink]="['./student/list']">Manage Students</a>
+              <a [routerLink]="['./student/list']">Manage Student</a>
             </li>
           </ul>
         </li>
@@ -86,31 +89,19 @@
               <a [routerLink]="['./view-summary']">Enrollment Summary</a>
             </li>
             <li>
-              <a [routerLink]="['./release-sponsorship']">Release Students</a>
+              <a [routerLink]="['./release-sponsorship']">Substitute Student</a>
             </li>
+           <!-- <li>
+              <a [routerLink]="['./substitute-student']">Substitute Student</a>
+            </li>
+          -->
             <li>
               <a [routerLink]="['./view-expired-sponsorship']">View Expired Sponsorship</a>
             </li>
+            <li>
+              <a [routerLink]="['./manage-sponsor']">Manage Sponsorship</a>
+            </li>
           </ul>
-        </li>
-        <li class="dropdown" [routerLinkActive]="['active']">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Receipts
-              <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-              <li>
-                <a [routerLink]="['./receipts/list']">View receipts</a>
-              </li>
-             <!--
-              <li>
-                <a [routerLink]="['./receipts/manage-receipts']">Manage Receipts</a>
-              </li>
-              -->
-            </ul>
-        </li>
-
-        <li [routerLinkActive]="['active']">
-          <a [routerLink]="['./manage-sponsor']">Manage Sponsorship</a>
         </li>
         <li class="dropdown" [routerLinkActive]="['active']">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">Data Load

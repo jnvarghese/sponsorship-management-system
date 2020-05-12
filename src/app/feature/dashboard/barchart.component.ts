@@ -41,7 +41,7 @@ export class BarChartComponent implements OnInit {
   */
     drawChart(data) {
 
-        var svgWidth = 500, svgHeight = 300;
+        var svgWidth = 1100, svgHeight = 400;
         var margin = { top: 40, right: 20, bottom: 30, left: 50 };
         var width = svgWidth - margin.left - margin.right;
         var height = svgHeight - margin.top - margin.bottom;

@@ -20,7 +20,7 @@ import { ExpiredSponsorshipComponent } from './expired-sponsorship/expired-spons
     EnrollSponsorComponent,
     ReviewComponent,
     ReleaseSponsorshipComponent,
-    ExpiredSponsorshipComponent
+    ExpiredSponsorshipComponent,
   ],
   providers: []
 })

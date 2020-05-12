@@ -35,6 +35,8 @@ export class ReleaseSponsorshipComponent implements OnInit {
 
   activeInActiveStudents: Array<StudentSummary>;
 
+  selectedAgencyKey: number; 
+
   selectedProjectKey: string;
 
   agencyWise: any;
@@ -133,7 +135,8 @@ export class ReleaseSponsorshipComponent implements OnInit {
     this.projectSearchTerms.next(term);
   } */
 
-  onAgencySelect(prjArray: any) {
+  onAgencySelect(prjArray: any, agencyKey: number) {
+    this.selectedAgencyKey = agencyKey;
     this.projectWise = prjArray.reduce((acc, d) => {
       acc[d.projectName] = acc[d.projectName] || []
       acc[d.projectName].push({
