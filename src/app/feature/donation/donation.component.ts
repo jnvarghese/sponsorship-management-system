@@ -226,10 +226,10 @@ export class DonationComponent implements OnInit {
   }
   setSponsorData(sponsor){
     for (let [key, value] of Object.entries(sponsor)) {
-      //console.log((`${key} ${value}`));
+     // console.log((`${key} ${value}`));
       this.donationForm.get(`${key}`).setValue(`${value}`);
     }
-    //console.log('- set', this.donationForm.value)
+   // console.log('- set', this.donationForm.value)
   }
 
   toggleFields(sponsor = {}, status: string){
@@ -276,7 +276,7 @@ export class DonationComponent implements OnInit {
       firstName: clickedSponsor.firstName,
       middleName: clickedSponsor.middleInitial || '',
       lastName: clickedSponsor.lastName,
-      fullName: clickedSponsor.firstName + ' ' + (clickedSponsor.middleInitial || '') + ' ' + clickedSponsor.lastName,
+      fullName: clickedSponsor.firstName + (clickedSponsor.middleInitial) ? ' '+clickedSponsor.middleInitial+' ' : '' + clickedSponsor.lastName,
       streetAddress: clickedSponsor.street || '',
       city: clickedSponsor.city,
       state: clickedSponsor.state,
@@ -328,16 +328,16 @@ export class DonationComponent implements OnInit {
 
       this.isOrganizationSelected = false;
     } else if (value == 1) { // organization
-      this.donationForm.get('firstName').setValue('');
-      this.donationForm.get('middleName').setValue('');
-      this.donationForm.get('lastName').setValue('');
+      //this.donationForm.get('firstName').setValue('');
+      //this.donationForm.get('middleName').setValue('');
+      //this.donationForm.get('lastName').setValue('');
 
       this.displaySponsorSearch = false;
       this.sponsors = [];
 
       this.alternateEmail = false;
-      this.setSponsorData(this.spn);
-      this.toggleFields(this.spn, 'enable');
+      //this.setSponsorData(this.spn);
+      //this.toggleFields(this.spn, 'enable');
 
       firstNameControl.setValidators(null);
       lastNameControl.setValidators(null);
@@ -465,7 +465,7 @@ export class DonationComponent implements OnInit {
           firstName: sponsor.firstName,
           middleName: sponsor.middleInitial || '',
           lastName: sponsor.lastName,
-          fullName: sponsor.firstName + ' ' + (sponsor.middleInitial || '') + ' ' + sponsor.lastName,
+          fullName: sponsor.firstName + (sponsor.middleInitial) ? ' '+sponsor.middleInitial+' ' : '' + sponsor.lastName,
           streetAddress: sponsor.street || '',
           city: sponsor.city,
           state: sponsor.state,

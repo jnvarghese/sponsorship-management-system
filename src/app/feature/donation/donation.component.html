@@ -23,6 +23,7 @@
                   <label for="selectedCity">Parish City</label>
                   <select class="form-control" formControlName="selectedCity">
                     <option [value]="0" [selected]="true"> Please choose one </option>
+                    <option [value]="1">External</option>
                     <option *ngFor="let city of cities" [value]="city">{{city}}</option>
                   </select>
                 </div>
