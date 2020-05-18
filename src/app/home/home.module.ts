@@ -30,6 +30,7 @@ import { BarChartComponent } from '../feature/dashboard/barchart.component';
 import { DonationModule } from '../feature/donation/donation.module';
 import { BoxDonutChartComponent } from '../feature/common/d3/box-donut-chart.component';
 import { KeysPipe } from '../shared/keyspipe';
+import { RenewalModule } from '../feature/common/renewal/renewal.module';
 
 @NgModule({
     imports: [
@@ -39,6 +40,7 @@ import { KeysPipe } from '../shared/keyspipe';
       SponsorModule,
       EnrollmentModule,
       ReceiptsModule,
+      RenewalModule,
       DonationModule,
       ManageSponsorShipModule,
       AdminModule,

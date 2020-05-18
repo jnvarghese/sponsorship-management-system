@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Sponsor, Enrollment, SponsorshipInfo, Contribution } from "../../model";
+import { Sponsor, Enrollment, SponsorshipInfo, Contribution, Student } from "../../model";
 import { MaxOutSponsor } from "../../model/maxoutsponsor";
 
 const headers = new HttpHeaders()
@@ -31,6 +31,10 @@ export class SponsorService<T> {
 
   getSponsorsByParishId(id: number) {
     return this.http.get<Array<T>>(`${this.sponsorUrl}/listbyparish/${id}`);
+  }
+
+  getEnrolledStudentsBySponsorId(id: number) {
+    return this.http.get<Array<Student>>(`${this.sponsorUrl}/${id}/students`);
   }
 
   getSequence(id: number) {
@@ -64,6 +68,11 @@ export class SponsorService<T> {
   search(term: string) {
     return this.http.get<Array<T>>(`${this.sponsorUrl}/search/${term}`);
   }
+
+  searchByParishId(id: number, term: string) {
+    return this.http.get<Array<T>>(`${this.sponsorUrl}/search/${term}/parish/${id}`);
+  }
+
 
   searchSponsor(payload) {
     return this.http

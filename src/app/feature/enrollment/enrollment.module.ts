@@ -6,6 +6,7 @@ import { EnrollmentComponent, EnrollSponseeComponent, EnrollSponsorComponent, Re
 import { SharedModule } from '../../shared/shared.module';
 import { ReleaseSponsorshipComponent } from './release-sponsorship/release-sponsorship.component';
 import { ExpiredSponsorshipComponent } from './expired-sponsorship/expired-sponsorship.component';
+import { SubstitutionService } from '../shared/service/substitution.service';
 
 @NgModule({
   imports: [
@@ -22,6 +23,6 @@ import { ExpiredSponsorshipComponent } from './expired-sponsorship/expired-spons
     ReleaseSponsorshipComponent,
     ExpiredSponsorshipComponent,
   ],
-  providers: []
+  providers: [SubstitutionService]
 })
 export class EnrollmentModule { }

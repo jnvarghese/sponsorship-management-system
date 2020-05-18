@@ -55,9 +55,9 @@ export class StudentService {
     return this.http.post<Student>(`${this.studentsUrl}/add`, JSON.stringify(student), { headers });
   }
 
-  public swapStudent(sourceStudent: number, targetStudent: number, enrollmentId: number) {
-    return this.http.post(`${this.studentsUrl}/swap`, 
-    {sourceStudent: sourceStudent, targetStudent: targetStudent, enrollentId: enrollmentId}, { headers });
+  public swapStudent(sourceStudent: number, targetStudent: number, enrollmentId: number, reason: string) {
+    return this.http.post(`${this.studentsUrl}/substitutestudent`, 
+    {sourceStudent: sourceStudent, targetStudent: targetStudent, enrollentId: enrollmentId, reason: reason}, { headers });
   }
 
   // Update existing Student
@@ -71,6 +71,11 @@ export class StudentService {
   getByParishAndProject(parishId: number, projectId: number) {
     console.log(` parish id ${parishId} and projectId ${projectId}`)
     return this.http.get<Array<Student>>(`${this.studentsUrl}/list/unenrolled/${parishId}/${projectId}`);
+  }
+
+  getAvailableStudentsByProject(projectId: number) {
+    console.log(` projectId ${projectId}`)
+    return this.http.get<Array<Student>>(`${this.studentsUrl}/list/project/${projectId}/unenrolled`);
   }
 
   search(term: string, parishId: number, effectiveDate: string) {

@@ -5,13 +5,18 @@
     <div class="col-sm-12">
       <ul class="nav nav-tabs">
         <li class="active">
-          <a data-toggle="tab" href="#inactive-release">In Active Students<span class="badge badge-light"></span></a>
+          <a data-toggle="tab" href="#inactive-release">In Active Students Substitution<span
+              class="badge badge-light"></span></a>
         </li>
-        <!--
         <li>
-          <a data-toggle="tab" href="#force-release">Force Release<span class="badge badge-light"></span></a>
+          <a data-toggle="tab" href="#active_release">Active Students Substitution<span
+              class="badge badge-light"></span></a>
         </li>
-        -->
+        <li>
+          <a data-toggle="tab" href="#substitution_letter">Substitution Letter<span
+              class="badge badge-light"></span></a>
+        </li>
+
       </ul>
       <div class="tab-content">
         <div id="inactive-release" class="tab-pane fade in active">
@@ -22,7 +27,8 @@
                   (click)="onAgencySelect(agencyWise[agencyKey], agencyKey)">{{agencyKey + ' : ' + agencyWise[agencyKey].length}}</span>
                 <div *ngIf="projectWise" class="row-fluid" style="margin-top:10px">
                   <div class="row-fluid" *ngIf="selectedAgencyKey === agencyKey" id="proj_{{agencyKey}}">
-                    <div class="col-md-12" *ngFor="let projectKey of objectKeys(projectWise)" style="margin-top:10px; margin-bottom:10px">
+                    <div class="col-md-12" *ngFor="let projectKey of objectKeys(projectWise)"
+                      style="margin-top:10px; margin-bottom:10px">
                       <span
                         (click)="oProjectSelect(projectWise[projectKey],projectKey)">{{projectKey + ' : ' + projectWise[projectKey].length}}</span>
                       <div class="row-fluid" *ngIf="selectedProjectKey === projectKey" id="prjs_{{projectKey}}">
@@ -117,6 +123,171 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div id="active_release" class="tab-pane fade">
+          <div class="col-sm-10" style="padding-top: 10px;">
+            <div class="alert alert-success" *ngIf="substitutionFlag" style="padding-bottom: 10px;">
+              <strong>Success!</strong> {{substitutionFlag}}.
+            </div>
+            <div class="row">
+              <div class="col-md-4 col-md-offset-8">
+                <button type="button" (click)="reset()" class="btn btn-secondary btn-sm">Reset</button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group">
+                <div class="col-sm-5">
+                  <label for="search-box">Parish  </label>
+                  <input type="search" autocomplete="off" #parishSearchBox id="search-box"
+                    (keyup)="searchParish(parishSearchBox.value)" />
+                  <div>
+                    <div *ngFor="let parish of parishes" (click)="setParish(parish)" class="search-result">
+                      {{parish.name}}, {{parish.city}}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-5">
+                  <label for="search-box">Sponsor  </label>
+                  <input type="search2" autocomplete="off" #sponsorSearchBox id="search-box2"
+                    (keyup)="searchSponsor(sponsorSearchBox.value)" />
+                  <div>
+                    <div *ngFor="let sponsor of sponsors" (click)="listStudents(sponsor)" class="search-result">
+                      {{sponsor.firstName}} {{sponsor.lastName}}, {{sponsor.street}}, {{sponsor.city}} ,
+                      {{sponsor.state}}, {{sponsor.postalCode}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row" style="padding-top: 20px;">
+              <div *ngIf="selectedParish" class="col-md-5">
+                {{selectedParish.name}}, {{selectedParish.city}}
+              </div>
+              <div *ngIf="selectedSponsor" class="col-md-6">
+                {{selectedSponsor.firstName}} {{selectedSponsor.lastName}}, {{selectedSponsor.street}},
+                {{selectedSponsor.city}} , {{selectedSponsor.state}}, {{selectedSponsor.postalCode}}
+              </div>
+            </div>
+            <div class="row">
+              <!--<div class="col-md-4 col-md-offset-8">.col-md-4 .col-md-offset-4</div>-->
+              <div *ngIf="existingStudents && existingStudents.length > 0" class="row" style="margin-top:15px">
+                <div class="col-sm-12">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Student Name</th>
+                        <th>Student Code</th>
+                        <th>Gender</th>
+                        <th>Grade</th>
+                        <th>Enrollment Eff. Date</th>
+                        <th>Rewnewal Due</th>
+                        <th>Project Name</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let student of existingStudents">
+                        <td>
+                          <input class="form-check-input" type="radio" name="studentRadios"
+                                        (click)="onStudentSelectedForSubstitution(student.studentId, student.projectId, student.enrollmentId)"
+                                        id="student{{student.studentId}}" [value]="student.studentId">
+                        </td>
+                        <td>{{ student.studentName }} </td>
+                        <td>{{ student.studentCode }}</td>
+                        <td>{{ student.gender}}</td>
+                        <td>{{ student.grade}}</td>
+                        <td>{{ student.effectiveDate}}</td>
+                        <td>{{ student.maxOutMonth }}/{{ student.maxOutYear}}</td>
+                        <td>{{ student.projectName}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="row" style="padding-top: 15px;">
+              <div *ngIf="displayAvailableStudentsButton" >
+                <button type="button" (click)="listAvailableStudents()" class="btn btn-secondary btn-sm">List Available Students</button>
+                <div *ngIf="availableStudents" class="row" style="margin-top:10px">
+                  <div class="col-sm-12">
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th></th>
+                          <th>Student Name</th>
+                          <th>Student Code</th>
+                          <th>Gender</th>
+                          <th>Grade</th>
+                          <th>Created Date</th>
+                          <th>Project Name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let student of availableStudents">
+                          <td>
+                            <input class="form-check-input" type="radio" name="studentRadios"
+                                          (click)="onStudentSelectedForReplacement(student.id)"
+                                          id="student{{student.id}}" [value]="student.id">
+                          </td>
+                          <td>{{ student.studentName }} </td>
+                          <td>{{ student.studentCode }}</td>
+                          <td>{{ student.gender}}</td>
+                          <td>{{ student.grade}}</td>
+                          <td>{{ student.createdDate}}</td>
+                          <td>{{ student.projectName}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="readyToCompleteSubstitution" style="padding-top: 5px;">
+              <div class="col-md-4 ">
+                <label>Reason </label>
+                <input type="text" autocomplete="off" #reason id="reason"/>
+              </div>
+              <div class="col-md-4 ">
+                <button type="button" (click)="completeSubstitution(reason.value)" class="btn btn-primary btn-sm">Complete Substitution</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="substitution_letter" class="tab-pane fade">
+          
+          <div class="col-sm-10">
+            <div class="row" style="padding-top: 15px; padding-bottom: 15px;">
+              <div class="col-md-4">
+                <button type="button" (click)="listLetters()" class="btn btn-secondary btn-sm">List Substitution Letter</button>
+              </div>
+            </div>
+            <div class="row" style="padding-top: 15px; padding-bottom: 15px;">
+              <div class="col-md-10">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Sponsor Name</th>
+                      <th>Address</th>
+                      <th>Parish Name</th>
+                      <th>Parish City</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let substitution of substitutions">
+                      
+                      <td>{{ substitution.firstName }} {{ substitution.middleInitial }} {{ substitution.lastName }} </td>
+                      <td>{{ substitution.sponsorAddress }}</td>
+                      <td>{{ substitution.parishName}}</td>
+                      <td>{{ substitution.parishCity}}</td>
+                      <td><img (click)="generateSubstitution(substitution)" width="20px" src="assets/images/download.png"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            
           </div>
         </div>
       </div>

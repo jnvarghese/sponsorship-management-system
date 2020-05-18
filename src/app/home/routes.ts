@@ -10,6 +10,7 @@ import { UploadStudentComponent } from '../feature/upload/upload-student/upload-
 import { receiptsRoutes } from '../feature/receipts/routes';
 import { SummaryComponent } from '../feature/summary/summary.component';
 import { donationRoutes } from '../feature/donation/routes';
+import { renewalRoutes } from '../feature/common/renewal/routes';
 
 export const routes: Routes = [
     {
@@ -28,7 +29,8 @@ export const routes: Routes = [
             ...sponsorRoutes,
             ...studentRoutes,
             ...receiptsRoutes,
-            ...donationRoutes
+            ...donationRoutes,
+            ...renewalRoutes
         ]
     }
 ];

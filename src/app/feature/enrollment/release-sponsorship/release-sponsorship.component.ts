@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Project, Student, StudentSummary } from '../../model';
+import { Project, Student, StudentSummary, Parish, Sponsor } from '../../model';
 import { Observable, Subject, of } from 'rxjs';
 import {
   catchError,
@@ -9,6 +9,10 @@ import {
 } from 'rxjs/operators';
 import { AdminService } from '../../shared/service/admin.service';
 import { StudentService } from '../../shared/service/student.service';
+import { SponsorService } from '../../shared/service/sponsor.service';
+import { Substitute } from '../../model/substitute';
+import { SubstitutionService } from '../../shared/service/substitution.service';
+import { saveAs as importedSaveAs } from "file-saver";
 
 @Component({
   selector: 'app-release-sponsorship',
@@ -55,7 +59,71 @@ export class ReleaseSponsorshipComponent implements OnInit {
 
   tobeReplacedStudentId: number; // new student selecting using radio button
 
-  constructor(private commonService: AdminService<Project>, private studentService: StudentService) { }
+  private parishSearchTerms = new Subject<string>();
+
+  private sponsorSearchTerms = new Subject<string>();
+
+  parishes: Array<Parish>;
+
+  sponsors: Array<Sponsor>;
+
+  existingStudents: Array<Student>;
+
+  availableStudents: Array<Student>;
+
+  selectedParish: Parish;
+
+  selectedParishId: number;
+
+  selectedSponsor: Sponsor;
+
+  selectedSponsorId: number;
+
+  studentSelectedForSubstitution: number;
+
+  selectedSubstitutingStudent: number;
+
+  substitutionStudentProjectId: number;
+
+  enrollmentId: number;
+
+  displayAvailableStudentsButton: boolean;
+
+  readyToCompleteSubstitution: boolean;
+
+  substitutionFlag: string;
+
+  substitutions: Array<Substitute>;
+
+
+  @ViewChild('parishSearchBox') parishSearchBox: ElementRef;
+  @ViewChild('sponsorSearchBox') sponsorSearchBox: ElementRef;
+
+  reset(){
+    this.selectedParishId = undefined;
+    this.selectedSponsorId = undefined;
+    this.selectedParish = undefined;
+    this.selectedSponsor = undefined;
+    this.existingStudents = undefined;
+    this.studentSelectedForSubstitution = undefined;
+    this.substitutionStudentProjectId = undefined;
+    this.enrollmentId = undefined;
+    this.substitutionFlag = undefined;
+    this.selectedSubstitutingStudent = undefined;
+    this.readyToCompleteSubstitution = false;
+    this.displayAvailableStudentsButton = false;
+    this.parishSearchBox.nativeElement.value = '';
+    this.sponsorSearchBox.nativeElement.value = '';
+    this.existingStudents = undefined;
+    this.availableStudents = undefined;
+  }
+
+
+  constructor(private commonService: AdminService<Project>, 
+    private parishService: AdminService<Parish>,
+    private sponsorService: SponsorService<Sponsor>,
+    private studentService: StudentService,
+    private substitutionService: SubstitutionService<Substitute>) { }
 
   objectKeys = Object.keys;
 
@@ -98,25 +166,66 @@ export class ReleaseSponsorshipComponent implements OnInit {
       err => console.log(`Error in component ... ${err}`)
     );
     
-    this.students = this.studentSearchTerms.pipe(
+    this.parishSearchTerms.pipe(   
       debounceTime(300), // wait for 300ms pause in events
       distinctUntilChanged(), // ignore if next search term is same as previous
       switchMap(
-        term =>
-          term // switch to new observable each time
+        term => {
+          return term // switch to new observable each time
             ? // return the http search observable
-            this.studentService.searchByParishAndName(this.studentSummary.parishId ,term)
+            this.parishService.search('/api/admin/parishes', term)
             : // or the observable of empty heroes if no search term
-            of<Student[]>([])
+            of<Parish[]>([])
+        }
+
       ),
       catchError(error => {
         // TODO: real error handling
         console.log(`Error in component ... ${error}`);
-        return of<Student[]>([]);
+        return of<Parish[]>([]);
       })
-    );
+    ).subscribe(res => this.parishes = res);
+
+    this.sponsorSearchTerms.pipe(   
+      debounceTime(300), // wait for 300ms pause in events
+      distinctUntilChanged(), // ignore if next search term is same as previous
+      switchMap(
+        term => {
+          return term // switch to new observable each time
+            ? // return the http search observable
+            this.sponsorService.searchByParishId(this.selectedParishId, term)
+            : // or the observable of empty heroes if no search term
+            of<Sponsor[]>([])
+        }
+
+      ),
+      catchError(error => {
+        // TODO: real error handling
+        console.log(`Error in component ... ${error}`);
+        return of<Sponsor[]>([]);
+      })
+    ).subscribe(res => this.sponsors = res);
+
   }
 
+  listAvailableStudents(){
+    this.studentService.getAvailableStudentsByProject(this.substitutionStudentProjectId).subscribe(
+      response => this.availableStudents = response,
+      err => console.error(`Error is getting available students `)
+    )
+  }
+  generateSubstitution(substitution: Substitute){
+    const sponsorName = substitution.firstName+" "+substitution.middleInitial+" "+substitution.lastName;
+    this.substitutionService.generateLetter(substitution.enrollmentId, substitution.oldStudentId, substitution.newStudentId).subscribe(
+      blob => {
+        importedSaveAs(blob, `${sponsorName.toString()}-Substitution Letter`);
+      },
+      () =>{
+        console.log(' Downloaded. '); 
+      }
+    );
+  }
+  
   onStudentRadioSelect(studentId: number){
     this.tobeReplacedStudentId = studentId;
   }
@@ -124,16 +233,71 @@ export class ReleaseSponsorshipComponent implements OnInit {
   swapSponsorship() {
     console.log(` Student ${this.inactiveSelectedStudent} will be replaced with ${this.tobeReplacedStudentId}`) // swap with
     //sourceStudent, targetStudent, enrollmentId
-    this.studentService.swapStudent(this.inactiveSelectedStudent, this.tobeReplacedStudentId, this.studentSummary.enrollmentId).subscribe(
-      data => console.log('Success'),
+    this.studentService.swapStudent(this.inactiveSelectedStudent, this.tobeReplacedStudentId, this.studentSummary.enrollmentId, '').subscribe(
+      data => this.substitutionFlag = 'Successfully compeleted student substitution.',
       err => console.error(' Error in swapping the students')
     )
   }
-  /*
-  searchProject(term: string): void {
-    // Push a search term into the observable stream.
-    this.projectSearchTerms.next(term);
-  } */
+ 
+  onStudentSelectedForSubstitution(studentId: number, projectId: number, enrollmentId: number){
+    console.log(` projectId ${projectId} studentId ${studentId} `)
+    this.studentSelectedForSubstitution = studentId;
+    this.substitutionStudentProjectId = projectId;
+    this.enrollmentId = enrollmentId;
+    this.displayAvailableStudentsButton = true
+    this.availableStudents = undefined;
+  }
+  searchParish(term: string): void {
+    this.parishSearchTerms.next(term);
+    this.substitutionFlag = undefined;
+  }
+  searchSponsor(term: string): void {
+    this.sponsorSearchTerms.next(term);
+    this.existingStudents = [];
+  }
+  
+  setParish(p: Parish) {
+    this.selectedParish = p;
+    this.selectedParishId = p.id
+    this.parishes = [];
+  }
+
+  listLetters() {
+    this.substitutionService.list().subscribe(
+      data => this.substitutions = data,
+      erro => console.error('Error in listing substitutions')
+    )
+  }
+
+  listStudents(s: Sponsor){
+    this.sponsors = [];
+    this.selectedSponsor = s;
+    this.sponsorService.getEnrolledStudentsBySponsorId(s.id).subscribe(
+      response => this.existingStudents = response,
+      err => console.error(`Error in getting getEnrolledStudentsBySponsorId by ${s.id}`)
+    )
+    console.log(s.id)
+  }
+
+  onStudentSelectedForReplacement(studentId: number){
+    this.selectedSubstitutingStudent = studentId;
+    this.readyToCompleteSubstitution = true;
+  }
+  
+  completeSubstitution(reason: string){
+    this.studentService.swapStudent(
+      this.studentSelectedForSubstitution, 
+      this.selectedSubstitutingStudent, 
+      this.enrollmentId,
+      reason)
+      .subscribe(
+       data => {
+         this.reset();
+         this.substitutionFlag = 'Successfully compeleted student substitution.';
+        },
+       err => console.error(' Error in swapping the students')
+    )
+  }
 
   onAgencySelect(prjArray: any, agencyKey: number) {
     this.selectedAgencyKey = agencyKey;

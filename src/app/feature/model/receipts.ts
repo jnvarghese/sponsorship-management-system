@@ -31,4 +31,5 @@ export class Receipts{
     status: number;
     streetAddress: string;
     sponsorReceiptAmount: number;
+    noOfRenewal: number;
 }

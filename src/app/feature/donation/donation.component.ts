@@ -417,6 +417,7 @@ export class DonationComponent implements OnInit {
       selectedFirstName: '',
       selectedLastName:'',
       coSponsor: '',
+      noOfRenewal: ''
     });
   }
   pupulateForm(receipt: Receipts) {
