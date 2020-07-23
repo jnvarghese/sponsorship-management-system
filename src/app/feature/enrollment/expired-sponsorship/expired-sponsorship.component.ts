@@ -29,6 +29,10 @@ export class ExpiredSponsorshipComponent implements OnInit {
   students: Array<Student>
 
   ngOnInit() {
+    this.getMaxOuts();
+  }
+
+  getMaxOuts(){
     this.sponsorService.getMaxOutSponsorship().subscribe(
       data => {
         this.regionSponsorGroups = data.reduce((acc, sponsor) => {
@@ -42,6 +46,14 @@ export class ExpiredSponsorshipComponent implements OnInit {
 
       }
     )
+  }
+
+  refresh(){
+    this.regionSponsorGroups= [];
+    this.centerSponsorGroups = [];
+    this.parishSponsorGroups = [];
+    this.sponsorGroups = [];
+    this.getMaxOuts();
   }
 
   onRegionSelect(regionArray: any, regionKey: any) {
@@ -83,7 +95,9 @@ export class ExpiredSponsorshipComponent implements OnInit {
 
   deleteSponsorship(enrollmentId: number){
     this.enrollService.release(enrollmentId).subscribe(
-      response => console.log(response)
+      response => console.log(response),
+      error => console.error(`Error in releasing the sponsorship ${JSON.stringify(error)}`),
+      () => console.log('Executed Delete')
     )
   }
 

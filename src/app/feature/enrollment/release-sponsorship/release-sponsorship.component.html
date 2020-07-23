@@ -20,6 +20,11 @@
       </ul>
       <div class="tab-content">
         <div id="inactive-release" class="tab-pane fade in active">
+          <div class="row">
+            <div class="col-md-1 col-md-offset-11" style="padding-top: 10px;">
+              <img (click)="refresh()" alt="Click to refresh" width="20px" src="assets/images/refresh.png">
+            </div>
+          </div>
           <div *ngIf="dataAvailable">
             <div class="row-fluid" style="margin-top:30px">
               <div class="col-md-12" *ngFor="let agencyKey of objectKeys(agencyWise)" style="margin-bottom:10px">

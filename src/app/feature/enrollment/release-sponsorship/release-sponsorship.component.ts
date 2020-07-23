@@ -129,42 +129,7 @@ export class ReleaseSponsorshipComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.studentService.activeInactive().subscribe(
-      data => {
-        this.agencyWise = data.reduce((acc, d) => {
-          acc[d.agencyName] = acc[d.agencyName] || []
-          acc[d.agencyName].push({
-            studentId: d.studentId,
-            studentCode: d.studentCode,
-            projectId: d.projectId,
-            projectName: d.projectName,
-            uniqueId: d.uniqueId,
-            studentName: d.studentName,
-            gender: d.gender,
-            grade: d.grade,
-            nameOfGuardian: d.nameOfGuardian,
-            occupationOfGuardian: d.occupationOfGuardian,
-            dateOfBirth: d.dateOfBirth,
-            maxout: d.maxout,
-            days: d.days,
-            sponsorfirstName: d.sponsorfirstName,
-            sponsorCode: d.sponsorCode,
-            sponsorMiddleInitial: d.sponsorMiddleInitial,
-            sponsorLastName: d.sponsorLastName,
-            sponsorId: d.sponsorId,
-            parishName: d.parishName,
-            parishCity: d.parishCity,
-            parishId: d.parishId,
-            enrollmentId: d.enrollmentId
-          })
-          return acc;
-        }, {})
-        this.dataAvailable = true;
-      }
-      //this.activeInActiveStudents = data
-      ,
-      err => console.log(`Error in component ... ${err}`)
-    );
+    this.getActiveInActiveStudents();
     
     this.parishSearchTerms.pipe(   
       debounceTime(300), // wait for 300ms pause in events
@@ -206,6 +171,50 @@ export class ReleaseSponsorshipComponent implements OnInit {
       })
     ).subscribe(res => this.sponsors = res);
 
+  }
+
+  getActiveInActiveStudents(){
+    this.studentService.activeInactive().subscribe(
+      data => {
+        this.agencyWise = data.reduce((acc, d) => {
+          acc[d.agencyName] = acc[d.agencyName] || []
+          acc[d.agencyName].push({
+            studentId: d.studentId,
+            studentCode: d.studentCode,
+            projectId: d.projectId,
+            projectName: d.projectName,
+            uniqueId: d.uniqueId,
+            studentName: d.studentName,
+            gender: d.gender,
+            grade: d.grade,
+            nameOfGuardian: d.nameOfGuardian,
+            occupationOfGuardian: d.occupationOfGuardian,
+            dateOfBirth: d.dateOfBirth,
+            maxout: d.maxout,
+            days: d.days,
+            sponsorfirstName: d.sponsorfirstName,
+            sponsorCode: d.sponsorCode,
+            sponsorMiddleInitial: d.sponsorMiddleInitial,
+            sponsorLastName: d.sponsorLastName,
+            sponsorId: d.sponsorId,
+            parishName: d.parishName,
+            parishCity: d.parishCity,
+            parishId: d.parishId,
+            enrollmentId: d.enrollmentId
+          })
+          return acc;
+        }, {})
+        this.dataAvailable = true;
+      }
+      //this.activeInActiveStudents = data
+      ,
+      err => console.log(`Error in component ... ${err}`)
+    );
+  }
+  refresh(){
+    this.agencyWise = [];
+    this.projectWise = [];
+    this.getActiveInActiveStudents();
   }
 
   listAvailableStudents(){
