@@ -5,4 +5,6 @@ export class SponsorshipInfo {
     spLn: string;
     spFn: string;
     totalContribution: number;
+    sponsorCode: string;
+    parishName: string;
 }
