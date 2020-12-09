@@ -67,6 +67,10 @@ export class StudentService {
   searchByName(term: string) {
     return this.http.get<Array<Student>>(`${this.studentsUrl}/search/${term}`);
   }
+
+  searchByType(term: string, type: string) {
+    return this.http.get<Array<Student>>(`${this.studentsUrl}/type/${type}/match/${term}`);
+  }
   
   getByParishAndProject(parishId: number, projectId: number) {
     console.log(` parish id ${parishId} and projectId ${projectId}`)

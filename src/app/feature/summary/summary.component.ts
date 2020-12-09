@@ -4,6 +4,7 @@ import { AdminService } from '../shared/service/admin.service';
 import { EnrollService } from '../shared/service/enroll.service';
 import { Summary } from '../model/summary';
 import { saveAs as importedSaveAs } from "file-saver";
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-summary',
@@ -22,7 +23,9 @@ export class SummaryComponent implements OnInit {
     totalSponsor:number;
     loading: boolean;
 
-    constructor(private enrollService: EnrollService, private adminService: AdminService<Parish>) { }
+    constructor(private enrollService: EnrollService, 
+      private adminService: AdminService<Parish>, 
+      private currencyPipe: CurrencyPipe) { }
     
 
     ngOnInit(): void {
@@ -64,7 +67,7 @@ export class SummaryComponent implements OnInit {
                 this.showSummary = false;
                 this.message = 'There is no summary for the selected parish.';
               }else{
-                this.message = `Total number of Sponsor's: ${this.summeries.length}, Total number of students: ${this.totalNumberOfStudents}, net fund untilized is: $${this.totalConstribution}`;
+                this.message = `Total number of Sponsor's: ${this.summeries.length}, Total number of students: ${this.totalNumberOfStudents}, net fund untilized is: ${this.currencyPipe.transform(this.totalConstribution,'USD')}`;
                 this.showSummary = true;
               }
             },

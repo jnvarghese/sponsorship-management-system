@@ -19,7 +19,8 @@ export class DashboardComponent implements OnInit {
   expirationDateGraph: Array<Graph>;
   regionSponsors: Array<Graph>;
   centerSponsors: Array<Graph>;
-  receipts: Array<Receipt>;
+  //receipts: Array<Receipt>;
+  receipts: Array<any>;
   sponsors: Array<Graph>;
   contributions: Array<Graph>;
 
@@ -88,6 +89,7 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.getReceipts().subscribe(
       data => {
         if (data) {
+          /*
           this.receipts = data.reduce((initiatives, item) => {
             initiatives[item.initiativeId] = initiatives[item.initiativeId] || []
             initiatives[item.initiativeId].push({
@@ -95,7 +97,10 @@ export class DashboardComponent implements OnInit {
               xaxis: item.receiptDate
             })
             return initiatives
-          }, []);
+          }, []); */
+          this.receipts = data.map( item => {
+            return {  yaxis : +item.total, xaxis: item.receiptDate }
+          });
         }
       },
       error => console.error('Error in getting expiration date enrollment graph')

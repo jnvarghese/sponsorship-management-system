@@ -19,8 +19,10 @@ import { StudentService } from '../../shared/service/student.service';
 export class SponsorListComponent implements OnInit {
 
   students: Observable<Array<Student>>;
-
   private searchTerms = new Subject<string>();
+  searchType:string = 'name';
+
+  search = { type: 'name'}
 
   constructor(private studentService: StudentService) {}
 
@@ -30,7 +32,7 @@ export class SponsorListComponent implements OnInit {
     .distinctUntilChanged()   // ignore if next search term is same as previous
     .switchMap(term => term   // switch to new observable each time
       // return the http search observable
-      ? this.studentService.searchByName(term)
+      ? this.studentService.searchByType(term, this.search.type)
       // or the observable of empty sponsor if no search term
       : Observable.of<Array<Student>>([]))
     .catch(error => {
@@ -39,8 +41,10 @@ export class SponsorListComponent implements OnInit {
       return Observable.of<Array<Student>>([]);
     });
   }
-  searchSponsor(term: string): void {
+
+  searchSponsor(term: string, searchType: string): void {
     // Push a search term into the observable stream.
-    this.searchTerms.next(term);
+    if( term.length>0 )
+      this.searchTerms.next(term);
   }
 }

@@ -26,10 +26,10 @@
           <div class="col-sm-2 header-col">Sponsor Name</div>
           <div class="col-sm-1 header-col">Donation</div>
           <div class="col-sm-1 header-col">Utilized</div>
+          <div class="col-sm-1 header-col">Start Date</div>
           <div class="col-sm-1 header-col"># Kids</div>
           <div class="col-sm-2 header-col">Child Code</div>
-          <div class="col-sm-2 header-col">Renewal Due</div>
-          <div class="col-sm-1 header-col">-</div>
+          <div class="col-sm-2 header-col">Due</div>
         </div>
 
         <div class="row" style="margin-bottom:3px">
@@ -38,17 +38,18 @@
           </div>
           <div [ngClass]="(i == 0)?'col-sm-1':'col-sm-1 row-col'">{{ summary.netDonation | currency}}</div>
           <div [ngClass]="(i == 0)?'col-sm-1':'col-sm-1 row-col'">{{ summary.contribution | currency}}</div>
+          <div [ngClass]="(i == 0)?'col-sm-1':'col-sm-1 row-col'">{{ summary.effectiveDate | date: 'MMM yyyy'}}</div>
           <div [ngClass]="(i == 0)?'col-sm-1':'col-sm-1 row-col'">{{ summary.students.length }}</div>
-          <div [ngClass]="(i == 0)?'col-sm-4':'col-sm-4 row-col'">
+          <div [ngClass]="(i == 0)?'col-sm-3':'col-sm-3 row-col'">
             <div class="row" *ngFor="let st of summary.students">
-              <div class="col-sm-6">{{ st.studentCode }}</div>
+              <div class="col-sm-8">{{ st.studentCode }}</div>
               <div class="col-sm-4" [style.padding-left]="(i == 0)? '15px':'6px'">{{ st.maxOutMonth}} {{ st.maxOutYear }}</div>
             </div>
           </div>
           <div [ngClass]="(i == 0)?'col-sm-1':'col-sm-1 row-col'">
-            <button class="btn btn-outline-primary btn-block" type="button" data-toggle="collapse"
+            <button *ngIf="summary.netDonation !== 0.00" class="btn btn-info btn-block" type="button" data-toggle="collapse"
               [attr.data-target]="'#collapse-' + i" [attr.aria-expanded]="false" value="Receipts"
-              [attr.aria-controls]="'collapse-' + i"></button>
+              [attr.aria-controls]="'collapse-' + i" style="padding: 0px 0px 3px;" ><span style="font-size: 9px;">View Receipts</span></button>
           </div>
         </div>
 

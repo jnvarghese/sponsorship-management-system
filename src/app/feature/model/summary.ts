@@ -8,6 +8,7 @@ export class Summary{
 	studentId: number;
 	sponsorFirstName: string;
 	sponsorLastName: string;
+	effectiveDate: string;
     sponsorMi: string;
 	sponsorNickName: string;
 	parishName: string;

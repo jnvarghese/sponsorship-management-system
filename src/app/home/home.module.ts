@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { routes } from './routes';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { HomeComponent } from './home.component';
 import { HeaderComponent, FooterComponent, DashboardComponent, PageNotFoundComponent, AdminService, StudentService, SponsorService, EnrollService, InitService } from '../feature';
 import { StudentModule } from '../feature/student/student.module';
@@ -64,6 +64,7 @@ import { RenewalModule } from '../feature/common/renewal/renewal.module';
       //BoxDonutChartComponent
     ],
     providers: [
+      CurrencyPipe,
       AdminService,
       DashboardService,
       DateFormatPipe,
