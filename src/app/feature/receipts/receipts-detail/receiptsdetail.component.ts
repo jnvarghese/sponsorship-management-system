@@ -8,6 +8,8 @@ import { ReceiptsService } from '../../shared/service/receipts.service';
 import { ValidatorService } from '../../../shared/validator.service';
 import { SponsorService } from '../../shared/service/sponsor.service';
 import { Organization } from '../../model/organization';
+import { SmartySteetsService } from '../../shared/service/smartysteets.service';
+
 import { Observable, Subject, of } from 'rxjs';
 
 import {
@@ -16,6 +18,7 @@ import {
   distinctUntilChanged,
   switchMap,
 } from 'rxjs/operators';
+import { StreetSuggestion } from '../../model/streetsuggestion';
 
 
 @Component({
@@ -32,17 +35,21 @@ export class ReceiptsdetailComponent implements OnInit {
   receipt: Receipts;
   organizations: Array<Organization>;
   chosenParish: boolean;
-  selectedParishId: number;
+  selectedRangeId: number;
  // selectedParish: string;
   selecteOrgId: number;
   initiatives: Array<Initiative>;
   selectedInitiativeId: number;
   message: string;
   isOrganizationSelected: boolean = false;
-  private searchTerms = new Subject<string>();
+  isParishSelected:boolean = false;
+  private parishSearchTerms = new Subject<string>();
+  private streetSearchTerms = new Subject<string>();
   autoCompleteParishes: Parish[];
+  streetSuggestions: Array<StreetSuggestion>;
 
   constructor(
+    private smartySteetsService: SmartySteetsService,
     private router: Router,
     private route: ActivatedRoute,
     private receiptsService: ReceiptsService,
@@ -57,7 +64,7 @@ export class ReceiptsdetailComponent implements OnInit {
 
   ngOnInit() {
 
-    this.searchTerms.pipe(
+    this.parishSearchTerms.pipe(
       debounceTime(300), // wait for 300ms pause in events
       distinctUntilChanged(), // ignore if next search term is same as previous
       switchMap(
@@ -77,28 +84,31 @@ export class ReceiptsdetailComponent implements OnInit {
       })
     ).subscribe(res =>  this.autoCompleteParishes = res);
 
-    this.pageHeader = 'Add new receipt';
+    this.streetSearchTerms.pipe(
+      debounceTime(1000), // wait for 300ms pause in events
+      distinctUntilChanged(), // ignore if next search term is same as previous
+      switchMap(
+        term => {
+          return term // switch to new observable each time
+            ? // return the http search observable
+            this.smartySteetsService.getStreetSuggestions(term)
+            : // or the observable of empty heroes if no search term
+            of<StreetSuggestion[]>([])
+        }
+
+      ),
+      catchError(error => {
+        // TODO: real error handling
+        console.log(`Error in component ... ${error}`);
+        return of<StreetSuggestion[]>([]);
+      })
+    ).subscribe(res =>  this.streetSuggestions = res);
+
+    this.pageHeader = 'Create receipt';
     this.createForm();
-    const selectedParishId = this.route.snapshot.params['parishId'];
-    
-   /* 
-      const receiptId = this.route.snapshot.params['id'];
-      if (receiptId !== undefined) {
-      this.pageHeader = 'Modify receipt'
-      const id = +receiptId;
-      this.navigated = true;
-      this.receiptsService.findReceipt(id)
-        .subscribe(
-          res => {
-            this.receipt = res;
-            this.pupulateForm(this.receipt);
-          },
-          err => this.handleError
-        );
-    } else {
-      this.navigated = false;
-      this.receipt = new Receipts();
-    } */
+    //const selectedParishId = this.route.snapshot.params['parishId'];
+    this.selectedRangeId = this.route.snapshot.params['rangeId'];
+   
     this.adminService.get('/api/init/initiative').subscribe(
       data => this.initiatives = data,
       err => this.handleError
@@ -111,38 +121,28 @@ export class ReceiptsdetailComponent implements OnInit {
       parishId: null,
     })
     // Push a search term into the observable stream.
-    this.searchTerms.next(term);
-
-    /*
-    this.searchTerms.pipe(
-      debounceTime(800), // wait for 300ms pause in events
-      distinctUntilChanged(), // ignore if next search term is same as previous
-      switchMap(
-        term => {
-          return term // switch to new observable each time
-            ? // return the http search observable
-            this.parishService.search('/api/admin/parishes', term)
-            : // or the observable of empty heroes if no search term
-            of<Parish[]>([])
-        }
-
-      ),
-      catchError(error => {
-        // TODO: real error handling
-        console.log(`Error in component ... ${error}`);
-        return of<Parish[]>([]);
-      })
-    ).subscribe(res =>  this.autoCompleteParishes = res);*/
+    this.parishSearchTerms.next(term);
   }
+
+  getStreetSuggestions(term: any){
+    this.streetSearchTerms.next(term);
+    //this.smartySteetsService.getStreetSuggestions(term);
+  }
+
   onSourceSelect(value: any) {
     //const centerControl = this.receiptsForm.get('centerId');
     const parishControl = this.receiptsForm.get('parishId');
     const organizationControl = this.receiptsForm.get('organizationId');
-    if (value == 1) {
+    if(value == 0){
+      this.isParishSelected = true
+      this.isOrganizationSelected = false
+    }
+    else if (value == 1) {
      // centerControl.setValidators(null);
       parishControl.setValidators(null);
       organizationControl.setValidators([Validators.required]);
       this.isOrganizationSelected = true
+      this.isParishSelected = false
       this.organizationService.get('/api/admin/orgns')
         .subscribe(
           data => this.organizations = data,
@@ -154,6 +154,7 @@ export class ReceiptsdetailComponent implements OnInit {
       parishControl.setValidators([Validators.required]);
       organizationControl.setValidators(null);
       this.isOrganizationSelected = false;
+      this.isParishSelected = false
     }
     //centerControl.updateValueAndValidity();
     parishControl.updateValueAndValidity();
@@ -174,13 +175,15 @@ export class ReceiptsdetailComponent implements OnInit {
       middleName: '',
       lastName: ['', Validators.required],
       fullName: '',
+      coSponsorName: '',
       transaction: '',
       amount: ['', Validators.required],
+      amountInWords: '',
       streetAddress: '',
       city: '',
       state: '',
       zipCode: '',
-      parishId: ['', Validators.required],
+      parishId: [''],
       email1: '',
       email2: '',
       phone1: '',
@@ -197,7 +200,7 @@ export class ReceiptsdetailComponent implements OnInit {
     });
   }
   pupulateForm(receipt: Receipts) {
-    this.selectedParishId = receipt.parishId;
+    //this.selectedParishId = receipt.parishId;
     this.selectedInitiativeId = receipt.initiativeId;
     this.receiptsForm.setValue({
       receiptId: receipt.receiptId,
@@ -229,6 +232,16 @@ export class ReceiptsdetailComponent implements OnInit {
       selectedParish: p.name
     })
     this.autoCompleteParishes = [];
+  }
+
+  setAddress(address: StreetSuggestion){
+    this.receiptsForm.patchValue({
+      streetAddress: address.streetLine,
+      city: address.city,
+      state: address.state,
+      zipCode: address.zipcode,
+    })
+    this.streetSuggestions = [];
   }
 
   findSponsor(sponsorCode: string) {
@@ -287,10 +300,6 @@ export class ReceiptsdetailComponent implements OnInit {
   }
 
   cancel() {
-    if (this.selectedParishId) {
-      this.router.navigate(['/home/receipts/list', this.selectedParishId]);
-    } else {
-      this.router.navigate(['/home/receipts/list']);
-    }
+      this.router.navigate(['/home/receipts/list', this.selectedRangeId || 1]);
   }
 }

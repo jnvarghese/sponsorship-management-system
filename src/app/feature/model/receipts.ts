@@ -7,8 +7,10 @@ export class Receipts{
     middleName: string; 
     lastName: string;
     fullName: string;
+    coSponsorName: string;
     transaction: string;
-    amount: number
+    amount: number;
+    amountInWords: string
     initiativeId: number
     initiativeName: string;
     parishName: string;

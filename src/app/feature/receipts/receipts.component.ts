@@ -17,13 +17,15 @@ export class ReceiptsComponent implements OnInit {
   message: string;
   receipts: Array<Receipts>;
   displayReceiptsList: boolean;
+  rangeId: number;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private receiptsService: ReceiptsService) { }
 
   ngOnInit() {
-    this.receiptsService.listByRange(1)
+    let range = this.rangeId || 1;
+    this.receiptsService.listByRange(range)
       .subscribe(
         data => {
           this.receipts = data
@@ -49,6 +51,7 @@ export class ReceiptsComponent implements OnInit {
     */
   }
   onRageSelect(rangeId: number){
+    this.rangeId = rangeId;
     this.receiptsService.listByRange(rangeId)
       .subscribe(
         data => {
@@ -128,7 +131,7 @@ export class ReceiptsComponent implements OnInit {
   }
 */
   addReceipts(): void {
-    this.router.navigate(['/home/receipts/add']);
+    this.router.navigate(['/home/receipts/add', this.rangeId || 1]);
   }
 
   private handleError(error: any): Promise<any> {

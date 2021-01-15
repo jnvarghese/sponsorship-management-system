@@ -5,6 +5,7 @@ import { receiptsRoutingComponents } from './routes';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ReceiptsService } from '..';
 import { SharedModule } from '../../shared/shared.module';
+import { SmartySteetsService } from '../shared/service/smartysteets.service';
 
 @NgModule({
   imports: [
@@ -14,6 +15,6 @@ import { SharedModule } from '../../shared/shared.module';
     RouterModule,
   ],
   declarations: [receiptsRoutingComponents],
-  providers: [ ReceiptsService]
+  providers: [ ReceiptsService, SmartySteetsService]
 })
 export class ReceiptsModule { }

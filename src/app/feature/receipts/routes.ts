@@ -6,7 +6,7 @@ import { ManageReceiptsComponent } from './manage-receipts/manage-receipts.compo
 export const receiptsRoutes: Routes = [
     { path: 'receipts/list/:parishId', component: ReceiptsComponent },
     { path: 'receipts/list', component: ReceiptsComponent },
-    { path: 'receipts/add', component: ReceiptsdetailComponent },
+    { path: 'receipts/add/:rangeId', component: ReceiptsdetailComponent },
     { path: 'receipts/modify/:id/:parishId', component: ReceiptsdetailComponent },
     { path: 'receipts/manage-receipts', component: ManageReceiptsComponent}
   ];
