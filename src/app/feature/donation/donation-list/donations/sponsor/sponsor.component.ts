@@ -73,7 +73,7 @@ export class SponsorComponent implements OnInit {
         newReceipt.sponsorId = this.sponsor.id;
         newReceipt.receiptId = this.receipt.receiptId;
         newReceipt.amount = this.sponsorForm.get('contributionAmount').value;
-        this.receiptsService.saveSponsor(newReceipt).subscribe(
+        this.receiptsService.saveSponsorReceipts(newReceipt).subscribe(
             (receipt: SponsorReceipts) => {
                 if(receipt.id) {
                     this.sponsorForm.get('id').setValue(receipt.id);
