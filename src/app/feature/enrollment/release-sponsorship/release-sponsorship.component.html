@@ -67,7 +67,7 @@
                                     <div class="col-sm-3">Name</div>
                                     <div class="col-sm-1">Gender</div>
                                     <div class="col-sm-1">Grade</div>
-                                    <div class="col-sm-4">Project</div>
+                                    <div class="col-sm-6">Project</div>
                                   </div>
                                   <div class="row" *ngFor="let availableStudent of studentsArray"
                                     style="margin-bottom:3px">
@@ -79,7 +79,7 @@
                                     <div class="col-sm-3">{{ availableStudent.studentName }}</div>
                                     <div class="col-sm-1">{{ availableStudent.gender }}</div>
                                     <div class="col-sm-1">{{ availableStudent.grade}}</div>
-                                    <div class="col-sm-4">{{ availableStudent.projectName}}</div>
+                                    <div class="col-sm-6">{{ availableStudent.projectName}}</div>
                                   </div>
                                 </div>
                               </div>
@@ -99,21 +99,19 @@
                                 <div class="col-sm-12" style="margin-bottom:30px">
                                   <label>Existing students for the sponsor</label>
                                   <div class="row" style="margin-bottom:5px">
-                                    <div class="col-sm-1">Code</div>
+                                    <div class="col-sm-2">Code</div>
                                     <div class="col-sm-3">Name</div>
                                     <div class="col-sm-2">Eff. Date</div>
                                     <div class="col-sm-2">Exp. Date</div>
-                                    <div class="col-sm-2">Created By</div>
-                                    <div class="col-sm-2">Created Date</div>
+                                    <div class="col-sm-3">Created By & Date</div>
                                   </div>
                                   <div class="row" *ngFor="let enrollment of enrollmentSummaries"
                                     style="margin-bottom:3px">
-                                    <div class="col-sm-1">{{ enrollment.studentCode }}</div>
+                                    <div class="col-sm-2">{{ enrollment.studentCode }}</div>
                                     <div class="col-sm-3">{{ enrollment.studentName }}</div>
                                     <div class="col-sm-2">{{ enrollment.effectiveDate | date :'MMM-y' }}</div>
                                     <div class="col-sm-2">{{ enrollment.maxout | date :'MMM-y'}}</div>
-                                    <div class="col-sm-2">{{ enrollment.createdBy}}</div>
-                                    <div class="col-sm-2">{{ enrollment.createdDate | date :'MMM-y'}}
+                                    <div class="col-sm-3">{{ enrollment.createdBy}} {{ enrollment.createdDate | date :'MMM-y'}}</div>
                                     </div>
                                   </div>
                                 </div>

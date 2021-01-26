@@ -47,7 +47,7 @@ export class ReceiptsService {
         return this.post(r);
     }
 
-    saveSponsor(r: SponsorReceipts) {
+    saveSponsorReceipts(r: SponsorReceipts) {
         if (r.id) {
             return this.putSponsorReceipt(r);
         }

@@ -211,7 +211,7 @@ export class DonationComponent implements OnInit {
     }
     if(flag){
       this.parishSelectionMessage = '';
-      this.sponsorService.getSponsorsByFirstNameAndLastName(firstName, lastName, parishId)
+      this.sponsorService.getSponsorsByFirstNameAndLastNameAndParishId(firstName, lastName, parishId)
       .subscribe( 
         data => {
           this.sponsors = data

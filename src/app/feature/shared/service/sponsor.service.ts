@@ -25,8 +25,13 @@ export class SponsorService<T> {
       return this.http.get<Array<T>>(`${this.sponsorUrl}/receipts/${receiptId}`)
   }
 
-  getSponsorsByFirstNameAndLastName(firstName: String, lastName: string, parishId: number) {
+  getSponsorsByFirstNameAndLastNameAndParishId(firstName: String, lastName: string, parishId: number) {
     return this.http.get<Array<T>>(`${this.sponsorUrl}/list/${firstName}/${lastName}/${parishId}`);
+  }
+
+  getSponsorsByDemography(firstName:string, lastName :string, street:string, 
+                          city: string, state: string, zipcode:string) {
+    return this.http.get<Array<T>>(`${this.sponsorUrl}/listByDemography/${firstName}/${lastName}/${street}/${city}/${state}/${zipcode}`);
   }
 
   getSponsorsByParishId(id: number) {

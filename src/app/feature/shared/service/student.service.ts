@@ -73,8 +73,11 @@ export class StudentService {
   }
   
   getByParishAndProject(parishId: number, projectId: number) {
-    console.log(` parish id ${parishId} and projectId ${projectId}`)
-    return this.http.get<Array<Student>>(`${this.studentsUrl}/list/unenrolled/${parishId}/${projectId}`);
+    return this.http.get<Array<Student>>(`${this.studentsUrl}/list/unenrolled/${parishId}/${projectId}/${null}`);
+  }
+
+  getByParishAndProjectAndGender(parishId: number, projectId: number, gender: string) {
+    return this.http.get<Array<Student>>(`${this.studentsUrl}/list/unenrolled/${parishId}/${projectId}/${gender}`);
   }
 
   getAvailableStudentsByProject(projectId: number) {

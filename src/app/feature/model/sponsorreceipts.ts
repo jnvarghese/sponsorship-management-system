@@ -7,4 +7,6 @@ export class SponsorReceipts {
     rdate: string;
     transaction: string;
     receiptType: number;
+    months: any;
+    parishId: number
 }
