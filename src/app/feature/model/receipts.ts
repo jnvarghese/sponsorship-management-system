@@ -34,4 +34,6 @@ export class Receipts{
     streetAddress: string;
     sponsorReceiptAmount: number;
     noOfRenewal: number;
+    remoteFileName: string;
+    uploaded: number;
 }
