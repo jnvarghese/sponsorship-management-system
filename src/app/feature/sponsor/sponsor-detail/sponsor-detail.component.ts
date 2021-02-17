@@ -6,6 +6,17 @@ import { SponsorService } from '../../shared/service/sponsor.service';
 import { AdminService } from '../../shared/service/admin.service';
 import { InitService } from '../../shared/service/init.service';
 
+import {Subject, of } from 'rxjs';
+
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  switchMap,
+} from 'rxjs/operators';
+import { StreetSuggestion } from '../../model/streetsuggestion';
+import { SmartySteetsService } from '../../shared/service/smartysteets.service';
+
 @Component({
   selector: 'app-sponsor-detail',
   templateUrl: './sponsor-detail.component.html',
@@ -28,8 +39,11 @@ export class SponsorDetailComponent implements OnInit {
   selectedParishId: number;
   sequence: number;
   isSponsorCodeEditable: boolean = true;
-
+  private streetSearchTerms = new Subject<string>();
+  streetSuggestions: Array<StreetSuggestion>;
+  
   constructor(
+    private smartySteetsService: SmartySteetsService,
     private router: Router,
     private route: ActivatedRoute,
     private sponsorService: SponsorService<Sponsor>,
@@ -71,6 +85,25 @@ export class SponsorDetailComponent implements OnInit {
          data => this.parishes = data,
          err => this.handleError
        );*/
+    this.streetSearchTerms.pipe(
+        debounceTime(1000), // wait for 300ms pause in events
+        distinctUntilChanged(), // ignore if next search term is same as previous
+        switchMap(
+          term => {
+            return term // switch to new observable each time
+              ? // return the http search observable
+              this.smartySteetsService.getStreetSuggestions(term)
+              : // or the observable of empty heroes if no search term
+              of<StreetSuggestion[]>([])
+          }
+  
+        ),
+        catchError(error => {
+          // TODO: real error handling
+          console.log(`Error in component ... ${error}`);
+          return of<StreetSuggestion[]>([]);
+        })
+      ).subscribe(res =>  this.streetSuggestions = res);
   }
 
   createForm() {
@@ -120,6 +153,19 @@ export class SponsorDetailComponent implements OnInit {
       state: sponser.state,
       postalCode: sponser.postalCode || '',
     });
+  }
+
+  getStreetSuggestions(term: any){
+    this.streetSearchTerms.next(term);
+  }
+  setAddress(address: StreetSuggestion){
+    this.sponsorForm.patchValue({
+      street: address.streetLine,
+      city: address.city,
+      state: address.state,
+      postalCode: address.zipcode,
+    })
+    this.streetSuggestions = [];
   }
 
   onCenterSelect(value: any) {
